@@ -20,7 +20,7 @@ namespace CombinedAIS
         /// <summary>
         /// Gets the mod's description.
         /// </summary>
-        public string Description => "A utilility mod to create combined AI's for assets to be created lie airport hotels, ferry harbor park ai etc";
+        public string Description => "A utilility mod to create combined AI's for assets to be created like airport hotels (hotels dlc combined with airports dlc), ferry harbor park ai etc";
 
         public void OnEnabled()
         {
