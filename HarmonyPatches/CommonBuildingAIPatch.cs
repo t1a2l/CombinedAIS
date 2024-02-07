@@ -9,7 +9,7 @@ namespace CombinedAIS.HarmonyPatches
     {
         [HarmonyPatch(typeof(CommonBuildingAI), "ReplaceVariation")]
         [HarmonyPostfix]
-        public static void CreateBuilding(ushort buildingID, Building.Flags2 variation)
+        public static void ReplaceVariation(ushort buildingID, Building.Flags2 variation)
         {
             var data = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
             if (data.Info.name.Contains("City Hotel") && data.Info.m_buildingAI is HotelAI hotelAI && Settings.HotelsDLCRealisticData.value == true)

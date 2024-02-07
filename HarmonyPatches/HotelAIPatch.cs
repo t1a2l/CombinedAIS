@@ -23,7 +23,7 @@ namespace CombinedAIS.HarmonyPatches
             }
         }
 
-        [HarmonyPatch(typeof(HotelAI), "CreateBuilding")]
+        [HarmonyPatch(typeof(HotelAI), "BuildingLoaded")]
         [HarmonyPostfix]
         public static void BuildingLoaded(ushort buildingID, ref Building data, uint version)
         {
