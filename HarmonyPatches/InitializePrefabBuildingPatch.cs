@@ -47,7 +47,7 @@ namespace CombinedAIS.HarmonyPatches
         ];
 
         private static string[] ModernJapanHotelNames = [
-            "Downtown Hotel",
+            "PDX12_CityHotel",
             "PDX11_Hotel_kikyo"
         ];
 
