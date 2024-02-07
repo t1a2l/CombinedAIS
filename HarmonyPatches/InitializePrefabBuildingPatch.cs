@@ -168,7 +168,7 @@ namespace CombinedAIS.HarmonyPatches
                 }
 
                 if (__instance.m_class.m_service == ItemClass.Service.Beautification && __instance.name.Contains("Hunting Cabin")
-                    && oldAI is not ParkHotelAI && Settings.ConvetHuntingCabinsToParkHotels.value == true)
+                    && oldAI is not ParkHotelAI && Settings.ConvetParkLifeCabinsToParkHotels.value == true)
                 {
                     Object.DestroyImmediate(oldAI);
                     var newAI = (PrefabAI)__instance.gameObject.AddComponent<ParkHotelAI>();
@@ -506,41 +506,6 @@ namespace CombinedAIS.HarmonyPatches
                         }
                     }
 
-                    if(Settings.ConvetMidCenturyModernHotelsToHotelsDLC == true && MidCenturyModernHotelNames.Any(s => __instance.name.Contains(s)))
-                    {
-                        Object.DestroyImmediate(oldAI);
-                        var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
-                        PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
-
-                        if (newAI is HotelAI hotelAI)
-                        {
-                            if (__instance.name.Contains("Hotel Oasis A"))
-                            {
-                                hotelAI.m_minRoomCost = 20;
-                                hotelAI.m_maxRoomCost = 35;
-                                hotelAI.m_maxNewGuestsPerDay = 8;
-                                hotelAI.m_rooms = 80;
-                                hotelAI.m_stars = HotelAI.HotelStars.Two;
-                                hotelAI.m_shoppingAttractiveness = 40;
-                                hotelAI.m_sightseeingAttractiveness = 5;
-                                hotelAI.m_natureAttractiveness = 10;
-                                hotelAI.m_businessAttractiveness = 45;
-                            }
-                            else if (__instance.name.Contains("Hotel Oasis B"))
-                            {
-                                hotelAI.m_minRoomCost = 25;
-                                hotelAI.m_maxRoomCost = 45;
-                                hotelAI.m_maxNewGuestsPerDay = 12;
-                                hotelAI.m_rooms = 120;
-                                hotelAI.m_stars = HotelAI.HotelStars.Three;
-                                hotelAI.m_shoppingAttractiveness = 40;
-                                hotelAI.m_sightseeingAttractiveness = 20;
-                                hotelAI.m_natureAttractiveness = 15;
-                                hotelAI.m_businessAttractiveness = 25;
-                            }
-                        }
-                    }
-
                     if (Settings.ConvetModernJapanHotelsToHotelsDLC == true && ModernJapanHotelNames.Any(s => __instance.name.Contains(s)))
                     {
                         Object.DestroyImmediate(oldAI);
@@ -549,7 +514,7 @@ namespace CombinedAIS.HarmonyPatches
 
                         if (newAI is HotelAI hotelAI)
                         {
-                            if (__instance.name.Contains("Downtown Hotel"))
+                            if (__instance.name.Contains("PDX12_CityHotel"))
                             {
                                 hotelAI.m_minRoomCost = 20;
                                 hotelAI.m_maxRoomCost = 40;
@@ -634,6 +599,44 @@ namespace CombinedAIS.HarmonyPatches
                                 hotelAI.m_supportGroups = (EventManager.EventGroup)56;
                             }
                         } 
+                    }
+                }
+
+                if (__instance.m_class.m_service == ItemClass.Service.Beautification && oldAI is not HotelAI)
+                {
+                    if (Settings.ConvetMidCenturyModernHotelsToHotelsDLC == true && MidCenturyModernHotelNames.Any(s => __instance.name.Contains(s)))
+                    {
+                        Object.DestroyImmediate(oldAI);
+                        var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
+                        PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
+
+                        if (newAI is HotelAI hotelAI)
+                        {
+                            if (__instance.name.Contains("Hotel Oasis A"))
+                            {
+                                hotelAI.m_minRoomCost = 20;
+                                hotelAI.m_maxRoomCost = 35;
+                                hotelAI.m_maxNewGuestsPerDay = 8;
+                                hotelAI.m_rooms = 80;
+                                hotelAI.m_stars = HotelAI.HotelStars.Two;
+                                hotelAI.m_shoppingAttractiveness = 40;
+                                hotelAI.m_sightseeingAttractiveness = 5;
+                                hotelAI.m_natureAttractiveness = 10;
+                                hotelAI.m_businessAttractiveness = 45;
+                            }
+                            else if (__instance.name.Contains("Hotel Oasis B"))
+                            {
+                                hotelAI.m_minRoomCost = 25;
+                                hotelAI.m_maxRoomCost = 45;
+                                hotelAI.m_maxNewGuestsPerDay = 12;
+                                hotelAI.m_rooms = 120;
+                                hotelAI.m_stars = HotelAI.HotelStars.Three;
+                                hotelAI.m_shoppingAttractiveness = 40;
+                                hotelAI.m_sightseeingAttractiveness = 20;
+                                hotelAI.m_natureAttractiveness = 15;
+                                hotelAI.m_businessAttractiveness = 25;
+                            }
+                        }
                     }
                 }
             }
