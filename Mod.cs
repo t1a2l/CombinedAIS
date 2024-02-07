@@ -41,9 +41,9 @@ namespace CombinedAIS
             UIHelper uiHelper = helper.AddGroup("CombinedAIS-Options") as UIHelper;
             UIPanel self = uiHelper.self as UIPanel;
 
-            UICheckBox checkBox1 = (UICheckBox)uiHelper.AddCheckbox("Convet Unique Hotel Buildings To Hotels DLC", Settings.ConvetUniqueHotelBuildingsToHotelsDLC.value, (b) =>
+            UICheckBox checkBox1 = (UICheckBox)uiHelper.AddCheckbox("Convet Unique Hotel Buildings To Hotels DLC", Settings.ConvetAfterDarkLuxuryHotelToHotelsDLC.value, (b) =>
             {
-                Settings.ConvetUniqueHotelBuildingsToHotelsDLC.value = b;
+                Settings.ConvetAfterDarkLuxuryHotelToHotelsDLC.value = b;
             });
 
             UICheckBox checkBox2 = (UICheckBox)uiHelper.AddCheckbox("Convet Airport DLC Hotels To AirportHotels", Settings.ConvetAirportDLCHotelsToAirportHotel.value, (b) =>
