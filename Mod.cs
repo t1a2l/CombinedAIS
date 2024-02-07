@@ -41,9 +41,9 @@ namespace CombinedAIS
             UIHelper uiHelper = helper.AddGroup("CombinedAIS-Options") as UIHelper;
             UIPanel self = uiHelper.self as UIPanel;
 
-            UICheckBox checkBox1 = (UICheckBox)uiHelper.AddCheckbox("Convet Unique Hotel Buildings To Hotels DLC", Settings.ConvetAfterDarkLuxuryHotelToHotelsDLC.value, (b) =>
+            UICheckBox checkBox1 = (UICheckBox)uiHelper.AddCheckbox("Convet After Dark DLC Unique Buildings Hotels To The Hotels DLC", Settings.ConvetAfterDarkHotelsToHotelsDLC.value, (b) =>
             {
-                Settings.ConvetAfterDarkLuxuryHotelToHotelsDLC.value = b;
+                Settings.ConvetAfterDarkHotelsToHotelsDLC.value = b;
             });
 
             UICheckBox checkBox2 = (UICheckBox)uiHelper.AddCheckbox("Convet Airport DLC Hotels To AirportHotels", Settings.ConvetAirportDLCHotelsToAirportHotel.value, (b) =>
@@ -56,7 +56,7 @@ namespace CombinedAIS
                 Settings.ConvetRentalCabinToParkHotel.value = b;
             });
 
-            UICheckBox checkBox4 = (UICheckBox)uiHelper.AddCheckbox("Convet Huntin gCabins To ParkHotels", Settings.ConvetHuntingCabinsToParkHotels.value, (b) =>
+            UICheckBox checkBox4 = (UICheckBox)uiHelper.AddCheckbox("Convet Hunting Cabins To ParkHotels", Settings.ConvetHuntingCabinsToParkHotels.value, (b) =>
             {
                 Settings.ConvetHuntingCabinsToParkHotels.value = b;
             });
@@ -81,7 +81,7 @@ namespace CombinedAIS
                 Settings.ConvetMidCenturyModernHotelsToHotelsDLC.value = b;
             });
 
-            UICheckBox checkBox9 = (UICheckBox)uiHelper.AddCheckbox("Make Hotels from the DLC to have more realistic data", Settings.HotelsDLCRealisticData.value, (b) =>
+            UICheckBox checkBox9 = (UICheckBox)uiHelper.AddCheckbox("Make Original DLC Hotels to have more realistic room numbers", Settings.HotelsDLCRealisticData.value, (b) =>
             {
                 Settings.HotelsDLCRealisticData.value = b;
             });
