@@ -9,7 +9,7 @@ namespace CombinedAIS
     {
         public const string settingsFileName = "CombinedAIS_Settings";
 
-        public static SavedBool ConvetUniqueHotelBuildingsToHotelsDLC = new("ConvetUniqueHotelBuildingsToHotelsDLC", settingsFileName, false, true);
+        public static SavedBool ConvetAfterDarkLuxuryHotelToHotelsDLC = new ("ConvetAfterDarkLuxuryHotelToHotelsDLC", settingsFileName, false, true);
         public static SavedBool ConvetAirportDLCHotelsToAirportHotel = new("ConvetAirportDLCHotelsToAirportHotel", settingsFileName, false, true);
         public static SavedBool ConvetRentalCabinToParkHotel = new("ConvetRentalCabinToParkHotel", settingsFileName, false, true);
         public static SavedBool ConvetHuntingCabinsToParkHotels = new("ConvetHuntingCabinsToParkHotels", settingsFileName, false, true);
@@ -17,6 +17,7 @@ namespace CombinedAIS
         public static SavedBool ConvetSnowfallHotelsToHotelsDLC = new("ConvetSnowfallHotelsToHotelsDLC", settingsFileName, false, true);
         public static SavedBool ConvetModernJapanHotelsToHotelsDLC = new("ConvetModernJapanHotelsToHotelsDLC", settingsFileName, false, true);
         public static SavedBool ConvetMidCenturyModernHotelsToHotelsDLC = new("ConvetMidCenturyModernHotelsToHotelsDLC", settingsFileName, false, true);
+        public static SavedBool ConvetAfricaInMiniatureHotelsToHotelsDLC = new("ConvetAfricaInMiniatureHotelsToHotelsDLC", settingsFileName, false, true);
         public static SavedBool HotelsDLCRealisticData = new("HotelsDLCRealisticData", settingsFileName, false, true);
 
         public static void Init()

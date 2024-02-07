@@ -27,7 +27,7 @@ namespace CombinedAIS.HarmonyPatches
             {
                 var oldAI = __instance.GetComponent<PrefabAI>();
                 if (__instance.m_class.m_service == ItemClass.Service.PublicTransport && __instance.m_class.m_subService == ItemClass.SubService.PublicTransportPlane
-                    && __instance.name.Contains("Airport Hotel") && oldAI is not AirportHotelAI && Settings.ConvetAirportDLCHotelsToAirportHotel.value == true)
+                    && __instance.name.Contains("Airport Hotel") && oldAI is not AirportHotelAI && oldAI is not DummyBuildingAI && Settings.ConvetAirportDLCHotelsToAirportHotel.value == true)
                 {
                     Object.DestroyImmediate(oldAI);
                     var newAI = (PrefabAI)__instance.gameObject.AddComponent<AirportHotelAI>();
@@ -57,6 +57,8 @@ namespace CombinedAIS.HarmonyPatches
                             airportHotelAI.m_sightseeingAttractiveness = 30;
                             airportHotelAI.m_natureAttractiveness = 0;
                             airportHotelAI.m_businessAttractiveness = 45;
+                            airportHotelAI.m_supportEvents = EventManager.EventType.HotelAdvertisement;
+                            airportHotelAI.m_supportGroups = (EventManager.EventGroup)56;
                         }
                     }
                 }
@@ -75,23 +77,48 @@ namespace CombinedAIS.HarmonyPatches
                     {
                         if (__instance.name.Contains("Budget Hotel"))
                         {
+                            hotel.m_maxNewGuestsPerDay = 5;
                             hotel.m_rooms = 24;
                         }
                         else if (__instance.name.Contains("Town Hostel"))
                         {
+                            hotel.m_maxNewGuestsPerDay = 5;
                             hotel.m_rooms = 20;
                         }
                         else if (__instance.name.Contains("Small Hotel"))
                         {
+                            hotel.m_maxNewGuestsPerDay = 8;
                             hotel.m_rooms = 50;
                         }
                         else if (__instance.name.Contains("Motel"))
                         {
+                            hotel.m_maxNewGuestsPerDay = 5;
                             hotel.m_rooms = 28;
+                        }
+                        else if (__instance.name.Contains("Inn"))
+                        {
+                            hotel.m_maxNewGuestsPerDay = 5;
+                            hotel.m_rooms = 20;
+                        }
+                        else if (__instance.name.Contains("Mountain Hotel"))
+                        {
+                            hotel.m_maxNewGuestsPerDay = 6;
+                            hotel.m_rooms = 64;
+                        }
+                        else if (__instance.name.Contains("Ocean Resort"))
+                        {
+                            hotel.m_maxNewGuestsPerDay = 5;
+                            hotel.m_rooms = 40;
+                        }
+                        else if (__instance.name.Contains("Castle Hotel"))
+                        {
+                            hotel.m_maxNewGuestsPerDay = 20;
+                            hotel.m_rooms = 200;
                         }
                         else if (__instance.name.Contains("Luxury Hotel"))
                         {
                             hotel.m_rooms = 384;
+                            hotel.m_maxNewGuestsPerDay = 20;
                             hotel.m_shoppingAttractiveness = 20;
                             hotel.m_sightseeingAttractiveness = 25;
                             hotel.m_natureAttractiveness = 10;
@@ -318,10 +345,10 @@ namespace CombinedAIS.HarmonyPatches
                         // level 3 hotels
                         else if(__instance.name.Contains("Isleworth Gardens") && Settings.ConvetSeaSideResortsToHotelsDLC == true)
                         {
-                            hotelAI.m_minRoomCost = 20;
-                            hotelAI.m_maxRoomCost = 80;
-                            hotelAI.m_maxNewGuestsPerDay = 5;
-                            hotelAI.m_rooms = 10;
+                            hotelAI.m_minRoomCost = 30;
+                            hotelAI.m_maxRoomCost = 50;
+                            hotelAI.m_maxNewGuestsPerDay = 8;
+                            hotelAI.m_rooms = 80;
                             hotelAI.m_stars = HotelAI.HotelStars.Three;
                             hotelAI.m_shoppingAttractiveness = 10;
                             hotelAI.m_sightseeingAttractiveness = 30;
@@ -330,10 +357,10 @@ namespace CombinedAIS.HarmonyPatches
                         }
                         else if (__instance.name.Contains("Hotel Fiske") && Settings.ConvetSeaSideResortsToHotelsDLC == true)
                         {
-                            hotelAI.m_minRoomCost = 70;
-                            hotelAI.m_maxRoomCost = 80;
+                            hotelAI.m_minRoomCost = 30;
+                            hotelAI.m_maxRoomCost = 50;
                             hotelAI.m_maxNewGuestsPerDay = 5;
-                            hotelAI.m_rooms = 5;
+                            hotelAI.m_rooms = 36;
                             hotelAI.m_stars = HotelAI.HotelStars.Three;
                             hotelAI.m_shoppingAttractiveness = 10;
                             hotelAI.m_sightseeingAttractiveness = 30;
@@ -342,10 +369,10 @@ namespace CombinedAIS.HarmonyPatches
                         }
                         else if (__instance.name.Contains("The Fabyan House") && Settings.ConvetSeaSideResortsToHotelsDLC == true)
                         {
-                            hotelAI.m_minRoomCost = 70;
-                            hotelAI.m_maxRoomCost = 80;
-                            hotelAI.m_maxNewGuestsPerDay = 5;
-                            hotelAI.m_rooms = 5;
+                            hotelAI.m_minRoomCost = 30;
+                            hotelAI.m_maxRoomCost = 50;
+                            hotelAI.m_maxNewGuestsPerDay = 8;
+                            hotelAI.m_rooms = 50;
                             hotelAI.m_stars = HotelAI.HotelStars.Three;
                             hotelAI.m_shoppingAttractiveness = 10;
                             hotelAI.m_sightseeingAttractiveness = 30;
@@ -354,10 +381,10 @@ namespace CombinedAIS.HarmonyPatches
                         }
                         else if (__instance.name.Contains("Hotel Allaire") && Settings.ConvetSeaSideResortsToHotelsDLC == true)
                         {
-                            hotelAI.m_minRoomCost = 37;
-                            hotelAI.m_maxRoomCost = 62;
-                            hotelAI.m_maxNewGuestsPerDay = 20;
-                            hotelAI.m_rooms = 250;
+                            hotelAI.m_minRoomCost = 30;
+                            hotelAI.m_maxRoomCost = 50;
+                            hotelAI.m_maxNewGuestsPerDay = 8;
+                            hotelAI.m_rooms = 60;
                             hotelAI.m_stars = HotelAI.HotelStars.Three;
                             hotelAI.m_shoppingAttractiveness = 10;
                             hotelAI.m_sightseeingAttractiveness = 30;
@@ -366,10 +393,10 @@ namespace CombinedAIS.HarmonyPatches
                         }
                         else if (__instance.name.Contains("The Breakers Hotel") && Settings.ConvetSeaSideResortsToHotelsDLC == true)
                         {
-                            hotelAI.m_minRoomCost = 37;
-                            hotelAI.m_maxRoomCost = 62;
-                            hotelAI.m_maxNewGuestsPerDay = 20;
-                            hotelAI.m_rooms = 250;
+                            hotelAI.m_minRoomCost = 30;
+                            hotelAI.m_maxRoomCost = 50;
+                            hotelAI.m_maxNewGuestsPerDay = 8;
+                            hotelAI.m_rooms = 40;
                             hotelAI.m_stars = HotelAI.HotelStars.Three;
                             hotelAI.m_shoppingAttractiveness = 10;
                             hotelAI.m_sightseeingAttractiveness = 30;
@@ -378,10 +405,10 @@ namespace CombinedAIS.HarmonyPatches
                         }
                         else if (__instance.name.Contains("Spring House") && Settings.ConvetSeaSideResortsToHotelsDLC == true)
                         {
-                            hotelAI.m_minRoomCost = 37;
-                            hotelAI.m_maxRoomCost = 62;
-                            hotelAI.m_maxNewGuestsPerDay = 20;
-                            hotelAI.m_rooms = 250;
+                            hotelAI.m_minRoomCost = 30;
+                            hotelAI.m_maxRoomCost = 50;
+                            hotelAI.m_maxNewGuestsPerDay = 8;
+                            hotelAI.m_rooms = 35;
                             hotelAI.m_stars = HotelAI.HotelStars.Three;
                             hotelAI.m_shoppingAttractiveness = 10;
                             hotelAI.m_sightseeingAttractiveness = 30;
@@ -390,10 +417,10 @@ namespace CombinedAIS.HarmonyPatches
                         }
                         else if (__instance.name.Contains("Ocean View Hotel") && Settings.ConvetSeaSideResortsToHotelsDLC == true)
                         {
-                            hotelAI.m_minRoomCost = 37;
-                            hotelAI.m_maxRoomCost = 62;
-                            hotelAI.m_maxNewGuestsPerDay = 20;
-                            hotelAI.m_rooms = 250;
+                            hotelAI.m_minRoomCost = 30;
+                            hotelAI.m_maxRoomCost = 50;
+                            hotelAI.m_maxNewGuestsPerDay = 8;
+                            hotelAI.m_rooms = 60;
                             hotelAI.m_stars = HotelAI.HotelStars.Three;
                             hotelAI.m_shoppingAttractiveness = 10;
                             hotelAI.m_sightseeingAttractiveness = 30;
@@ -402,10 +429,10 @@ namespace CombinedAIS.HarmonyPatches
                         }
                         else if (__instance.name.Contains("Ausable Chasm Hotel") && Settings.ConvetSeaSideResortsToHotelsDLC == true)
                         {
-                            hotelAI.m_minRoomCost = 37;
-                            hotelAI.m_maxRoomCost = 62;
-                            hotelAI.m_maxNewGuestsPerDay = 20;
-                            hotelAI.m_rooms = 250;
+                            hotelAI.m_minRoomCost = 30;
+                            hotelAI.m_maxRoomCost = 50;
+                            hotelAI.m_maxNewGuestsPerDay = 8;
+                            hotelAI.m_rooms = 40;
                             hotelAI.m_stars = HotelAI.HotelStars.Three;
                             hotelAI.m_shoppingAttractiveness = 10;
                             hotelAI.m_sightseeingAttractiveness = 30;
@@ -414,10 +441,10 @@ namespace CombinedAIS.HarmonyPatches
                         }
                         else if (__instance.name.Contains("Old Orchard House") && Settings.ConvetSeaSideResortsToHotelsDLC == true)
                         {
-                            hotelAI.m_minRoomCost = 37;
-                            hotelAI.m_maxRoomCost = 62;
-                            hotelAI.m_maxNewGuestsPerDay = 20;
-                            hotelAI.m_rooms = 250;
+                            hotelAI.m_minRoomCost = 30;
+                            hotelAI.m_maxRoomCost = 50;
+                            hotelAI.m_maxNewGuestsPerDay = 8;
+                            hotelAI.m_rooms = 75;
                             hotelAI.m_stars = HotelAI.HotelStars.Three;
                             hotelAI.m_shoppingAttractiveness = 10;
                             hotelAI.m_sightseeingAttractiveness = 30;
@@ -426,79 +453,79 @@ namespace CombinedAIS.HarmonyPatches
                         }
                         else if (__instance.name.Contains("Downtown Hotel") && Settings.ConvetModernJapanHotelsToHotelsDLC == true)
                         {
-                            hotelAI.m_minRoomCost = 37;
-                            hotelAI.m_maxRoomCost = 62;
-                            hotelAI.m_maxNewGuestsPerDay = 20;
-                            hotelAI.m_rooms = 250;
+                            hotelAI.m_minRoomCost = 20;
+                            hotelAI.m_maxRoomCost = 40;
+                            hotelAI.m_maxNewGuestsPerDay = 10;
+                            hotelAI.m_rooms = 100;
                             hotelAI.m_stars = HotelAI.HotelStars.Three;
-                            hotelAI.m_shoppingAttractiveness = 30;
-                            hotelAI.m_sightseeingAttractiveness = 30;
+                            hotelAI.m_shoppingAttractiveness = 50;
+                            hotelAI.m_sightseeingAttractiveness = 15;
                             hotelAI.m_natureAttractiveness = 0;
-                            hotelAI.m_businessAttractiveness = 40;
+                            hotelAI.m_businessAttractiveness = 35;
                         }
                         else if (__instance.name.Contains("Hotel Oasis B") && Settings.ConvetMidCenturyModernHotelsToHotelsDLC == true)
                         {
-                            hotelAI.m_minRoomCost = 37;
-                            hotelAI.m_maxRoomCost = 62;
-                            hotelAI.m_maxNewGuestsPerDay = 20;
-                            hotelAI.m_rooms = 250;
+                            hotelAI.m_minRoomCost = 25;
+                            hotelAI.m_maxRoomCost = 45;
+                            hotelAI.m_maxNewGuestsPerDay = 12;
+                            hotelAI.m_rooms = 120;
                             hotelAI.m_stars = HotelAI.HotelStars.Three;
                             hotelAI.m_shoppingAttractiveness = 40;
-                            hotelAI.m_sightseeingAttractiveness = 5;
-                            hotelAI.m_natureAttractiveness = 10;
-                            hotelAI.m_businessAttractiveness = 45;
+                            hotelAI.m_sightseeingAttractiveness = 20;
+                            hotelAI.m_natureAttractiveness = 15;
+                            hotelAI.m_businessAttractiveness = 25;
                         }
                         // level 4 hotels
                         else if (__instance.name.Contains("Spa Hotel") && Settings.ConvetSnowfallHotelsToHotelsDLC == true)
                         {
-                            hotelAI.m_minRoomCost = 70;
-                            hotelAI.m_maxRoomCost = 80;
+                            hotelAI.m_minRoomCost = 40;
+                            hotelAI.m_maxRoomCost = 60;
                             hotelAI.m_maxNewGuestsPerDay = 5;
-                            hotelAI.m_rooms = 10;
+                            hotelAI.m_rooms = 50;
                             hotelAI.m_stars = HotelAI.HotelStars.Four;
-                            hotelAI.m_shoppingAttractiveness = 5;
-                            hotelAI.m_sightseeingAttractiveness = 25;
-                            hotelAI.m_natureAttractiveness = 70;
+                            hotelAI.m_shoppingAttractiveness = 45;
+                            hotelAI.m_sightseeingAttractiveness = 45;
+                            hotelAI.m_natureAttractiveness = 10;
                             hotelAI.m_businessAttractiveness = 0;
                         }
-                        else if (__instance.name.Contains("Resort Hotel") && Settings.ConvetModernJapanHotelsToHotelsDLC == true)
-                        {
-                            hotelAI.m_minRoomCost = 70;
-                            hotelAI.m_maxRoomCost = 80;
-                            hotelAI.m_maxNewGuestsPerDay = 5;
-                            hotelAI.m_rooms = 5;
-                            hotelAI.m_stars = HotelAI.HotelStars.Four;
-                            hotelAI.m_shoppingAttractiveness = 5;
-                            hotelAI.m_sightseeingAttractiveness = 75;
-                            hotelAI.m_natureAttractiveness = 20;
-                            hotelAI.m_businessAttractiveness = 0;
-                        }
-                        else if (__instance.name.Contains("Luxury Hotel 4x4") && Settings.ConvetUniqueHotelBuildingsToHotelsDLC.value == true)
-                        {
-                            hotelAI.m_minRoomCost = 70;
-                            hotelAI.m_maxRoomCost = 80;
-                            hotelAI.m_maxNewGuestsPerDay = 5;
-                            hotelAI.m_rooms = 5;
-                            hotelAI.m_stars = HotelAI.HotelStars.Four;
-                            hotelAI.m_shoppingAttractiveness = 5;
-                            hotelAI.m_sightseeingAttractiveness = 75;
-                            hotelAI.m_natureAttractiveness = 20;
-                            hotelAI.m_businessAttractiveness = 0;
-                        }
-                        else if (__instance.name.Contains("BNBN_7") && Settings.ConvetUniqueHotelBuildingsToHotelsDLC.value == true)
+                        else if (__instance.name.Contains("PDX11_Hotel_kikyo") && Settings.ConvetModernJapanHotelsToHotelsDLC == true)
                         {
                             hotelAI.m_minRoomCost = 37;
                             hotelAI.m_maxRoomCost = 62;
                             hotelAI.m_maxNewGuestsPerDay = 20;
                             hotelAI.m_rooms = 250;
                             hotelAI.m_stars = HotelAI.HotelStars.Four;
-                            hotelAI.m_shoppingAttractiveness = 30;
-                            hotelAI.m_sightseeingAttractiveness = 30;
+                            hotelAI.m_shoppingAttractiveness = 45;
+                            hotelAI.m_sightseeingAttractiveness = 45;
+                            hotelAI.m_natureAttractiveness = 10;
+                            hotelAI.m_businessAttractiveness = 0;
+                        }
+                        else if (__instance.name.Contains("Luxury Hotel 4x4") && Settings.ConvetAfricaInMiniatureHotelsToHotelsDLC.value == true)
+                        {
+                            hotelAI.m_minRoomCost = 70;
+                            hotelAI.m_maxRoomCost = 80;
+                            hotelAI.m_maxNewGuestsPerDay = 15;
+                            hotelAI.m_rooms = 150;
+                            hotelAI.m_stars = HotelAI.HotelStars.Four;
+                            hotelAI.m_shoppingAttractiveness = 50;
+                            hotelAI.m_sightseeingAttractiveness = 15;
                             hotelAI.m_natureAttractiveness = 0;
-                            hotelAI.m_businessAttractiveness = 40;
+                            hotelAI.m_businessAttractiveness = 35;
+                        }
+                        else if (__instance.name.Contains("BNBN_7") && Settings.ConvetAfricaInMiniatureHotelsToHotelsDLC.value == true)
+                        {
+                            hotelAI.m_minRoomCost = 37;
+                            hotelAI.m_maxRoomCost = 62;
+                            hotelAI.m_maxNewGuestsPerDay = 10;
+                            hotelAI.m_rooms = 100;
+                            hotelAI.m_stars = HotelAI.HotelStars.Four;
+                            hotelAI.m_shoppingAttractiveness = 50;
+                            hotelAI.m_sightseeingAttractiveness = 15;
+                            hotelAI.m_natureAttractiveness = 0;
+                            hotelAI.m_businessAttractiveness = 35;
                         }
                         // level 5 hotels
-                        else if (__instance.name.Contains("Luxury Hotel") && Settings.ConvetUniqueHotelBuildingsToHotelsDLC.value == true)
+                        else if (__instance.name.Contains("Luxury Hotel") && Settings.ConvetAfterDarkLuxuryHotelToHotelsDLC.value == true)
                         {
                             hotelAI.m_minRoomCost = 70;
                             hotelAI.m_maxRoomCost = 80;
@@ -509,6 +536,8 @@ namespace CombinedAIS.HarmonyPatches
                             hotelAI.m_sightseeingAttractiveness = 25;
                             hotelAI.m_natureAttractiveness = 10;
                             hotelAI.m_businessAttractiveness = 45;
+                            hotelAI.m_supportEvents = EventManager.EventType.HotelAdvertisement;
+                            hotelAI.m_supportGroups = (EventManager.EventGroup)56;
                         }
                     }
                 }
