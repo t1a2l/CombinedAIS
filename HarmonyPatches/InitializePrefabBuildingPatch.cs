@@ -654,7 +654,6 @@ namespace CombinedAIS.HarmonyPatches
             {
                 BuildingInfo buildingInfo = PrefabCollection<BuildingInfo>.GetLoaded(index);
 
-                // Check for replacement of AI
                 if (buildingInfo != null && buildingInfo.GetAI() is AirportHotelAI airportHotelAI && airportHotelAI.m_stars == HotelAI.HotelStars.Five)
                 {
                     airportHotelAI.m_eventInfos = [];
@@ -668,9 +667,9 @@ namespace CombinedAIS.HarmonyPatches
                         }
                     }
                 }
-                else if (buildingInfo != null && buildingInfo.GetAI() is HotelAI hotelAI)
+                else if (buildingInfo != null && buildingInfo.GetAI() is HotelAI hotelAI && hotelAI.m_stars == HotelAI.HotelStars.Five)
                 {
-                    if(hotelAI.m_stars == HotelAI.HotelStars.Five && __instance.name.Contains("LuxuryHotel"))
+                    if (buildingInfo.name.Contains("LuxuryHotel"))
                     {
                         hotelAI.m_eventInfos = [];
                         int num = PrefabCollection<EventInfo>.LoadedCount();
@@ -683,11 +682,6 @@ namespace CombinedAIS.HarmonyPatches
                             }
                         }
                     }
-                    if(buildingInfo.m_class.m_service == ItemClass.Service.Monument || buildingInfo.m_class.m_service == ItemClass.Service.Beautification)
-                    {
-                        buildingInfo.m_class.m_service = ItemClass.Service.Hotel;
-                    }
-                    
                 }
             }
         }

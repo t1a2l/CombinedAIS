@@ -11,7 +11,7 @@ namespace CombinedAIS.HarmonyPatches
         [HarmonyPrefix]
         public static void CreateBuilding(ushort buildingID, ref Building data)
         {
-            if(data.Info.m_buildingAI is AirportHotelAI)
+            if(data.Info.m_buildingAI is AirportHotelAI || (data.Info.m_buildingAI is HotelAI && (data.Info.m_class.m_service == ItemClass.Service.Monument || data.Info.m_class.m_service == ItemClass.Service.Beautification)))
             {
                 Singleton<BuildingManager>.instance.AddServiceBuilding(buildingID, ItemClass.Service.Hotel);
             }
@@ -21,7 +21,7 @@ namespace CombinedAIS.HarmonyPatches
         [HarmonyPrefix]
         public static void BuildingLoaded(ushort buildingID, ref Building data, uint version)
         {
-            if (data.Info.m_buildingAI is AirportHotelAI)
+            if (data.Info.m_buildingAI is AirportHotelAI || (data.Info.m_buildingAI is HotelAI && (data.Info.m_class.m_service == ItemClass.Service.Monument || data.Info.m_class.m_service == ItemClass.Service.Beautification)))
             {
                 Singleton<BuildingManager>.instance.AddServiceBuilding(buildingID, ItemClass.Service.Hotel);
             }
@@ -31,7 +31,7 @@ namespace CombinedAIS.HarmonyPatches
         [HarmonyPrefix]
         public static void ReleaseBuilding(ushort buildingID, ref Building data)
         {
-            if (data.Info.m_buildingAI is AirportHotelAI)
+            if (data.Info.m_buildingAI is AirportHotelAI || (data.Info.m_buildingAI is HotelAI && (data.Info.m_class.m_service == ItemClass.Service.Monument || data.Info.m_class.m_service == ItemClass.Service.Beautification)))
             {
                 Singleton<BuildingManager>.instance.RemoveServiceBuilding(buildingID, ItemClass.Service.Hotel);
             }
