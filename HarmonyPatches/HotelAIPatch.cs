@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿using ColossalFramework;
+using ColossalFramework.Math;
+using Epic.OnlineServices.Presence;
+using HarmonyLib;
+using UnityEngine;
 
 
 namespace CombinedAIS.HarmonyPatches
@@ -38,6 +42,36 @@ namespace CombinedAIS.HarmonyPatches
                     hotelAI.m_rooms = 108;
                 }
             }
+        }
+
+
+        [HarmonyPatch(typeof(HotelAI), "GetBaseColor")]
+        [HarmonyPrefix]
+        protected static bool GetBaseColor(HotelAI __instance, ushort buildingID, ref Building data, ref Color __result)
+        {
+            if(data.Info.m_class.m_service == ItemClass.Service.Monument || data.Info.m_class.m_service == ItemClass.Service.Beautification)
+            {
+                if (__instance.m_info.m_useColorVariations)
+                {
+                    __result = new Randomizer(buildingID).Int32(4u) switch
+                    {
+                        0 => __instance.m_info.m_color0,
+                        1 => __instance.m_info.m_color1,
+                        2 => __instance.m_info.m_color2,
+                        3 => __instance.m_info.m_color3,
+                        _ => __instance.m_info.m_color0,
+                    };
+                }
+                else
+                {
+                    __result = __instance.m_info.m_color0;
+                }
+            }
+            else
+            {
+                __result = Singleton<DistrictManager>.instance.HotelColor;
+            }
+            return false;
         }
     }
 }
