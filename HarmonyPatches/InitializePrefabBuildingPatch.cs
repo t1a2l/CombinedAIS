@@ -645,5 +645,51 @@ namespace CombinedAIS.HarmonyPatches
                 Debug.LogException(e);
             }
         }
+
+
+        public static void Postfix(BuildingInfo __instance)
+        {
+            uint index = 0U;
+            for (; PrefabCollection<BuildingInfo>.LoadedCount() > index; ++index)
+            {
+                BuildingInfo buildingInfo = PrefabCollection<BuildingInfo>.GetLoaded(index);
+
+                // Check for replacement of AI
+                if (buildingInfo != null && buildingInfo.GetAI() is AirportHotelAI airportHotelAI && airportHotelAI.m_stars == HotelAI.HotelStars.Five)
+                {
+                    airportHotelAI.m_eventInfos = [];
+                    int num = PrefabCollection<EventInfo>.LoadedCount();
+                    for (uint num2 = 0u; num2 < num; num2++)
+                    {
+                        EventInfo loaded = PrefabCollection<EventInfo>.GetLoaded(num2);
+                        if (loaded != null && (loaded.m_type & airportHotelAI.m_supportEvents) != 0 && (loaded.m_group & airportHotelAI.m_supportGroups) != 0)
+                        {
+                            airportHotelAI.m_eventInfos.Add(loaded);
+                        }
+                    }
+                }
+                else if (buildingInfo != null && buildingInfo.GetAI() is HotelAI hotelAI)
+                {
+                    if(hotelAI.m_stars == HotelAI.HotelStars.Five && __instance.name.Contains("LuxuryHotel"))
+                    {
+                        hotelAI.m_eventInfos = [];
+                        int num = PrefabCollection<EventInfo>.LoadedCount();
+                        for (uint num2 = 0u; num2 < num; num2++)
+                        {
+                            EventInfo loaded = PrefabCollection<EventInfo>.GetLoaded(num2);
+                            if (loaded != null && (loaded.m_type & hotelAI.m_supportEvents) != 0 && (loaded.m_group & hotelAI.m_supportGroups) != 0)
+                            {
+                                hotelAI.m_eventInfos.Add(loaded);
+                            }
+                        }
+                    }
+                    if(buildingInfo.m_class.m_service == ItemClass.Service.Monument || buildingInfo.m_class.m_service == ItemClass.Service.Beautification)
+                    {
+                        buildingInfo.m_class.m_service = ItemClass.Service.Hotel;
+                    }
+                    
+                }
+            }
+        }
     }
 }
