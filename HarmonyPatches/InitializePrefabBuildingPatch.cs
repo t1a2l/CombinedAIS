@@ -11,7 +11,7 @@ namespace CombinedAIS.HarmonyPatches
     [HarmonyPatch(typeof(BuildingInfo), "InitializePrefab")]
     public static class InitializePrefabBuildingPatch
     {
-
+        
         private static string[] SnowfallHotelNames = [
             "Igloo Hotel",
             "Spa Hotel"
