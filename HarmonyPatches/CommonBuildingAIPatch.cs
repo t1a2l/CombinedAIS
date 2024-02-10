@@ -24,5 +24,23 @@ namespace CombinedAIS.HarmonyPatches
                 }
             }
         }
+
+        [HarmonyPatch(typeof(CommonBuildingAI), "GetSelectedVariation")]
+        [HarmonyPostfix]
+        public static void GetSelectedVariation(ushort buildingID, ref Building.Flags2 __result)
+        {
+            var data = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
+            if (data.Info.name.Contains("City Hotel") && data.Info.m_buildingAI is HotelAI hotelAI && Settings.HotelsDLCRealisticData.value == true)
+            {
+                if (__result == Building.Flags2.SubmeshVariation1 || __result == Building.Flags2.SubmeshVariation3)
+                {
+                    hotelAI.m_rooms = 60;
+                }
+                else if (__result == Building.Flags2.SubmeshVariation2 || __result == Building.Flags2.SubmeshVariation4)
+                {
+                    hotelAI.m_rooms = 108;
+                }
+            }
+        }
     }
 }
