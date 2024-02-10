@@ -118,7 +118,7 @@ namespace CombinedAIS.HarmonyPatches
                             airportHotelAI.m_minRoomCost = 15;
                             airportHotelAI.m_maxRoomCost = 25;
                             airportHotelAI.m_maxNewGuestsPerDay = 8;
-                            airportHotelAI.m_rooms = 140;
+                            airportHotelAI.m_rooms = 60;
                             airportHotelAI.m_stars = HotelAI.HotelStars.Two;
                             airportHotelAI.m_shoppingAttractiveness = 25;
                             airportHotelAI.m_sightseeingAttractiveness = 30;
