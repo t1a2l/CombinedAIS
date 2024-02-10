@@ -66,7 +66,7 @@ namespace CombinedAIS.HarmonyPatches
             {
                 var oldAI = __instance.GetComponent<PrefabAI>();
                 if (__instance.m_class.m_service == ItemClass.Service.PublicTransport && __instance.m_class.m_subService == ItemClass.SubService.PublicTransportPlane
-                    && __instance.name.Contains("Airport Hotel") && oldAI is not AirportHotelAI && oldAI is not DummyBuildingAI && Settings.ConvetAirportDLCHotelsToAirportHotel.value == true)
+                    && (__instance.name.Contains("Airport Hotel") || __instance.name.Contains("Sheraton")) && oldAI is not AirportHotelAI && oldAI is not DummyBuildingAI && Settings.ConvetAirportDLCHotelsToAirportHotel.value == true)
                 {
                     Object.DestroyImmediate(oldAI);
                     var newAI = (PrefabAI)__instance.gameObject.AddComponent<AirportHotelAI>();
@@ -98,6 +98,32 @@ namespace CombinedAIS.HarmonyPatches
                             airportHotelAI.m_businessAttractiveness = 45;
                             airportHotelAI.m_supportEvents = EventManager.EventType.HotelAdvertisement;
                             airportHotelAI.m_supportGroups = (EventManager.EventGroup)56;
+                        }
+                        else if (__instance.name.Contains("Sheraton"))
+                        {
+                            airportHotelAI.m_minRoomCost = 37;
+                            airportHotelAI.m_maxRoomCost = 62;
+                            airportHotelAI.m_maxNewGuestsPerDay = 20;
+                            airportHotelAI.m_rooms = 384;
+                            airportHotelAI.m_stars = HotelAI.HotelStars.Five;
+                            airportHotelAI.m_shoppingAttractiveness = 25;
+                            airportHotelAI.m_sightseeingAttractiveness = 30;
+                            airportHotelAI.m_natureAttractiveness = 0;
+                            airportHotelAI.m_businessAttractiveness = 45;
+                            airportHotelAI.m_supportEvents = EventManager.EventType.HotelAdvertisement;
+                            airportHotelAI.m_supportGroups = (EventManager.EventGroup)56;
+                        }
+                        else if (__instance.name.Contains("NZ Ryde Airport"))
+                        {
+                            airportHotelAI.m_minRoomCost = 15;
+                            airportHotelAI.m_maxRoomCost = 25;
+                            airportHotelAI.m_maxNewGuestsPerDay = 8;
+                            airportHotelAI.m_rooms = 140;
+                            airportHotelAI.m_stars = HotelAI.HotelStars.Two;
+                            airportHotelAI.m_shoppingAttractiveness = 25;
+                            airportHotelAI.m_sightseeingAttractiveness = 30;
+                            airportHotelAI.m_natureAttractiveness = 0;
+                            airportHotelAI.m_businessAttractiveness = 45;
                         }
                     }
                 }
