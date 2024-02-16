@@ -39,9 +39,9 @@ namespace CombinedAIS
         {
             UIHelper OriginalDLCHotels = helper.AddGroup("Original DLC Hotels") as UIHelper;
 
-            OriginalDLCHotels.AddCheckbox("Convet Rental Cabin To a ParkHotel", Settings.ConvetRentalCabinToParkHotel.value, (b) =>
+            OriginalDLCHotels.AddCheckbox("Convert Rental Cabin To a ParkHotel", Settings.ConvertRentalCabinToParkHotel.value, (b) =>
             {
-                Settings.ConvetRentalCabinToParkHotel.value = b;
+                Settings.ConvertRentalCabinToParkHotel.value = b;
             });
 
             OriginalDLCHotels.AddCheckbox("Make Original DLC Hotels to have more realistic room numbers", Settings.HotelsDLCRealisticData.value, (b) =>
@@ -52,47 +52,47 @@ namespace CombinedAIS
 
             UIHelper ExpansionsHotels = helper.AddGroup("Expansions Hotels") as UIHelper;
 
-            ExpansionsHotels.AddCheckbox("Convet After Dark DLC Unique Buildings Hotels To The Hotels DLC", Settings.ConvetAfterDarkHotelsToHotelsDLC.value, (b) =>
+            ExpansionsHotels.AddCheckbox("Convert After Dark DLC Unique Buildings Hotels To The Hotels DLC", Settings.ConvertAfterDarkHotelsToHotelsDLC.value, (b) =>
             {
-                Settings.ConvetAfterDarkHotelsToHotelsDLC.value = b;
+                Settings.ConvertAfterDarkHotelsToHotelsDLC.value = b;
             });
 
-            ExpansionsHotels.AddCheckbox("Convet Snowfall Hotels To The Hotels DLC", Settings.ConvetSnowfallHotelsToHotelsDLC.value, (b) =>
+            ExpansionsHotels.AddCheckbox("Convert Snowfall Hotels To The Hotels DLC", Settings.ConvertSnowfallHotelsToHotelsDLC.value, (b) =>
             {
-                Settings.ConvetSnowfallHotelsToHotelsDLC.value = b;
+                Settings.ConvertSnowfallHotelsToHotelsDLC.value = b;
             });
 
-            ExpansionsHotels.AddCheckbox("Convet Park Life Cabins To ParkHotels", Settings.ConvetParkLifeCabinsToParkHotels.value, (b) =>
+            ExpansionsHotels.AddCheckbox("Convert Park Life Cabins To ParkHotels", Settings.ConvertParkLifeCabinsToParkHotels.value, (b) =>
             {
-                Settings.ConvetParkLifeCabinsToParkHotels.value = b;
+                Settings.ConvertParkLifeCabinsToParkHotels.value = b;
             });
 
-            ExpansionsHotels.AddCheckbox("Convet Airport DLC Hotels To AirportHotels", Settings.ConvetAirportDLCHotelsToAirportHotel.value, (b) =>
+            ExpansionsHotels.AddCheckbox("Convert Airport DLC Hotels To AirportHotels", Settings.ConvertAirportDLCHotelsToAirportHotel.value, (b) =>
             {
-                Settings.ConvetAirportDLCHotelsToAirportHotel.value = b;
+                Settings.ConvertAirportDLCHotelsToAirportHotel.value = b;
             });
 
 
             UIHelper ContentCreatorPacksHotels = helper.AddGroup("Content Creator Packs Hotels") as UIHelper;
 
-            ContentCreatorPacksHotels.AddCheckbox("Convet Modern Japan Hotels To The Hotels DLC", Settings.ConvetModernJapanHotelsToHotelsDLC.value, (b) =>
+            ContentCreatorPacksHotels.AddCheckbox("Convert Modern Japan Hotels To The Hotels DLC", Settings.ConvertModernJapanHotelsToHotelsDLC.value, (b) =>
             {
-                Settings.ConvetModernJapanHotelsToHotelsDLC.value = b;
+                Settings.ConvertModernJapanHotelsToHotelsDLC.value = b;
             });
 
-            ContentCreatorPacksHotels.AddCheckbox("Convet Mid-Century Modern Hotels To The Hotels DLC", Settings.ConvetMidCenturyModernHotelsToHotelsDLC.value, (b) =>
+            ContentCreatorPacksHotels.AddCheckbox("Convert Mid-Century Modern Hotels To The Hotels DLC", Settings.ConvertMidCenturyModernHotelsToHotelsDLC.value, (b) =>
             {
-                Settings.ConvetMidCenturyModernHotelsToHotelsDLC.value = b;
+                Settings.ConvertMidCenturyModernHotelsToHotelsDLC.value = b;
             });
 
-            ContentCreatorPacksHotels.AddCheckbox("Convet SeaSide Resorts To The Hotels DLC", Settings.ConvetSeaSideResortsToHotelsDLC.value, (b) =>
+            ContentCreatorPacksHotels.AddCheckbox("Convert SeaSide Resorts To The Hotels DLC", Settings.ConvertSeaSideResortsToHotelsDLC.value, (b) =>
             {
-                Settings.ConvetSeaSideResortsToHotelsDLC.value = b;
+                Settings.ConvertSeaSideResortsToHotelsDLC.value = b;
             });
 
-            ContentCreatorPacksHotels.AddCheckbox("Convet Africa In Miniature Hotels To The Hotels DLC", Settings.ConvetAfricaInMiniatureHotelsToHotelsDLC.value, (b) =>
+            ContentCreatorPacksHotels.AddCheckbox("Convert Africa In Miniature Hotels To The Hotels DLC", Settings.ConvertAfricaInMiniatureHotelsToHotelsDLC.value, (b) =>
             {
-                Settings.ConvetAfricaInMiniatureHotelsToHotelsDLC.value = b;
+                Settings.ConvertAfricaInMiniatureHotelsToHotelsDLC.value = b;
             });
 
         }

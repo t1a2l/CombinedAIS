@@ -9,19 +9,20 @@ namespace CombinedAIS
     {
         public const string settingsFileName = "CombinedAIS_Settings";
 
-        public static SavedBool ConvetRentalCabinToParkHotel = new("ConvetRentalCabinToParkHotel", settingsFileName, false, true);
+        public static SavedBool ConvertRentalCabinToParkHotel = new("ConvertRentalCabinToParkHotel", settingsFileName, false, true);
         public static SavedBool HotelsDLCRealisticData = new("HotelsDLCRealisticData", settingsFileName, false, true);
 
-        public static SavedBool ConvetAfterDarkHotelsToHotelsDLC = new("ConvetAfterDarkHotelsToHotelsDLC", settingsFileName, false, true);
-        public static SavedBool ConvetSnowfallHotelsToHotelsDLC = new("ConvetSnowfallHotelsToHotelsDLC", settingsFileName, false, true);
-        public static SavedBool ConvetParkLifeCabinsToParkHotels = new("ConvetParkLifeCabinsToParkHotels", settingsFileName, false, true);
-        public static SavedBool ConvetAirportDLCHotelsToAirportHotel = new("ConvetAirportDLCHotelsToAirportHotel", settingsFileName, false, true);
+        public static SavedBool ConvertAfterDarkHotelsToHotelsDLC = new("ConvertAfterDarkHotelsToHotelsDLC", settingsFileName, false, true);
+        public static SavedBool ConvertSnowfallHotelsToHotelsDLC = new("ConvertSnowfallHotelsToHotelsDLC", settingsFileName, false, true);
+        public static SavedBool ConvertParkLifeCabinsToParkHotels = new("ConvertParkLifeCabinsToParkHotels", settingsFileName, false, true);
+        public static SavedBool ConvertAirportDLCHotelsToAirportHotel = new("ConvertAirportDLCHotelsToAirportHotel", settingsFileName, false, true);
 
-        public static SavedBool ConvetModernJapanHotelsToHotelsDLC = new("ConvetModernJapanHotelsToHotelsDLC", settingsFileName, false, true);
-        public static SavedBool ConvetMidCenturyModernHotelsToHotelsDLC = new("ConvetMidCenturyModernHotelsToHotelsDLC", settingsFileName, false, true);
-        public static SavedBool ConvetSeaSideResortsToHotelsDLC = new("ConvetSeaSideResortsToHotelsDLC", settingsFileName, false, true);
-        public static SavedBool ConvetAfricaInMiniatureHotelsToHotelsDLC = new("ConvetAfricaInMiniatureHotelsToHotelsDLC", settingsFileName, false, true);
-        
+        public static SavedBool ConvertModernJapanHotelsToHotelsDLC = new("ConvertModernJapanHotelsToHotelsDLC", settingsFileName, false, true);
+        public static SavedBool ConvertMidCenturyModernHotelsToHotelsDLC = new("ConvertMidCenturyModernHotelsToHotelsDLC", settingsFileName, false, true);
+        public static SavedBool ConvertSeaSideResortsToHotelsDLC = new("ConvertSeaSideResortsToHotelsDLC", settingsFileName, false, true);
+        public static SavedBool ConvertAfricaInMiniatureHotelsToHotelsDLC = new("ConvertAfricaInMiniatureHotelsToHotelsDLC", settingsFileName, false, true);
+
+        public static SavedBool ConvertInternationalTradeBuildingToInternationalTradeBuildingOffice = new("ConvertInternationalTradeBuildingToInternationalTradeBuildingOffice", settingsFileName, false, true);
         public static void Init()
         {
             try
