@@ -671,7 +671,7 @@ namespace CombinedAIS.HarmonyPatches
                     if (Settings.ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI == true)
                     {
                         Object.DestroyImmediate(oldAI);
-                        var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
+                        var newAI = (PrefabAI)__instance.gameObject.AddComponent<InternationalTradeOfficeBuildingAI>();
                         PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
                     }
                 }
