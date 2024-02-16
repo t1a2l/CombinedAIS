@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CombinedAIS.AI
 {
-    internal class InternationalTradeBuildingOfficeAI : OfficeBuildingAI
+    internal class InternationalTradeOfficeBuildingAI : OfficeBuildingAI
     {
         [CustomizableProperty("TaxBounus Radius")]
         public float m_taxBonusRadius = 500f;

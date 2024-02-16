@@ -668,7 +668,7 @@ namespace CombinedAIS.HarmonyPatches
 
                 if(__instance.m_class.m_service == ItemClass.Service.Monument && oldAI is InternationalTradeBuildingAI)
                 {
-                    if (Settings.ConvertInternationalTradeBuildingToInternationalTradeBuildingOffice == true)
+                    if (Settings.ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI == true)
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();

@@ -95,6 +95,15 @@ namespace CombinedAIS
                 Settings.ConvertAfricaInMiniatureHotelsToHotelsDLC.value = b;
             });
 
+            UIHelper Finance = helper.AddGroup("Finance") as UIHelper;
+
+            Finance.AddCheckbox("Convert Finance DLC International Trade Building to an International Trade Office Building", Settings.ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI.value, (b) =>
+            {
+                Settings.ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI.value = b;
+            });
+
+
+            
         }
 
     }
