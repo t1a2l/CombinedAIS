@@ -66,7 +66,7 @@ namespace CombinedAIS.HarmonyPatches
             {
                 var oldAI = __instance.GetComponent<PrefabAI>();
                 if (__instance.m_class.m_service == ItemClass.Service.PublicTransport && __instance.m_class.m_subService == ItemClass.SubService.PublicTransportPlane
-                    && (__instance.name.Contains("Airport Hotel") || __instance.name.Contains("Sheraton")) && oldAI is not AirportHotelAI && oldAI is not DummyBuildingAI && Settings.ConvetAirportDLCHotelsToAirportHotel.value == true)
+                    && (__instance.name.Contains("Airport Hotel") || __instance.name.Contains("Sheraton")) && oldAI is not AirportHotelAI && oldAI is not DummyBuildingAI && Settings.ConvertAirportDLCHotelsToAirportHotel.value == true)
                 {
                     Object.DestroyImmediate(oldAI);
                     var newAI = (PrefabAI)__instance.gameObject.AddComponent<AirportHotelAI>();
@@ -117,9 +117,9 @@ namespace CombinedAIS.HarmonyPatches
                         {
                             airportHotelAI.m_minRoomCost = 15;
                             airportHotelAI.m_maxRoomCost = 25;
-                            airportHotelAI.m_maxNewGuestsPerDay = 8;
-                            airportHotelAI.m_rooms = 60;
-                            airportHotelAI.m_stars = HotelAI.HotelStars.Two;
+                            airportHotelAI.m_maxNewGuestsPerDay = 20;
+                            airportHotelAI.m_rooms = 134;
+                            airportHotelAI.m_stars = HotelAI.HotelStars.Four;
                             airportHotelAI.m_shoppingAttractiveness = 25;
                             airportHotelAI.m_sightseeingAttractiveness = 30;
                             airportHotelAI.m_natureAttractiveness = 0;
@@ -130,7 +130,7 @@ namespace CombinedAIS.HarmonyPatches
 
                 if (__instance.m_class.m_service == ItemClass.Service.Hotel)
                 {
-                    if(oldAI is not ParkHotelAI && Settings.ConvetRentalCabinToParkHotel.value == true && __instance.name.Contains("Cabin"))
+                    if(oldAI is not ParkHotelAI && Settings.ConvertRentalCabinToParkHotel.value == true && __instance.name.Contains("Cabin"))
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<ParkHotelAI>();
@@ -194,7 +194,7 @@ namespace CombinedAIS.HarmonyPatches
                 }
 
                 if (__instance.m_class.m_service == ItemClass.Service.Beautification && __instance.name.Contains("Hunting Cabin")
-                    && oldAI is not ParkHotelAI && Settings.ConvetParkLifeCabinsToParkHotels.value == true)
+                    && oldAI is not ParkHotelAI && Settings.ConvertParkLifeCabinsToParkHotels.value == true)
                 {
                     Object.DestroyImmediate(oldAI);
                     var newAI = (PrefabAI)__instance.gameObject.AddComponent<ParkHotelAI>();
@@ -233,7 +233,7 @@ namespace CombinedAIS.HarmonyPatches
 
                 if(__instance.m_class.m_service == ItemClass.Service.Monument && oldAI is not HotelAI) 
                 {
-                    if(Settings.ConvetSnowfallHotelsToHotelsDLC == true && SnowfallHotelNames.Any(s => __instance.name.Equals(s)))
+                    if(Settings.ConvertSnowfallHotelsToHotelsDLC == true && SnowfallHotelNames.Any(s => __instance.name.Equals(s)))
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
@@ -267,7 +267,7 @@ namespace CombinedAIS.HarmonyPatches
                         }
                     }
 
-                    if(Settings.ConvetSeaSideResortsToHotelsDLC == true && SeaSideResortsNames.Any(s => __instance.name.Equals(s)))
+                    if(Settings.ConvertSeaSideResortsToHotelsDLC == true && SeaSideResortsNames.Any(s => __instance.name.Equals(s)))
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
@@ -532,7 +532,7 @@ namespace CombinedAIS.HarmonyPatches
                         }
                     }
 
-                    if (Settings.ConvetModernJapanHotelsToHotelsDLC == true && ModernJapanHotelNames.Any(s => __instance.name.Equals(s)))
+                    if (Settings.ConvertModernJapanHotelsToHotelsDLC == true && ModernJapanHotelNames.Any(s => __instance.name.Equals(s)))
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
@@ -567,7 +567,7 @@ namespace CombinedAIS.HarmonyPatches
                         }
                     }
 
-                    if (Settings.ConvetAfricaInMiniatureHotelsToHotelsDLC.value == true && AfricaInMiniatureHotelNames.Any(s => __instance.name.Equals(s)))
+                    if (Settings.ConvertAfricaInMiniatureHotelsToHotelsDLC.value == true && AfricaInMiniatureHotelNames.Any(s => __instance.name.Equals(s)))
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
@@ -602,7 +602,7 @@ namespace CombinedAIS.HarmonyPatches
                         }
                     }
 
-                    if (Settings.ConvetAfterDarkHotelsToHotelsDLC.value == true && AfterDarHotelNames.Any(s => __instance.name.Equals(s)))
+                    if (Settings.ConvertAfterDarkHotelsToHotelsDLC.value == true && AfterDarHotelNames.Any(s => __instance.name.Equals(s)))
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
@@ -630,7 +630,7 @@ namespace CombinedAIS.HarmonyPatches
 
                 if (__instance.m_class.m_service == ItemClass.Service.Beautification && oldAI is not HotelAI)
                 {
-                    if (Settings.ConvetMidCenturyModernHotelsToHotelsDLC == true && MidCenturyModernHotelNames.Any(s => __instance.name.Contains(s)))
+                    if (Settings.ConvertMidCenturyModernHotelsToHotelsDLC == true && MidCenturyModernHotelNames.Any(s => __instance.name.Contains(s)))
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
@@ -665,6 +665,17 @@ namespace CombinedAIS.HarmonyPatches
                         }
                     }
                 }
+
+                if(__instance.m_class.m_service == ItemClass.Service.Monument && oldAI is InternationalTradeBuildingAI)
+                {
+                    if (Settings.ConvertInternationalTradeBuildingToInternationalTradeBuildingOffice == true)
+                    {
+                        Object.DestroyImmediate(oldAI);
+                        var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
+                        PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
+                    }
+                }
+
             }
             catch (Exception e)
             {
