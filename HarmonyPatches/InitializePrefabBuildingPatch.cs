@@ -666,13 +666,13 @@ namespace CombinedAIS.HarmonyPatches
                     }
                 }
 
-                if(__instance.m_class.m_service == ItemClass.Service.Monument && oldAI is InternationalTradeBuildingAI)
+                if(__instance.m_class.m_service == ItemClass.Service.Monument && oldAI is not InternationalTradeOfficeBuildingAI && __instance.name.Contains("International Trade Building"))
                 {
                     if (Settings.ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI == true)
                     {
-                        Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<InternationalTradeOfficeBuildingAI>();
                         PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
+                        Object.DestroyImmediate(oldAI);
                     }
                 }
 

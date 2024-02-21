@@ -47,6 +47,9 @@ namespace CombinedAIS.AI
 
         protected override void SimulationStepActive(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
         {
+            buildingData.m_flags &= ~Building.Flags.ZonesUpdated;
+            buildingData.m_flags &= ~Building.Flags.Abandoned;
+            buildingData.m_flags &= ~Building.Flags.Demolishing;
             if (m_taxBonusRadius > 0f && StockExchangeAI.taxBonus > 0)
             {
                 Citizen.BehaviourData behaviour = default;
@@ -75,6 +78,9 @@ namespace CombinedAIS.AI
                 Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.Business, rate, buildingData.m_position, radius);
             }
             base.SimulationStepActive(buildingID, ref buildingData, ref frameData);
+            buildingData.m_flags &= ~Building.Flags.ZonesUpdated;
+            buildingData.m_flags &= ~Building.Flags.Abandoned;
+            buildingData.m_flags &= ~Building.Flags.Demolishing;
         }
 
         public override ImmaterialResourceManager.ResourceData[] GetImmaterialResourceRadius(ushort buildingID, ref Building data)
@@ -110,9 +116,78 @@ namespace CombinedAIS.AI
             base.UpdateGuide(guideController);
         }
 
+        public override void GetWidthRange(out int minWidth, out int maxWidth)
+        {
+            minWidth = 1;
+            maxWidth = 16;
+        }
+
+        public override void GetLengthRange(out int minLength, out int maxLength)
+        {
+            minLength = 1;
+            maxLength = 16;
+        }
+
+        public override string GenerateName(ushort buildingID, InstanceID caller)
+        {
+            return m_info.GetUncheckedLocalizedTitle();
+        }
+
+        public override bool ClearOccupiedZoning()
+        {
+            return true;
+        }
+
+        public override BuildingInfo GetUpgradeInfo(ushort buildingID, ref Building data)
+        {
+            return null;
+        }
+
+        protected override int GetConstructionTime()
+        {
+            return 0;
+        }
+
         private int GetEntertainmentAccumulation(ushort buildingID, ref Building data)
         {
             return UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Tourism, m_entertainmentAccumulation);
+        }
+
+        public override void InitializePrefab()
+        {
+            if (!m_ignoreNoPropsWarning && (m_info.m_props == null || m_info.m_props.Length == 0))
+            {
+                CODebugBase<LogChannel>.Warn(LogChannel.Core, "No props placed: " + base.gameObject.name, base.gameObject);
+            }
+        }
+
+        public override void CalculateWorkplaceCount(ItemClass.Level level, Randomizer r, int width, int length, out int level0, out int level1, out int level2, out int level3)
+        {
+            int num = 170;
+            level0 = 5;
+            level1 = 25;
+            level2 = 30;
+            level3 = 20;
+            num = Mathf.Max(200, width * length * num + r.Int32(100u)) / 100;
+            int num2 = level0 + level1 + level2 + level3;
+            if (num2 != 0)
+            {
+                level0 = (num * level0 + r.Int32((uint)num2)) / num2;
+                num -= level0;
+            }
+            num2 = level1 + level2 + level3;
+            if (num2 != 0)
+            {
+                level1 = (num * level1 + r.Int32((uint)num2)) / num2;
+                num -= level1;
+            }
+            num2 = level2 + level3;
+            if (num2 != 0)
+            {
+                level2 = (num * level2 + r.Int32((uint)num2)) / num2;
+                num -= level2;
+            }
+            level3 = num;
         }
 
     }
