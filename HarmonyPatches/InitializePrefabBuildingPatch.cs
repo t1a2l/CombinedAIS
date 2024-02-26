@@ -11,6 +11,8 @@ namespace CombinedAIS.HarmonyPatches
     [HarmonyPatch(typeof(BuildingInfo), "InitializePrefab")]
     public static class InitializePrefabBuildingPatch
     {
+        private static bool _initialized = false;
+
         
         private static string[] SnowfallHotelNames = [
             "Igloo Hotel",
@@ -686,40 +688,53 @@ namespace CombinedAIS.HarmonyPatches
 
         public static void Postfix(BuildingInfo __instance)
         {
-            uint index = 0U;
-            for (; PrefabCollection<BuildingInfo>.LoadedCount() > index; ++index)
-            {
-                BuildingInfo buildingInfo = PrefabCollection<BuildingInfo>.GetLoaded(index);
+            BuildingInfo OfficeHigh014x4Level3 = PrefabCollection<BuildingInfo>.FindLoaded("Office High01 4x4 Level3");
 
-                if (buildingInfo != null && buildingInfo.GetAI() is AirportHotelAI airportHotelAI && airportHotelAI.m_stars == HotelAI.HotelStars.Five)
+            BuildingInfo Luxury_Hotel = PrefabCollection<BuildingInfo>.FindLoaded("Luxury Hotel");
+
+            if (__instance != null && __instance.GetAI() is InternationalTradeOfficeBuildingAI && OfficeHigh014x4Level3 != null)
+            {
+                __instance.m_class = OfficeHigh014x4Level3.m_class;
+            }
+
+            if(Luxury_Hotel != null && !_initialized)
+            {
+                uint index = 0U;
+                for (; PrefabCollection<BuildingInfo>.LoadedCount() > index; ++index)
                 {
-                    airportHotelAI.m_eventInfos = [];
-                    int num = PrefabCollection<EventInfo>.LoadedCount();
-                    for (uint num2 = 0u; num2 < num; num2++)
+                    BuildingInfo buildingInfo = PrefabCollection<BuildingInfo>.GetLoaded(index);
+
+                    if (buildingInfo != null && buildingInfo.GetAI() is AirportHotelAI airportHotelAI && airportHotelAI.m_stars == HotelAI.HotelStars.Five)
                     {
-                        EventInfo loaded = PrefabCollection<EventInfo>.GetLoaded(num2);
-                        if (loaded != null && (loaded.m_type & airportHotelAI.m_supportEvents) != 0 && (loaded.m_group & airportHotelAI.m_supportGroups) != 0)
-                        {
-                            airportHotelAI.m_eventInfos.Add(loaded);
-                        }
-                    }
-                }
-                else if (buildingInfo != null && buildingInfo.GetAI() is HotelAI hotelAI && hotelAI.m_stars == HotelAI.HotelStars.Five)
-                {
-                    if (buildingInfo.name.Contains("LuxuryHotel"))
-                    {
-                        hotelAI.m_eventInfos = [];
+                        airportHotelAI.m_eventInfos = [];
                         int num = PrefabCollection<EventInfo>.LoadedCount();
                         for (uint num2 = 0u; num2 < num; num2++)
                         {
                             EventInfo loaded = PrefabCollection<EventInfo>.GetLoaded(num2);
-                            if (loaded != null && (loaded.m_type & hotelAI.m_supportEvents) != 0 && (loaded.m_group & hotelAI.m_supportGroups) != 0)
+                            if (loaded != null && (loaded.m_type & airportHotelAI.m_supportEvents) != 0 && (loaded.m_group & airportHotelAI.m_supportGroups) != 0)
                             {
-                                hotelAI.m_eventInfos.Add(loaded);
+                                airportHotelAI.m_eventInfos.Add(loaded);
+                            }
+                        }
+                    }
+                    else if (buildingInfo != null && buildingInfo.GetAI() is HotelAI hotelAI && hotelAI.m_stars == HotelAI.HotelStars.Five)
+                    {
+                        if (buildingInfo.name.Contains("LuxuryHotel"))
+                        {
+                            hotelAI.m_eventInfos = [];
+                            int num = PrefabCollection<EventInfo>.LoadedCount();
+                            for (uint num2 = 0u; num2 < num; num2++)
+                            {
+                                EventInfo loaded = PrefabCollection<EventInfo>.GetLoaded(num2);
+                                if (loaded != null && (loaded.m_type & hotelAI.m_supportEvents) != 0 && (loaded.m_group & hotelAI.m_supportGroups) != 0)
+                                {
+                                    hotelAI.m_eventInfos.Add(loaded);
+                                }
                             }
                         }
                     }
                 }
+                _initialized = true;
             }
         }
     }

@@ -160,35 +160,5 @@ namespace CombinedAIS.AI
                 CODebugBase<LogChannel>.Warn(LogChannel.Core, "No props placed: " + base.gameObject.name, base.gameObject);
             }
         }
-
-        public override void CalculateWorkplaceCount(ItemClass.Level level, Randomizer r, int width, int length, out int level0, out int level1, out int level2, out int level3)
-        {
-            int num = 170;
-            level0 = 5;
-            level1 = 25;
-            level2 = 30;
-            level3 = 20;
-            num = Mathf.Max(200, width * length * num + r.Int32(100u)) / 100;
-            int num2 = level0 + level1 + level2 + level3;
-            if (num2 != 0)
-            {
-                level0 = (num * level0 + r.Int32((uint)num2)) / num2;
-                num -= level0;
-            }
-            num2 = level1 + level2 + level3;
-            if (num2 != 0)
-            {
-                level1 = (num * level1 + r.Int32((uint)num2)) / num2;
-                num -= level1;
-            }
-            num2 = level2 + level3;
-            if (num2 != 0)
-            {
-                level2 = (num * level2 + r.Int32((uint)num2)) / num2;
-                num -= level2;
-            }
-            level3 = num;
-        }
-
     }
 }

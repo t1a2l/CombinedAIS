@@ -25,7 +25,7 @@ namespace CombinedAIS.HarmonyPatches
 
         [HarmonyPatch(typeof(ZonedBuildingWorldInfoPanel), "UpdateBindings")]
         [HarmonyPostfix]
-        public static void UpdateBindings(ref InstanceID ___m_InstanceID, ref UILabel ___m_Type, ref UISprite ___m_ZoneIcon)
+        public static void UpdateBindings(ref InstanceID ___m_InstanceID, ref UILabel ___m_Type, ref UISprite ___m_ZoneIcon, ref UILabel ___m_taxBonus)
         {
             if (Singleton<BuildingManager>.exists && ___m_InstanceID.Type == InstanceType.Building && ___m_InstanceID.Building != 0)
             {
@@ -37,6 +37,7 @@ namespace CombinedAIS.HarmonyPatches
                 {
                     ___m_Type.text = Locale.Get("ZONEDBUILDING_TITLE", "OfficeFinancial");
                     ___m_ZoneIcon.spriteName = "DistrictSpecializationOfficeFinancialHovered";
+                    ___m_taxBonus.isVisible = false;
                 }
             }
         }
