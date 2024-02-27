@@ -1,7 +1,9 @@
 ﻿using ColossalFramework;
 using ColossalFramework.Math;
 using ICities;
+using System;
 using UnityEngine;
+using static RenderManager;
 
 namespace CombinedAIS.AI
 {
@@ -50,26 +52,29 @@ namespace CombinedAIS.AI
             buildingData.m_flags &= ~Building.Flags.ZonesUpdated;
             buildingData.m_flags &= ~Building.Flags.Abandoned;
             buildingData.m_flags &= ~Building.Flags.Demolishing;
+            var finalProductionRate = 100;
             if (m_taxBonusRadius > 0f && StockExchangeAI.taxBonus > 0)
             {
-                Citizen.BehaviourData behaviour = default;
-                int width = buildingData.Width;
-                int length = buildingData.Length;
-                int aliveWorkerCount = 0;
-                int totalWorkerCount = 0;
-                int workPlaceCount = 0;
-                int num = HandleWorkers(buildingID, ref buildingData, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount, ref workPlaceCount);
-                int num3 = CalculateProductionCapacity((ItemClass.Level)buildingData.m_level, new Randomizer(buildingID), width, length);
-                num = (num * num3 + 99) / 100;
-                GetConsumptionRates((ItemClass.Level)buildingData.m_level, new Randomizer(buildingID), num, out var electricityConsumption, out var waterConsumption, out var sewageAccumulation, out var garbageAccumulation, out var incomeAccumulation, out var mailAccumulation);
-                int heatingConsumption = 0;
-                int maxMail = workPlaceCount * 50;
+                if ((buildingData.m_flags & Building.Flags.Evacuating) != 0)
+                {
+                    finalProductionRate = 0;
+                }
+                int budget = Singleton<EconomyManager>.instance.GetBudget(ItemClass.Service.Monument, ItemClass.SubService.None, Singleton<SimulationManager>.instance.m_isNightTime);
+                var heatingConsumption = 0;
+                finalProductionRate = GetProductionRate(finalProductionRate, budget);
+                CalculateWorkplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(buildingID), buildingData.Width, buildingData.Length, out var level, out var level2, out var level3, out var level4);
+                AdjustWorkplaceCount(buildingID, ref buildingData, ref level, ref level2, ref level3, ref level4);
+                int visitCount = CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(buildingID), buildingData.Width, buildingData.Length);
+                int workCount = level + level2 + level3 + level4;
                 DistrictManager instance = Singleton<DistrictManager>.instance;
+                int maxMail = workCount * 50 + visitCount * 5;
                 byte district = instance.GetDistrict(buildingData.m_position);
                 DistrictPolicies.Services servicePolicies = instance.m_districts.m_buffer[district].m_servicePolicies;
-                int num7 = HandleCommonConsumption(buildingID, ref buildingData, ref frameData, ref electricityConsumption, ref heatingConsumption, ref waterConsumption, ref sewageAccumulation, ref garbageAccumulation, ref mailAccumulation, maxMail, servicePolicies);
-                num = (num * num7 + 99) / 100;
-                Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.TaxBonus, num, buildingData.m_position, m_taxBonusRadius);
+                GetConsumptionRates((ItemClass.Level)buildingData.m_level, new Randomizer(buildingID), finalProductionRate, out var electricityConsumption, out var waterConsumption, out var sewageAccumulation, out var garbageAccumulation, out var incomeAccumulation, out var mailAccumulation);
+                int num2 = HandleCommonConsumption(buildingID, ref buildingData, ref frameData, ref electricityConsumption, ref heatingConsumption, ref waterConsumption, ref sewageAccumulation, ref garbageAccumulation, ref mailAccumulation, maxMail, servicePolicies);
+                finalProductionRate = (finalProductionRate * num2 + 99) / 100;
+               
+                Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.TaxBonus, finalProductionRate, buildingData.m_position, m_taxBonusRadius);
             }
             if (Singleton<LoadingManager>.instance.SupportsExpansion(Expansion.Hotels))
             {
@@ -160,5 +165,24 @@ namespace CombinedAIS.AI
                 CODebugBase<LogChannel>.Warn(LogChannel.Core, "No props placed: " + base.gameObject.name, base.gameObject);
             }
         }
+
+        public static int GetProductionRate(int productionRate, int budget)
+        {
+            if (budget < 100)
+            {
+                budget = (budget * budget + 99) / 100;
+            }
+            else if (budget > 150)
+            {
+                budget = 125;
+            }
+            else if (budget > 100)
+            {
+                budget -= (100 - budget) * (100 - budget) / 100;
+            }
+            return (productionRate * budget + 99) / 100;
+        }
+
+
     }
 }
