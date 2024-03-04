@@ -1,6 +1,7 @@
 ﻿using ColossalFramework;
 using ColossalFramework.Math;
 using HarmonyLib;
+using System;
 using UnityEngine;
 
 
@@ -71,6 +72,47 @@ namespace CombinedAIS.HarmonyPatches
                 __result = Singleton<DistrictManager>.instance.HotelColor;
             }
             return false;
+        }
+
+        [HarmonyPatch(typeof(PlayerBuildingAI), "GetResourceRate",
+            [typeof(ushort), typeof(Building), typeof(EconomyManager.Resource)],
+            [ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Normal])]
+        [HarmonyPrefix]
+        public static bool GetResourceRate(PlayerBuildingAI __instance, ushort buildingID, ref Building data, EconomyManager.Resource resource, ref int __result)
+        {
+            if (resource == EconomyManager.Resource.Maintenance && data.Info.GetAI() is HotelAI hotelAI)
+            {
+                int num = data.m_productionRate;
+                if ((data.m_flags & Building.Flags.Evacuating) != 0)
+                {
+                    num = 0;
+                }
+                ItemClass budgetItemClass = data.Info.m_class;
+                int budget = Singleton<EconomyManager>.instance.GetBudget(budgetItemClass);
+                int maintenanceCost = __instance.GetMaintenanceCost() / 100;
+                maintenanceCost = num * budget / 100 * maintenanceCost;
+                var expenses = -Mathf.RoundToInt((float)-maintenanceCost * 0.0016f);
+                var income = data.m_roomUsed * data.m_roomCost;
+                if (data.m_roomUsed == hotelAI.m_rooms && expenses >= income)
+                {
+                    int newMaintenanceCost = expenses - income;
+
+                    // Adjust maintenance cost based on budget and default maintenance cost
+                    if (newMaintenanceCost > budget)
+                    {
+                        // Scale down the maintenance cost to fit within the budget
+                        newMaintenanceCost = (int)(budget * 0.8); // Adjust the scaling factor as needed
+                    }
+
+                    __result = - newMaintenanceCost;
+                }
+                else
+                {
+                    __result = -maintenanceCost;
+                }
+                return false;
+            }
+            return true;
         }
     }
 }
