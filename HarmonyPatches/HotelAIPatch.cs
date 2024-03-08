@@ -87,8 +87,7 @@ namespace CombinedAIS.HarmonyPatches
                 {
                     num = 0;
                 }
-                ItemClass budgetItemClass = data.Info.m_class;
-                int budget = Singleton<EconomyManager>.instance.GetBudget(budgetItemClass);
+                int budget = __instance.GetBudget(buildingID, ref data);
                 int maintenanceCost = __instance.GetMaintenanceCost() / 100;
                 maintenanceCost = num * budget / 100 * maintenanceCost;
                 var expenses = -Mathf.RoundToInt((float)-maintenanceCost * 0.0016f);
@@ -104,7 +103,7 @@ namespace CombinedAIS.HarmonyPatches
                         newMaintenanceCost = (int)(budget * 0.8); // Adjust the scaling factor as needed
                     }
 
-                    __result = - newMaintenanceCost;
+                    __result = -newMaintenanceCost;
                 }
                 else
                 {
