@@ -90,9 +90,10 @@ namespace CombinedAIS.HarmonyPatches
                 int budget = __instance.GetBudget(buildingID, ref data);
                 int maintenanceCost = __instance.GetMaintenanceCost() / 100;
                 maintenanceCost = num * budget / 100 * maintenanceCost;
-                var expenses = -Mathf.RoundToInt((float)-maintenanceCost * 0.0016f);
+                var expenses = -Mathf.RoundToInt(-maintenanceCost * 0.0016f);
                 var income = data.m_roomUsed * data.m_roomCost;
-                if (data.m_roomUsed == hotelAI.m_rooms && expenses >= income)
+                double rooms_percent = hotelAI.m_rooms * Settings.HotelMaintenancePercent.value;
+                if (data.m_roomUsed >= rooms_percent && expenses >= income)
                 {
                     int newMaintenanceCost = expenses - income;
 

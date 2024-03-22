@@ -102,8 +102,13 @@ namespace CombinedAIS
                 Settings.ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI.value = b;
             });
 
+            UIHelper HotelMaintenance = helper.AddGroup("HotelMaintenance") as UIHelper;
 
-            
+            HotelMaintenance.AddSlider("Set percent to apply Maintenance Patch", 0f, 1f, 0.25f, Settings.HotelMaintenancePercent.value, (b) =>
+            {
+                Settings.HotelMaintenancePercent.value = b;
+            });
+
         }
 
     }
