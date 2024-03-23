@@ -49,21 +49,21 @@ namespace CombinedAIS.HarmonyPatches
         }
 
         [HarmonyPatch(typeof(ResidentAI), "GetLocalizedStatus",
-            [typeof(ushort), typeof(CitizenInstance), typeof(InstanceID)],
+            [typeof(uint), typeof(Citizen), typeof(InstanceID)],
             [ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Out])]
         [HarmonyPostfix]
-        public static void GetLocalizedStatus(ushort instanceID, ref CitizenInstance data, ref InstanceID target, ref string __result)
+        public static void GetLocalizedStatus(uint citizenID, ref Citizen data, ref InstanceID target, ref string __result)
         {
-            ushort targetBuilding = data.m_targetBuilding;
-            BuildingInfo info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[targetBuilding].Info;
-            var res = Singleton<SimulationManager>.instance.m_randomizer.Int32(0, 1);
-            if (Settings.AllowVisitorsInBank == true && info.GetAI() is ExtendedBankOfficeAI)
+            Citizen.Location currentLocation = data.CurrentLocation;
+            ushort visitBuilding = data.m_visitBuilding;
+            BuildingInfo info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[visitBuilding].Info;
+            if (Settings.AllowVisitorsInBank == true && info != null && info.GetAI() is ExtendedBankOfficeAI && currentLocation == Citizen.Location.Visit)
             {
-                __result = "withdrawing cash";
+                __result = "withdrawing cash at";
             }
-            else if (Settings.AllowVisitorsInPostOffice == true && info.GetAI() is ExtendedPostOfficeAI)
+            else if (Settings.AllowVisitorsInPostOffice == true && info != null && info.GetAI() is ExtendedPostOfficeAI && currentLocation == Citizen.Location.Visit)
             {
-                __result = "sending a letter";
+                __result = "sending a letter at";
             }
         }
 
