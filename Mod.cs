@@ -109,6 +109,19 @@ namespace CombinedAIS
                 Settings.HotelMaintenancePercent.value = b;
             });
 
+
+            UIHelper AllowVisitors = helper.AddGroup("AllowVisitors") as UIHelper;
+
+            AllowVisitors.AddCheckbox("Allow people to visit post offices (requires a restart)", Settings.AllowVisitorsInPostOffice.value, (b) =>
+            {
+                Settings.AllowVisitorsInPostOffice.value = b;
+            });
+
+            AllowVisitors.AddCheckbox("Allow people to visit banks (requires a restart)", Settings.AllowVisitorsInBank.value, (b) =>
+            {
+                Settings.AllowVisitorsInBank.value = b;
+            });
+
         }
 
     }

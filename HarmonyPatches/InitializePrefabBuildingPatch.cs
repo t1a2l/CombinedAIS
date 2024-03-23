@@ -13,7 +13,6 @@ namespace CombinedAIS.HarmonyPatches
     {
         private static bool _initialized = false;
 
-        
         private static string[] SnowfallHotelNames = [
             "Igloo Hotel",
             "Spa Hotel"
@@ -675,6 +674,57 @@ namespace CombinedAIS.HarmonyPatches
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<InternationalTradeOfficeBuildingAI>();
                         PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
                         Object.DestroyImmediate(oldAI);
+                    }
+                }
+
+                if (__instance.m_class.m_service == ItemClass.Service.PublicTransport && __instance.m_class.m_subService == ItemClass.SubService.PublicTransportPost && oldAI is not ExtendedPostOfficeAI)
+                {
+                    if (Settings.AllowVisitorsInPostOffice == true)
+                    {
+                        var newAI = (PrefabAI)__instance.gameObject.AddComponent<ExtendedPostOfficeAI>();
+                        PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
+                        Object.DestroyImmediate(oldAI);
+                        if (newAI is ExtendedPostOfficeAI extendedPostOfficeAI)
+                        {
+                            if (__instance.name.Contains("Post Office 01"))
+                            {
+                                extendedPostOfficeAI.m_visitPlaceCount0 = 10;
+                                extendedPostOfficeAI.m_visitPlaceCount1 = 10;
+                                extendedPostOfficeAI.m_visitPlaceCount2 = 10;
+                            }
+                        }
+                    }
+                }
+
+                if (__instance.m_class.m_service == ItemClass.Service.PoliceDepartment && __instance.m_class.m_subService == ItemClass.SubService.PoliceDepartmentBank && oldAI is not ExtendedBankOfficeAI)
+                {
+                    if (Settings.AllowVisitorsInBank == true)
+                    {
+                        var newAI = (PrefabAI)__instance.gameObject.AddComponent<ExtendedBankOfficeAI>();
+                        PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
+                        Object.DestroyImmediate(oldAI);
+                        if (newAI is ExtendedBankOfficeAI extendedBankOfficeAI)
+                        {
+                            if (__instance.name.Contains("Bank 01"))
+                            {
+                                extendedBankOfficeAI.m_visitPlaceCount0 = 10;
+                                extendedBankOfficeAI.m_visitPlaceCount1 = 10;
+                                extendedBankOfficeAI.m_visitPlaceCount2 = 10;
+                            }
+                            else if (__instance.name.Contains("Bank 02"))
+                            {
+                                extendedBankOfficeAI.m_visitPlaceCount0 = 20;
+                                extendedBankOfficeAI.m_visitPlaceCount1 = 20;
+                                extendedBankOfficeAI.m_visitPlaceCount2 = 20;
+                            }
+                            else if (__instance.name.Contains("Bank 03"))
+                            {
+                                extendedBankOfficeAI.m_visitPlaceCount0 = 30;
+                                extendedBankOfficeAI.m_visitPlaceCount1 = 30;
+                                extendedBankOfficeAI.m_visitPlaceCount2 = 30;
+                            }
+
+                        }
                     }
                 }
 
