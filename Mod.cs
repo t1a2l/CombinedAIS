@@ -1,6 +1,7 @@
 ﻿using CitiesHarmony.API;
 using ICities;
 using CombinedAIS.Utils;
+using ColossalFramework.UI;
 
 namespace CombinedAIS
 {
@@ -102,12 +103,22 @@ namespace CombinedAIS
                 Settings.ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI.value = b;
             });
 
+
             UIHelper HotelMaintenance = helper.AddGroup("HotelMaintenance") as UIHelper;
 
-            HotelMaintenance.AddSlider("Set percent to apply Maintenance Patch", 0f, 1f, 0.25f, Settings.HotelMaintenancePercent.value, (b) =>
+            var HotelMaintenancePercentSlider = (UISlider)HotelMaintenance.AddSlider("Set Hotel Maintenance Percent", 0f, 1f, 0.25f, Settings.HotelMaintenancePercent.value, (b) =>
             {
                 Settings.HotelMaintenancePercent.value = b;
             });
+
+            HotelMaintenancePercentSlider.tooltip = "Set at what percent of occuiped rooms the new maintenance patch will be applied";
+
+            var HotelMaintenanceFactorSlider = (UISlider)HotelMaintenance.AddSlider("Scale Down Hotel Maintenance Factor", 0f, 1f, 0.1f, Settings.HotelMaintenanceFactor.value, (b) =>
+            {
+                Settings.HotelMaintenanceFactor.value = b;
+            });
+
+            HotelMaintenanceFactorSlider.tooltip = "Scale down the maintenance cost to fit within the budget using this factor";
 
 
             UIHelper AllowVisitors = helper.AddGroup("AllowVisitors") as UIHelper;

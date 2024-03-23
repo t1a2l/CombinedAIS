@@ -100,7 +100,7 @@ namespace CombinedAIS.HarmonyPatches
                     if (newMaintenanceCost > budget)
                     {
                         // Scale down the maintenance cost to fit within the budget
-                        newMaintenanceCost = (int)(budget * 0.8); // Adjust the scaling factor as needed
+                        newMaintenanceCost = (int)(budget * Settings.HotelMaintenanceFactor.value); // Adjust the scaling factor as needed
                     }
 
                     __result = -newMaintenanceCost;
