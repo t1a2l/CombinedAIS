@@ -5,6 +5,7 @@ using CombinedAIS.Utils;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using System.Linq;
+using System.Reflection;
 
 namespace CombinedAIS.HarmonyPatches
 {
@@ -72,6 +73,17 @@ namespace CombinedAIS.HarmonyPatches
                     Object.DestroyImmediate(oldAI);
                     var newAI = (PrefabAI)__instance.gameObject.AddComponent<AirportHotelAI>();
                     PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
+
+                    var uICategory = (string)typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(null);
+
+                    var hotelItemClass = ItemClassCollection.FindClass("Hotel");
+                    if (hotelItemClass != null)
+                    {
+                        __instance.m_class = hotelItemClass;
+                    }
+
+                    typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(__instance, uICategory);
+
                     if (newAI is AirportHotelAI airportHotelAI)
                     {
                         if (__instance.name.Contains("Airport Hotel 01"))
@@ -138,6 +150,16 @@ namespace CombinedAIS.HarmonyPatches
                         PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
 
                         __instance.m_placementMode = BuildingInfo.PlacementMode.PathsideOrGround;
+
+                        var uICategory = (string)typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(null);
+
+                        var hotelItemClass = ItemClassCollection.FindClass("Hotel");
+                        if (hotelItemClass != null)
+                        {
+                            __instance.m_class = hotelItemClass;
+                        }
+
+                        typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(__instance, uICategory);
                     }
 
                     if (oldAI is HotelAI hotel && Settings.HotelsDLCRealisticData.value == true)
@@ -203,6 +225,16 @@ namespace CombinedAIS.HarmonyPatches
 
                     __instance.m_placementMode = BuildingInfo.PlacementMode.PathsideOrGround;
 
+                    var uICategory = (string)typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(null);
+
+                    var hotel = ItemClassCollection.FindClass("Hotel");
+                    if (hotel != null)
+                    {
+                        __instance.m_class = hotel;
+                    }
+
+                    typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(__instance, uICategory);
+
                     if (newAI is ParkHotelAI parkHotelAI)
                     {
                         if (__instance.name.Contains("Hunting Cabin 01"))
@@ -239,6 +271,17 @@ namespace CombinedAIS.HarmonyPatches
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
                         PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
+
+                        var uICategory = (string)typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(null);
+
+                        var hotel = ItemClassCollection.FindClass("Hotel");
+                        if (hotel != null)
+                        {
+                            __instance.m_class = hotel;
+                        }
+
+                        typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(__instance, uICategory);
+
                         if (newAI is HotelAI hotelAI)
                         {
                             if (__instance.name.Contains("Igloo Hotel"))
@@ -273,6 +316,17 @@ namespace CombinedAIS.HarmonyPatches
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
                         PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
+
+                        var uICategory = (string)typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(null);
+
+                        var hotel = ItemClassCollection.FindClass("Hotel");
+                        if (hotel != null)
+                        {
+                            __instance.m_class = hotel;
+                        }
+
+                        typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(__instance, uICategory);
+
                         if (newAI is HotelAI hotelAI)
                         {
                             //----------------------------------- one star hotels --------------------------------------------
@@ -539,6 +593,16 @@ namespace CombinedAIS.HarmonyPatches
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
                         PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
 
+                        var uICategory = (string)typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(null);
+
+                        var hotel = ItemClassCollection.FindClass("Hotel");
+                        if (hotel != null)
+                        {
+                            __instance.m_class = hotel;
+                        }
+
+                        typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(__instance, uICategory);
+
                         if (newAI is HotelAI hotelAI)
                         {
                             if (__instance.name.Contains("PDX12_CityHotel"))
@@ -573,6 +637,16 @@ namespace CombinedAIS.HarmonyPatches
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
                         PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
+
+                        var uICategory = (string)typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(null);
+
+                        var hotel = ItemClassCollection.FindClass("Hotel");
+                        if (hotel != null)
+                        {
+                            __instance.m_class = hotel;
+                        }
+
+                        typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(__instance, uICategory);
 
                         if (newAI is HotelAI hotelAI)
                         {
@@ -609,6 +683,16 @@ namespace CombinedAIS.HarmonyPatches
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
                         PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
 
+                        var uICategory = (string)typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(null);
+
+                        var hotel = ItemClassCollection.FindClass("Hotel");
+                        if (hotel != null)
+                        {
+                            __instance.m_class = hotel;
+                        }
+
+                        typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(__instance, uICategory);
+
                         if (__instance.name.Contains("LuxuryHotel"))
                         {
                             if (newAI is HotelAI hotelAI)
@@ -636,6 +720,16 @@ namespace CombinedAIS.HarmonyPatches
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
                         PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
+
+                        var uICategory = (string)typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(null);
+
+                        var hotel = ItemClassCollection.FindClass("Hotel");
+                        if (hotel != null)
+                        {
+                            __instance.m_class = hotel;
+                        }
+
+                        typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(__instance, uICategory);
 
                         if (newAI is HotelAI hotelAI)
                         {
