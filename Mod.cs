@@ -1,8 +1,6 @@
 ﻿using CitiesHarmony.API;
 using ICities;
 using CombinedAIS.Utils;
-using ColossalFramework.UI;
-using System;
 
 namespace CombinedAIS
 {
@@ -22,8 +20,6 @@ namespace CombinedAIS
         /// Gets the mod's description.
         /// </summary>
         public string Description => "A utilility mod to create combined AI's for assets to be created like airport hotels (hotels dlc combined with airports dlc), ferry harbor park ai etc";
-
-        private static UISlider HotelMaintenancePercentSlider, HotelMaintenanceFactorSlider;
 
         public void OnEnabled()
         {
@@ -106,25 +102,6 @@ namespace CombinedAIS
                 Settings.ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI.value = b;
             });
 
-
-            UIHelper HotelMaintenance = helper.AddGroup("HotelMaintenance") as UIHelper;
-
-            HotelMaintenancePercentSlider = (UISlider)HotelMaintenance.AddSlider("Set Hotel Maintenance Percent", 0f, 1f, 0.25f, Settings.HotelMaintenancePercent.value, ChangeHotelMaintenancePercent);
-
-            HotelMaintenancePercentSlider.width = 400f;
-
-            var HotelMaintenancePercentPanel = (UIPanel)HotelMaintenancePercentSlider.parent;
-            HotelMaintenancePercentPanel.Find<UILabel>("Label").width = 400;
-            HotelMaintenancePercentPanel.Find<UILabel>("Label").tooltip = "Set at what percent of occuiped rooms the new maintenance patch will be applied";
-
-            HotelMaintenanceFactorSlider = (UISlider)HotelMaintenance.AddSlider("Scale Down Hotel Maintenance Factor", 0f, 1f, 0.1f, Settings.HotelMaintenanceFactor.value, ChangeHotelMaintenanceFactor);
-
-            HotelMaintenanceFactorSlider.width = 400f;
-            HotelMaintenanceFactorSlider.tooltip = Settings.HotelMaintenanceFactor.value.ToString() + "f";
-            var HotelMaintenanceFactorPanel = (UIPanel)HotelMaintenanceFactorSlider.parent;
-            HotelMaintenanceFactorPanel.Find<UILabel>("Label").width = 400;
-            HotelMaintenanceFactorPanel.Find<UILabel>("Label").tooltip = "Scale down the maintenance cost to fit within the budget using this factor";
-
             UIHelper AllowVisitors = helper.AddGroup("AllowVisitors") as UIHelper;
 
             AllowVisitors.AddCheckbox("Allow people to visit post offices (requires a restart)", Settings.AllowVisitorsInPostOffice.value, (b) =>
@@ -137,20 +114,6 @@ namespace CombinedAIS
                 Settings.AllowVisitorsInBank.value = b;
             });
 
-        }
-
-        private static void ChangeHotelMaintenancePercent(float b)
-        {
-            Settings.HotelMaintenanceFactor.value = b;
-            HotelMaintenancePercentSlider.tooltip = b.ToString() + "f";
-            HotelMaintenancePercentSlider.RefreshTooltip();
-        }
-
-        private static void ChangeHotelMaintenanceFactor(float b)
-        {
-            Settings.HotelMaintenanceFactor.value = b;
-            HotelMaintenanceFactorSlider.tooltip = b.ToString() + "f";
-            HotelMaintenanceFactorSlider.RefreshTooltip();
         }
 
     }

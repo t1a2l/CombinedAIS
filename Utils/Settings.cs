@@ -24,9 +24,6 @@ namespace CombinedAIS
 
         public static SavedBool ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI = new("ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI", settingsFileName, false, true);
 
-        public static SavedFloat HotelMaintenancePercent = new("HotelMaintenancePercent", settingsFileName, 0.75f, true);
-        public static SavedFloat HotelMaintenanceFactor = new("HotelMaintenanceFactor", settingsFileName, 0.8f, true);
-
         public static SavedBool AllowVisitorsInPostOffice = new("AllowVisitorsInPostOffice", settingsFileName, false, true);
         public static SavedBool AllowVisitorsInBank = new("AllowVisitorsInBank", settingsFileName, false, true);
 

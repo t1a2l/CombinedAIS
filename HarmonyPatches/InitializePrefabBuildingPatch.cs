@@ -138,6 +138,7 @@ namespace CombinedAIS.HarmonyPatches
                             airportHotelAI.m_natureAttractiveness = 0;
                             airportHotelAI.m_businessAttractiveness = 45;
                         }
+                        airportHotelAI.m_maintenanceCost = CalculateMaintenanceUnits(airportHotelAI.m_rooms, airportHotelAI.m_minRoomCost);
                     }
                 }
 
@@ -150,6 +151,8 @@ namespace CombinedAIS.HarmonyPatches
                         PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
 
                         __instance.m_placementMode = BuildingInfo.PlacementMode.PathsideOrGround;
+                        ParkHotelAI parkHotelAI = newAI as ParkHotelAI;
+                        parkHotelAI.m_maintenanceCost = CalculateMaintenanceUnits(parkHotelAI.m_rooms, parkHotelAI.m_minRoomCost);
                     }
 
                     if (oldAI is HotelAI hotel && Settings.HotelsDLCRealisticData.value == true)
@@ -203,6 +206,7 @@ namespace CombinedAIS.HarmonyPatches
                             hotel.m_natureAttractiveness = 10;
                             hotel.m_businessAttractiveness = 45;
                         }
+                        hotel.m_maintenanceCost = CalculateMaintenanceUnits(hotel.m_rooms, hotel.m_minRoomCost);
                     }
                 }
 
@@ -251,6 +255,7 @@ namespace CombinedAIS.HarmonyPatches
                             parkHotelAI.m_natureAttractiveness = 75;
                             parkHotelAI.m_businessAttractiveness = 0;
                         }
+                        parkHotelAI.m_maintenanceCost = CalculateMaintenanceUnits(parkHotelAI.m_rooms, parkHotelAI.m_minRoomCost);
                     }
                 }
 
@@ -298,6 +303,7 @@ namespace CombinedAIS.HarmonyPatches
                                 hotelAI.m_natureAttractiveness = 10;
                                 hotelAI.m_businessAttractiveness = 0;
                             }
+                            hotelAI.m_maintenanceCost = CalculateMaintenanceUnits(hotelAI.m_rooms, hotelAI.m_minRoomCost);
                         }
                     }
 
@@ -574,6 +580,7 @@ namespace CombinedAIS.HarmonyPatches
                                 hotelAI.m_natureAttractiveness = 60;
                                 hotelAI.m_businessAttractiveness = 0;
                             }
+                            hotelAI.m_maintenanceCost = CalculateMaintenanceUnits(hotelAI.m_rooms, hotelAI.m_minRoomCost);
                         }
                     }
 
@@ -619,6 +626,7 @@ namespace CombinedAIS.HarmonyPatches
                                 hotelAI.m_natureAttractiveness = 10;
                                 hotelAI.m_businessAttractiveness = 0;
                             }
+                            hotelAI.m_maintenanceCost = CalculateMaintenanceUnits(hotelAI.m_rooms, hotelAI.m_minRoomCost);
                         }
                     }
 
@@ -664,6 +672,7 @@ namespace CombinedAIS.HarmonyPatches
                                 hotelAI.m_natureAttractiveness = 0;
                                 hotelAI.m_businessAttractiveness = 35;
                             }
+                            hotelAI.m_maintenanceCost = CalculateMaintenanceUnits(hotelAI.m_rooms, hotelAI.m_minRoomCost);
                         }
                     }
 
@@ -698,6 +707,7 @@ namespace CombinedAIS.HarmonyPatches
                                 hotelAI.m_businessAttractiveness = 45;
                                 hotelAI.m_supportEvents = EventManager.EventType.HotelAdvertisement;
                                 hotelAI.m_supportGroups = (EventManager.EventGroup)56;
+                                hotelAI.m_maintenanceCost = CalculateMaintenanceUnits(hotelAI.m_rooms, hotelAI.m_minRoomCost);
                             }
                         } 
                     }
@@ -747,6 +757,7 @@ namespace CombinedAIS.HarmonyPatches
                                 hotelAI.m_natureAttractiveness = 15;
                                 hotelAI.m_businessAttractiveness = 25;
                             }
+                            hotelAI.m_maintenanceCost = CalculateMaintenanceUnits(hotelAI.m_rooms, hotelAI.m_minRoomCost);
                         }
                     }
                 }
@@ -871,5 +882,14 @@ namespace CombinedAIS.HarmonyPatches
                 _initialized = true;
             }
         }
+
+        private static int CalculateMaintenanceUnits(int numRooms, int minRoomPrice)
+        {
+            int totalRoomPrice = numRooms * minRoomPrice;
+            int maintenanceUnits = (int)Math.Round(totalRoomPrice / 16.0 * 100, MidpointRounding.AwayFromZero);
+            maintenanceUnits -= (int)Math.Round((double)totalRoomPrice, MidpointRounding.AwayFromZero);
+            return maintenanceUnits;
+        }
+
     }
 }
