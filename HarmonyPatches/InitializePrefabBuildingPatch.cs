@@ -883,7 +883,7 @@ namespace CombinedAIS.HarmonyPatches
             }
         }
 
-        private static int CalculateMaintenanceUnits(int numRooms, int minRoomPrice)
+        public static int CalculateMaintenanceUnits(int numRooms, int minRoomPrice)
         {
             int totalRoomPrice = numRooms * minRoomPrice;
             int maintenanceUnits = (int)Math.Round(totalRoomPrice / 16.0 * 100, MidpointRounding.AwayFromZero);

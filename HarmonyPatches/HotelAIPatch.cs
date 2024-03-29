@@ -17,10 +17,12 @@ namespace CombinedAIS.HarmonyPatches
                 if ((data.m_flags2 & Building.Flags2.SubmeshVariation1) != 0 || (data.m_flags2 & Building.Flags2.SubmeshVariation3) != 0)
                 {
                     hotelAI.m_rooms = 60;
+                    hotelAI.m_maintenanceCost = InitializePrefabBuildingPatch.CalculateMaintenanceUnits(hotelAI.m_rooms, hotelAI.m_minRoomCost);
                 }
                 else if ((data.m_flags2 & Building.Flags2.SubmeshVariation2) != 0 || (data.m_flags2 & Building.Flags2.SubmeshVariation4) != 0)
                 {
                     hotelAI.m_rooms = 108;
+                    hotelAI.m_maintenanceCost = InitializePrefabBuildingPatch.CalculateMaintenanceUnits(hotelAI.m_rooms, hotelAI.m_minRoomCost);
                 }
             }
         }
@@ -34,10 +36,12 @@ namespace CombinedAIS.HarmonyPatches
                 if ((data.m_flags2 & Building.Flags2.SubmeshVariation1) != 0 || (data.m_flags2 & Building.Flags2.SubmeshVariation3) != 0)
                 {
                     hotelAI.m_rooms = 60;
+                    hotelAI.m_maintenanceCost = InitializePrefabBuildingPatch.CalculateMaintenanceUnits(hotelAI.m_rooms, hotelAI.m_minRoomCost);
                 }
                 else if ((data.m_flags2 & Building.Flags2.SubmeshVariation2) != 0 || (data.m_flags2 & Building.Flags2.SubmeshVariation4) != 0)
                 {
                     hotelAI.m_rooms = 108;
+                    hotelAI.m_maintenanceCost = InitializePrefabBuildingPatch.CalculateMaintenanceUnits(hotelAI.m_rooms, hotelAI.m_minRoomCost);
                 }
             }
         }
