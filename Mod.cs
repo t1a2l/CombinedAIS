@@ -97,7 +97,7 @@ namespace CombinedAIS
 
             UIHelper Finance = helper.AddGroup("Finance") as UIHelper;
 
-            Finance.AddCheckbox("Convert Finance DLC International Trade Building to a Combined Trade and Office", Settings.ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI.value, (b) =>
+            Finance.AddCheckbox("Convert Finance DLC Intl Trade Building to a Combined Trade and Office", Settings.ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI.value, (b) =>
             {
                 Settings.ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI.value = b;
             });
