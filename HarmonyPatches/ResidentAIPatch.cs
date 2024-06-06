@@ -32,18 +32,33 @@ namespace CombinedAIS.HarmonyPatches
             {
                 return;
             }
-            if(Settings.AllowVisitorsInBank == true && reason == TransferManager.TransferReason.Cash)
+            var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building];
+            if (Settings.AllowVisitorsInBank == true && reason == TransferManager.TransferReason.Cash)
             {
-                if (__instance.StartMoving(citizenID, ref data, 0, offer))
+                if(building.GetNotFullCitizenUnit(CitizenUnit.Flags.Visit) != 0)
                 {
-                    data.SetVisitplace(citizenID, offer.Building, 0u);
+                    if (__instance.StartMoving(citizenID, ref data, 0, offer))
+                    {
+                        data.SetVisitplace(citizenID, offer.Building, 0u);
+                    }
                 }
+                else
+                {
+                    UpdateCash(citizenID, ref data);
+                }                
             }
             else if (Settings.AllowVisitorsInPostOffice == true && reason == TransferManager.TransferReason.Mail)
             {
-                if (__instance.StartMoving(citizenID, ref data, 0, offer))
+                if (building.GetNotFullCitizenUnit(CitizenUnit.Flags.Visit) != 0)
                 {
-                    data.SetVisitplace(citizenID, offer.Building, 0u);
+                    if (__instance.StartMoving(citizenID, ref data, 0, offer))
+                    {
+                        data.SetVisitplace(citizenID, offer.Building, 0u);
+                    }
+                }
+                else
+                {
+                    UpdateMail(citizenID, ref data);
                 }
             }
         }
