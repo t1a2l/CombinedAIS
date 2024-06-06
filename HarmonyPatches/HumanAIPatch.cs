@@ -20,7 +20,8 @@ namespace CombinedAIS.HarmonyPatches
                     var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizenData.m_targetBuilding];
                     if (building.Info.GetAI() is ExtendedBankOfficeAI || building.Info.GetAI() is ExtendedPostOfficeAI)
                     {
-                        if (instance.m_citizens.m_buffer[citizen].m_visitBuilding == 0)
+                        // no visit place and not going to work
+                        if (instance.m_citizens.m_buffer[citizen].m_visitBuilding == 0 && instance.m_citizens.m_buffer[citizen].m_workBuilding != citizenData.m_targetBuilding)
                         {
                             instance.m_citizens.m_buffer[citizen].SetVehicle(citizen, 0, 0u);
                             __instance.SetTarget(instanceID, ref citizenData, instance.m_citizens.m_buffer[citizen].m_homeBuilding, false);
