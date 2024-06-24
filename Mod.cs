@@ -114,6 +114,13 @@ namespace CombinedAIS
                 Settings.AllowVisitorsInBank.value = b;
             });
 
+            UIHelper UniversityHospital = helper.AddGroup("UniversityHospital") as UIHelper;
+
+            UniversityHospital.AddCheckbox("Convert Workshop University Hospitals To a combined medical faculty and hospital", Settings.ConvertWorkshopUniversityHospitalsToUniversityHospitalAI.value, (b) =>
+            {
+                Settings.ConvertWorkshopUniversityHospitalsToUniversityHospitalAI.value = b;
+            });
+
         }
 
     }

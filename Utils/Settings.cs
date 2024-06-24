@@ -27,6 +27,8 @@ namespace CombinedAIS
         public static SavedBool AllowVisitorsInPostOffice = new("AllowVisitorsInPostOffice", settingsFileName, false, true);
         public static SavedBool AllowVisitorsInBank = new("AllowVisitorsInBank", settingsFileName, false, true);
 
+        public static SavedBool ConvertWorkshopUniversityHospitalsToUniversityHospitalAI = new("ConvertWorkshopUniversityHospitalsToUniversityHospitalAI", settingsFileName, false, true);
+
         public static void Init()
         {
             try
