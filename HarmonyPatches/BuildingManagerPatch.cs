@@ -5,7 +5,7 @@ using HarmonyLib;
 namespace CombinedAIS.HarmonyPatches
 {
     [HarmonyPatch(typeof(BuildingManager))]
-    internal static class BuildingManagerPatch
+    public static class BuildingManagerPatch
     {
         [HarmonyPatch(typeof(BuildingManager), "AddServiceBuilding")]
         [HarmonyPrefix]

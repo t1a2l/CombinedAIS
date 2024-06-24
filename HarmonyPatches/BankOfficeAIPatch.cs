@@ -5,7 +5,7 @@ using System.Reflection;
 namespace CombinedAIS.HarmonyPatches
 {
     [HarmonyPatch(typeof(BankOfficeAI))]
-    internal class BankOfficeAIPatch
+    public static class BankOfficeAIPatch
     {
         private delegate void PlayerBuildingAICreateBuildingDelegate(PlayerBuildingAI __instance, ushort buildingID, ref Building data);
         private static PlayerBuildingAICreateBuildingDelegate BaseCreateBuilding = AccessTools.MethodDelegate<PlayerBuildingAICreateBuildingDelegate>(typeof(PlayerBuildingAI).GetMethod("CreateBuilding", BindingFlags.Instance | BindingFlags.Public), null, false);

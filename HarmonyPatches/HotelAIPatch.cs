@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CombinedAIS.HarmonyPatches
 {
     [HarmonyPatch]
-    internal class HotelAIPatch
+    public static class HotelAIPatch
     {
         [HarmonyPatch(typeof(HotelAI), "CreateBuilding")]
         [HarmonyPostfix]

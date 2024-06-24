@@ -7,7 +7,7 @@ using HarmonyLib;
 namespace CombinedAIS.HarmonyPatches
 {
     [HarmonyPatch(typeof(ZonedBuildingWorldInfoPanel))]
-    internal class ZonedBuildingWorldInfoPanelPatch
+    public static class ZonedBuildingWorldInfoPanelPatch
     {
         [HarmonyPatch(typeof(ZonedBuildingWorldInfoPanel), "OnSetTarget")]
         [HarmonyPostfix]

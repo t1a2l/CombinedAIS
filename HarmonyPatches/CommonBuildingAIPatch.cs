@@ -5,7 +5,7 @@ using HarmonyLib;
 namespace CombinedAIS.HarmonyPatches
 {
     [HarmonyPatch(typeof(CommonBuildingAI))]
-    internal class CommonBuildingAIPatch
+    public static class CommonBuildingAIPatch
     {
         [HarmonyPatch(typeof(CommonBuildingAI), "ReplaceVariation")]
         [HarmonyPostfix]

@@ -6,7 +6,7 @@ using CombinedAIS.AI;
 namespace CombinedAIS.HarmonyPatches
 {
     [HarmonyPatch(typeof(ResidentAI))]
-    internal class ResidentAIPatch
+    public static class ResidentAIPatch
     {
         [HarmonyPatch(typeof(ResidentAI), "SimulationStep",
             [typeof(uint), typeof(Citizen)],

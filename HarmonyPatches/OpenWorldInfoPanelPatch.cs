@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CombinedAIS.HarmonyPatches
 {
     [HarmonyPatch(typeof(DefaultTool), "OpenWorldInfoPanel")]
-    internal class OpenWorldInfoPanelPatch
+    public static class OpenWorldInfoPanelPatch
     {
         public static bool Prefix(InstanceID id, Vector3 position)
         {

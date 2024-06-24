@@ -4,7 +4,7 @@ using HarmonyLib;
 namespace CombinedAIS.HarmonyPatches
 {
     [HarmonyPatch(typeof(OfficeBuildingAI))]
-    internal class OfficeBuildingAIPatch
+    public static class OfficeBuildingAIPatch
     {
         [HarmonyPatch(typeof(OfficeBuildingAI), "GetConsumptionRates")]
         [HarmonyPostfix]

@@ -5,7 +5,7 @@ using HarmonyLib;
 namespace CombinedAIS.HarmonyPatches
 {
     [HarmonyPatch(typeof(HumanAI))]
-    internal class HumanAIPatch
+    public static class HumanAIPatch
     {
         [HarmonyPatch(typeof(HumanAI), "ArriveAtDestination")]
         [HarmonyPrefix]
