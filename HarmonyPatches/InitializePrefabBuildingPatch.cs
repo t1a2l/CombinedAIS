@@ -62,11 +62,6 @@ namespace CombinedAIS.HarmonyPatches
             "LuxuryHotel"
         ];
 
-        private static string[] UniversityHospitalNames = [
-            "University Hospital",
-            "University -- Hosptial"
-        ];
-
         public static void Prefix(BuildingInfo __instance)
         {
             try
@@ -828,7 +823,7 @@ namespace CombinedAIS.HarmonyPatches
                     }
                 }
 
-                if (__instance.m_class.m_service == ItemClass.Service.HealthCare && UniversityHospitalNames.Any(s => __instance.name.Equals(s)) && oldAI is not UniversityHospitalAI)
+                if (__instance.m_class.m_service == ItemClass.Service.HealthCare && __instance.name.Contains("University") && __instance.name.Contains("Hospital") && oldAI is not UniversityHospitalAI)
                 {
                     if (Settings.ConvertWorkshopUniversityHospitalsToUniversityHospitalAI == true)
                     {
@@ -852,7 +847,7 @@ namespace CombinedAIS.HarmonyPatches
 
             BuildingInfo Luxury_Hotel = PrefabCollection<BuildingInfo>.FindLoaded("Luxury Hotel");
 
-            BuildingInfo School_of_Medicine = PrefabCollection<BuildingInfo>.FindLoaded("School of Medicine");
+            BuildingInfo School_of_Medicine = PrefabCollection<BuildingInfo>.FindLoaded("School of Medicine 01");
 
             if (__instance != null && __instance.GetAI() is InternationalTradeOfficeBuildingAI && OfficeHigh014x4Level3 != null)
             {

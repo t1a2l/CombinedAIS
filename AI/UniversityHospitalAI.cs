@@ -461,5 +461,10 @@ namespace CombinedAIS.AI
         {
             return true;
         }
+
+        public override bool CanBeBuiltOnlyOnce()
+        {
+            return false;
+        }
     }
 }
