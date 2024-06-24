@@ -49,7 +49,7 @@ namespace CombinedAIS.HarmonyPatches
 
         [HarmonyPatch(typeof(HotelAI), "GetBaseColor")]
         [HarmonyPrefix]
-        protected static bool GetBaseColor(HotelAI __instance, ushort buildingID, ref Building data, ref Color __result)
+        public static bool GetBaseColor(HotelAI __instance, ushort buildingID, ref Building data, ref Color __result)
         {
             if(data.Info.m_class.m_service == ItemClass.Service.Monument || data.Info.m_class.m_service == ItemClass.Service.Beautification)
             {
