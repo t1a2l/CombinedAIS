@@ -62,6 +62,11 @@ namespace CombinedAIS.HarmonyPatches
             "LuxuryHotel"
         ];
 
+        private static string[] UniversityHospitalNames = [
+            "University Hospital",
+            "University -- Hosptial"
+        ];
+
         public static void Prefix(BuildingInfo __instance)
         {
             try
@@ -823,6 +828,16 @@ namespace CombinedAIS.HarmonyPatches
                     }
                 }
 
+                if (__instance.m_class.m_service == ItemClass.Service.HealthCare && UniversityHospitalNames.Any(s => __instance.name.Equals(s)) && oldAI is not UniversityHospitalAI)
+                {
+                    if (Settings.ConvertWorkshopUniversityHospitalsToUniversityHospitalAI == true)
+                    {
+                        var newAI = (PrefabAI)__instance.gameObject.AddComponent<UniversityHospitalAI>();
+                        PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
+                        Object.DestroyImmediate(oldAI);
+                    }
+                }
+
             }
             catch (Exception e)
             {
@@ -837,12 +852,19 @@ namespace CombinedAIS.HarmonyPatches
 
             BuildingInfo Luxury_Hotel = PrefabCollection<BuildingInfo>.FindLoaded("Luxury Hotel");
 
+            BuildingInfo School_of_Medicine = PrefabCollection<BuildingInfo>.FindLoaded("School of Medicine");
+
             if (__instance != null && __instance.GetAI() is InternationalTradeOfficeBuildingAI && OfficeHigh014x4Level3 != null)
             {
                 __instance.m_class = OfficeHigh014x4Level3.m_class;
             }
 
-            if(Luxury_Hotel != null && !_initialized)
+            if (__instance != null && __instance.GetAI() is UniversityHospitalAI && School_of_Medicine != null)
+            {
+                PrefabUtil.TryCopyAttributes(School_of_Medicine.m_buildingAI, __instance.m_buildingAI, false);
+            }
+
+            if (Luxury_Hotel != null && !_initialized)
             {
                 uint index = 0U;
                 for (; PrefabCollection<BuildingInfo>.LoadedCount() > index; ++index)

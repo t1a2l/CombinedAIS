@@ -116,7 +116,7 @@ namespace CombinedAIS
 
             UIHelper UniversityHospital = helper.AddGroup("UniversityHospital") as UIHelper;
 
-            UniversityHospital.AddCheckbox("Convert Workshop University Hospitals To a combined medical faculty and hospital", Settings.ConvertWorkshopUniversityHospitalsToUniversityHospitalAI.value, (b) =>
+            UniversityHospital.AddCheckbox("Convert workshop university hospitals To a combined medical faculty and hospital", Settings.ConvertWorkshopUniversityHospitalsToUniversityHospitalAI.value, (b) =>
             {
                 Settings.ConvertWorkshopUniversityHospitalsToUniversityHospitalAI.value = b;
             });
