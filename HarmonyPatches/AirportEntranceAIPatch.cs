@@ -16,9 +16,10 @@ namespace CombinedAIS.HarmonyPatches
             if (num != 0 && Singleton<LoadingManager>.instance.SupportsExpansion(Expansion.Hotels))
             {
                 var sum_size = SumSubBuildingsSize(buildingID, ref buildingData);
-                float radius = Singleton<ImmaterialResourceManager>.instance.m_properties.m_hotel.m_officeBuilding.m_radius + (sum_size + buildingData.m_width + buildingData.m_length) * 0.25f;
+                float radius = Singleton<ImmaterialResourceManager>.instance.m_properties.m_hotel.m_officeBuilding.m_radius + (sum_size + buildingData.m_width + buildingData.m_length) * 5f;
                 int rate = Singleton<ImmaterialResourceManager>.instance.m_properties.m_hotel.m_officeBuilding.m_attraction * buildingData.m_width * buildingData.m_length;
                 Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.Business, rate, buildingData.m_position, radius);
+                Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.Shopping, rate, buildingData.m_position, radius);
             }
         }
 
