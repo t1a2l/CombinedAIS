@@ -20,6 +20,7 @@ namespace CombinedAIS.HarmonyPatches
                 int rate = Singleton<ImmaterialResourceManager>.instance.m_properties.m_hotel.m_officeBuilding.m_attraction * buildingData.m_width * buildingData.m_length;
                 Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.Business, rate, buildingData.m_position, radius);
                 Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.Shopping, rate, buildingData.m_position, radius);
+                Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.Sightseeing, rate, buildingData.m_position, radius);
             }
         }
 
