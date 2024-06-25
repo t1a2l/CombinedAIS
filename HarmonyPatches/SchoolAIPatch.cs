@@ -19,13 +19,13 @@ namespace CombinedAIS.HarmonyPatches
         private static PlayerBuildingAIEndRelocatingDelegate BaseEndRelocating = AccessTools.MethodDelegate<PlayerBuildingAIEndRelocatingDelegate>(typeof(PlayerBuildingAI).GetMethod("EndRelocating", BindingFlags.Instance | BindingFlags.Public), null, false);
 
         private delegate void PlayerBuildingAIProduceGoodsDelegate(PlayerBuildingAI __instance, ushort buildingID, ref Building buildingData, ref Building.Frame frameData, int productionRate, int finalProductionRate, ref Citizen.BehaviourData behaviour, int aliveWorkerCount, int totalWorkerCount, int workPlaceCount, int aliveVisitorCount, int totalVisitorCount, int visitPlaceCount);
-        private static PlayerBuildingAIProduceGoodsDelegate BaseProduceGoods = AccessTools.MethodDelegate<PlayerBuildingAIProduceGoodsDelegate>(typeof(PlayerBuildingAI).GetMethod("ProduceGoods", BindingFlags.Instance | BindingFlags.NonPublic), null, true);
+        private static PlayerBuildingAIProduceGoodsDelegate BaseProduceGoods = AccessTools.MethodDelegate<PlayerBuildingAIProduceGoodsDelegate>(typeof(PlayerBuildingAI).GetMethod("ProduceGoods", BindingFlags.Instance | BindingFlags.NonPublic), null, false);
 
         private delegate void CommonBuildingAIGetStudentBehaviourDelegate(CommonBuildingAI __instance, ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount);
         private static CommonBuildingAIGetStudentBehaviourDelegate GetStudentBehaviour = AccessTools.MethodDelegate<CommonBuildingAIGetStudentBehaviourDelegate>(typeof(CommonBuildingAI).GetMethod("GetStudentBehaviour", BindingFlags.Instance | BindingFlags.NonPublic), null, false);
 
         private delegate void CommonBuildingAIHandleDeadDelegate(CommonBuildingAI __instance, ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, int citizenCount);
-        private static CommonBuildingAIHandleDeadDelegate HandleDead = AccessTools.MethodDelegate<CommonBuildingAIHandleDeadDelegate>(typeof(CommonBuildingAI).GetMethod("HandleDead", BindingFlags.Instance | BindingFlags.NonPublic), null, true);
+        private static CommonBuildingAIHandleDeadDelegate HandleDead = AccessTools.MethodDelegate<CommonBuildingAIHandleDeadDelegate>(typeof(CommonBuildingAI).GetMethod("HandleDead", BindingFlags.Instance | BindingFlags.NonPublic), null, false);
 
 
         [HarmonyPatch(typeof(SchoolAI), "CreateBuilding")]
@@ -95,7 +95,7 @@ namespace CombinedAIS.HarmonyPatches
                 {
                     Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.EducationHighSchool, num, buildingData.m_position, __instance.m_educationRadius);
                 }
-                else
+                else if (__instance.m_info.m_class.m_level == ItemClass.Level.Level1 && __instance.m_info.GetAI() is not UniversityHospitalAI)
                 {
                     Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.EducationElementary, num, buildingData.m_position, __instance.m_educationRadius);
                 }
@@ -150,7 +150,7 @@ namespace CombinedAIS.HarmonyPatches
                 {
                     Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Student2, offer);
                 }
-                else
+                else if(__instance.m_info.m_class.m_level == ItemClass.Level.Level1 && __instance.m_info.GetAI() is not UniversityHospitalAI)
                 {
                     Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Student1, offer);
                 }
@@ -178,7 +178,7 @@ namespace CombinedAIS.HarmonyPatches
         [HarmonyPrefix]
         public static bool GetEducationLevel3(SchoolAI __instance, ref bool __result)
         {
-            if ((__instance.m_info.m_class.m_level == ItemClass.Level.Level3 && __instance.m_info.m_class.m_service == ItemClass.Service.Education) || __instance.m_info.GetAI() is UniversityHospitalAI)
+            if (__instance.m_info.m_class.m_level == ItemClass.Level.Level3 || __instance.m_info.GetAI() is UniversityHospitalAI)
             {
                 __result = true;
             }
