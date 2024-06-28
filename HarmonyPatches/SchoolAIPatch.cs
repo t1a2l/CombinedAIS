@@ -105,13 +105,13 @@ namespace CombinedAIS.HarmonyPatches
                 return false;
             }
             buildingData.m_customBuffer1 = (ushort)aliveCount;
-            if (__instance.m_info.m_class.m_level == ItemClass.Level.Level3 && (servicePolicies & DistrictPolicies.Services.SchoolsOut) != 0)
+            if ((__instance.m_info.m_class.m_level == ItemClass.Level.Level3 || __instance.m_info.GetAI() is UniversityHospitalAI) && (servicePolicies & DistrictPolicies.Services.SchoolsOut) != 0)
             {
                 instance.m_districts.m_buffer[district].m_servicePoliciesEffect |= DistrictPolicies.Services.SchoolsOut;
             }
             int num2 = Mathf.Min((finalProductionRate * __instance.StudentCount + 99) / 100, __instance.StudentCount * 5 / 4);
             int num3 = num2 - totalCount;
-            if (__instance.m_info.m_class.m_level == ItemClass.Level.Level1)
+            if (__instance.m_info.m_class.m_level == ItemClass.Level.Level1 && __instance.m_info.GetAI() is not UniversityHospitalAI)
             {
                 instance.m_districts.m_buffer[district].m_productionData.m_tempEducation1Capacity += (uint)num2;
                 instance.m_districts.m_buffer[district].m_student1Data.m_tempCount += (uint)aliveCount;
@@ -121,7 +121,7 @@ namespace CombinedAIS.HarmonyPatches
                 instance.m_districts.m_buffer[district].m_productionData.m_tempEducation2Capacity += (uint)num2;
                 instance.m_districts.m_buffer[district].m_student2Data.m_tempCount += (uint)aliveCount;
             }
-            else
+            else if (__instance.m_info.m_class.m_level == ItemClass.Level.Level3 || __instance.m_info.GetAI() is UniversityHospitalAI)
             {
                 instance.m_districts.m_buffer[district].m_productionData.m_tempEducation3Capacity += (uint)num2;
                 instance.m_districts.m_buffer[district].m_student3Data.m_tempCount += (uint)aliveCount;
