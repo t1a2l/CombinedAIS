@@ -1,5 +1,6 @@
 ﻿using ColossalFramework;
 using CombinedAIS.AI;
+using Epic.OnlineServices.Presence;
 using HarmonyLib;
 using System.Reflection;
 using UnityEngine;
