@@ -189,5 +189,63 @@ namespace CombinedAIS.HarmonyPatches
             }
             return false;
         }
+
+        [HarmonyPatch(typeof(SchoolAI), "GetStudentCount")]
+        [HarmonyPrefix]
+        public static bool GetStudentCount(SchoolAI __instance, ushort buildingID, ref Building data, ref int count, ref int capacity, ref int global)
+        {
+            if(data.Info.GetAI() is CampusBuildingAI || data.Info.GetAI() is UniqueFacultyAI || data.Info.GetAI() is UniversityHospitalAI)
+            {
+                int budget = Singleton<EconomyManager>.instance.GetBudget(__instance.m_info.m_class);
+                int productionRate = PlayerBuildingAI.GetProductionRate(100, budget);
+                count = data.m_customBuffer1;
+                capacity = Mathf.Min((productionRate * __instance.StudentCount + 99) / 100, __instance.StudentCount * 5 / 4);
+                global = 0;
+                BuildingManager instance = Singleton<BuildingManager>.instance;
+                FastList<ushort> serviceBuildings2 = instance.GetServiceBuildings(ItemClass.Service.HealthCare);
+                int size = serviceBuildings2.m_size;
+                ushort[] buffer = serviceBuildings2.m_buffer;
+                if (buffer != null && size <= buffer.Length)
+                {
+                    for (int i = 0; i < size; i++)
+                    {
+                        ushort num = buffer[i];
+                        if (num != 0)
+                        {
+                            BuildingInfo info = instance.m_buildings.m_buffer[num].Info;
+                            if (info.GetAI() is UniversityHospitalAI)
+                            {
+                                global += instance.m_buildings.m_buffer[num].m_customBuffer1;
+                            }
+                        }
+                    }
+                }
+                if (__instance.m_info.m_class.m_level != ItemClass.Level.Level3 && data.Info.GetAI() is not UniversityHospitalAI)
+                {
+                    return false;
+                }
+                FastList<ushort> serviceBuildings3 = instance.GetServiceBuildings(ItemClass.Service.PlayerEducation);
+                size = serviceBuildings3.m_size;
+                buffer = serviceBuildings3.m_buffer;
+                if (buffer == null || size > buffer.Length)
+                {
+                    return false;
+                }
+                for (int j = 0; j < size; j++)
+                {
+                    ushort num2 = buffer[j];
+                    if (num2 != 0)
+                    {
+                        BuildingInfo info2 = instance.m_buildings.m_buffer[num2].Info;
+                        if (info2.m_class.m_service == ItemClass.Service.PlayerEducation && info2.m_class.m_level == ItemClass.Level.Level3)
+                        {
+                            global += instance.m_buildings.m_buffer[num2].m_customBuffer1;
+                        }
+                    }
+                }
+                return false;
+            }
+            return true;
+        }
     }
 }
