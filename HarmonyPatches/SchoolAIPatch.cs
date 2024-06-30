@@ -66,9 +66,14 @@ namespace CombinedAIS.HarmonyPatches
         }
 
         [HarmonyPatch(typeof(SchoolAI), "ProduceGoods")]
+        [HarmonyPriority(Priority.First)]
         [HarmonyPrefix]
         public static bool ProduceGoods(SchoolAI __instance, ushort buildingID, ref Building buildingData, ref Building.Frame frameData, int productionRate, int finalProductionRate, ref Citizen.BehaviourData behaviour, int aliveWorkerCount, int totalWorkerCount, int workPlaceCount, int aliveVisitorCount, int totalVisitorCount, int visitPlaceCount)
         {
+            if (Mod.IsRealTimeEnabled && buildingData.Info.GetAI() is CampusBuildingAI && (buildingData.Info.name.Contains("Cafeteria") || buildingData.Info.name.Contains("Gymnasium")))
+            {
+                return true;
+            }
             BaseProduceGoods(__instance, buildingID, ref buildingData, ref frameData, productionRate, finalProductionRate, ref behaviour, aliveWorkerCount, totalWorkerCount, workPlaceCount, aliveVisitorCount, totalVisitorCount, visitPlaceCount);
             int aliveCount = 0;
             int totalCount = 0;

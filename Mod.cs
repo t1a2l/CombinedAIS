@@ -6,6 +6,8 @@ namespace CombinedAIS
 {
 	public class Mod :  LoadingExtensionBase, IUserMod
     {
+        public static bool IsRealTimeEnabled = false;
+
         /// <summary>
         /// Gets the mod's name.
         /// </summary>
@@ -25,6 +27,7 @@ namespace CombinedAIS
         {
             Settings.Init();
             HarmonyHelper.DoOnHarmonyReady(() => Patcher.PatchAll());
+            IsRealTimeEnabled = AssemblyUtils.IsAssemblyEnabled("RealTime");
         }
 
         public void OnDisabled()
