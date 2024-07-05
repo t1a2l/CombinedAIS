@@ -1,6 +1,5 @@
 ﻿using ColossalFramework;
 using CombinedAIS.AI;
-using Epic.OnlineServices.Presence;
 using HarmonyLib;
 using System.Reflection;
 using UnityEngine;
@@ -70,129 +69,79 @@ namespace CombinedAIS.HarmonyPatches
         [HarmonyPrefix]
         public static bool ProduceGoods(SchoolAI __instance, ushort buildingID, ref Building buildingData, ref Building.Frame frameData, int productionRate, int finalProductionRate, ref Citizen.BehaviourData behaviour, int aliveWorkerCount, int totalWorkerCount, int workPlaceCount, int aliveVisitorCount, int totalVisitorCount, int visitPlaceCount)
         {
-            if (Mod.IsRealTimeEnabled && buildingData.Info.GetAI() is CampusBuildingAI && (buildingData.Info.name.Contains("Cafeteria") || buildingData.Info.name.Contains("Gymnasium")))
+            if(__instance.m_info.GetAI() is UniversityHospitalAI)
             {
-                return true;
-            }
-            BaseProduceGoods(__instance, buildingID, ref buildingData, ref frameData, productionRate, finalProductionRate, ref behaviour, aliveWorkerCount, totalWorkerCount, workPlaceCount, aliveVisitorCount, totalVisitorCount, visitPlaceCount);
-            int aliveCount = 0;
-            int totalCount = 0;
-            GetStudentBehaviour(__instance, buildingID, ref buildingData, ref behaviour, ref aliveCount, ref totalCount);
-            if (aliveCount != 0)
-            {
-                behaviour.m_crimeAccumulation = behaviour.m_crimeAccumulation * aliveWorkerCount / (aliveWorkerCount + aliveCount);
-            }
-            DistrictManager instance = Singleton<DistrictManager>.instance;
-            byte district = instance.GetDistrict(buildingData.m_position);
-            DistrictPolicies.Services servicePolicies = instance.m_districts.m_buffer[district].m_servicePolicies;
-            int num = productionRate * __instance.EducationAccumulation / 100;
-            if ((servicePolicies & DistrictPolicies.Services.EducationalBlimps) != 0)
-            {
-                num = (num * 21 + 10) / 20;
-                instance.m_districts.m_buffer[district].m_servicePoliciesEffect |= DistrictPolicies.Services.EducationalBlimps;
-            }
-            if (num != 0)
-            {
-                if (__instance.m_info.m_class.m_level == ItemClass.Level.Level3 || __instance.m_info.GetAI() is UniversityHospitalAI)
+                BaseProduceGoods(__instance, buildingID, ref buildingData, ref frameData, productionRate, finalProductionRate, ref behaviour, aliveWorkerCount, totalWorkerCount, workPlaceCount, aliveVisitorCount, totalVisitorCount, visitPlaceCount);
+                int aliveCount = 0;
+                int totalCount = 0;
+                GetStudentBehaviour(__instance, buildingID, ref buildingData, ref behaviour, ref aliveCount, ref totalCount);
+                if (aliveCount != 0)
+                {
+                    behaviour.m_crimeAccumulation = behaviour.m_crimeAccumulation * aliveWorkerCount / (aliveWorkerCount + aliveCount);
+                }
+                DistrictManager instance = Singleton<DistrictManager>.instance;
+                byte district = instance.GetDistrict(buildingData.m_position);
+                DistrictPolicies.Services servicePolicies = instance.m_districts.m_buffer[district].m_servicePolicies;
+                int num = productionRate * __instance.EducationAccumulation / 100;
+                if ((servicePolicies & DistrictPolicies.Services.EducationalBlimps) != 0)
+                {
+                    num = (num * 21 + 10) / 20;
+                    instance.m_districts.m_buffer[district].m_servicePoliciesEffect |= DistrictPolicies.Services.EducationalBlimps;
+                }
+                if (num != 0)
                 {
                     Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.EducationUniversity, num, buildingData.m_position, __instance.m_educationRadius);
                 }
-                else if (__instance.m_info.m_class.m_level == ItemClass.Level.Level2)
+                if (finalProductionRate == 0)
                 {
-                    Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.EducationHighSchool, num, buildingData.m_position, __instance.m_educationRadius);
+                    return false;
                 }
-                else if (__instance.m_info.m_class.m_level == ItemClass.Level.Level1 && __instance.m_info.GetAI() is not UniversityHospitalAI)
+                buildingData.m_customBuffer1 = (ushort)aliveCount;
+                if ((servicePolicies & DistrictPolicies.Services.SchoolsOut) != 0)
                 {
-                    Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.EducationElementary, num, buildingData.m_position, __instance.m_educationRadius);
+                    instance.m_districts.m_buffer[district].m_servicePoliciesEffect |= DistrictPolicies.Services.SchoolsOut;
                 }
-            }
-            if (finalProductionRate == 0)
-            {
-                return false;
-            }
-            buildingData.m_customBuffer1 = (ushort)aliveCount;
-            if ((__instance.m_info.m_class.m_level == ItemClass.Level.Level3 || __instance.m_info.GetAI() is UniversityHospitalAI) && (servicePolicies & DistrictPolicies.Services.SchoolsOut) != 0)
-            {
-                instance.m_districts.m_buffer[district].m_servicePoliciesEffect |= DistrictPolicies.Services.SchoolsOut;
-            }
-            int num2 = Mathf.Min((finalProductionRate * __instance.StudentCount + 99) / 100, __instance.StudentCount * 5 / 4);
-            int num3 = num2 - totalCount;
-            if (__instance.m_info.m_class.m_level == ItemClass.Level.Level1 && __instance.m_info.GetAI() is not UniversityHospitalAI)
-            {
-                instance.m_districts.m_buffer[district].m_productionData.m_tempEducation1Capacity += (uint)num2;
-                instance.m_districts.m_buffer[district].m_student1Data.m_tempCount += (uint)aliveCount;
-            }
-            else if (__instance.m_info.m_class.m_level == ItemClass.Level.Level2)
-            {
-                instance.m_districts.m_buffer[district].m_productionData.m_tempEducation2Capacity += (uint)num2;
-                instance.m_districts.m_buffer[district].m_student2Data.m_tempCount += (uint)aliveCount;
-            }
-            else if (__instance.m_info.m_class.m_level == ItemClass.Level.Level3 || __instance.m_info.GetAI() is UniversityHospitalAI)
-            {
+                int num2 = Mathf.Min((finalProductionRate * __instance.StudentCount + 99) / 100, __instance.StudentCount * 5 / 4);
+                int num3 = num2 - totalCount;
                 instance.m_districts.m_buffer[district].m_productionData.m_tempEducation3Capacity += (uint)num2;
                 instance.m_districts.m_buffer[district].m_student3Data.m_tempCount += (uint)aliveCount;
-            }
-            CampusBuildingAI campusBuildingAI = buildingData.Info.m_buildingAI as CampusBuildingAI;
-            if (campusBuildingAI != null)
-            {
-                campusBuildingAI.HandleDead2(buildingID, ref buildingData, ref behaviour, totalWorkerCount + totalCount);
-            }
-            else
-            {
                 HandleDead(__instance, buildingID, ref buildingData, ref behaviour, totalWorkerCount + totalCount);
-            }
-            if (num3 >= 1)
-            {
-                TransferManager.TransferOffer offer = default;
-                offer.Priority = Mathf.Max(1, num3 * 8 / num2);
-                offer.Building = buildingID;
-                offer.Position = buildingData.m_position;
-                offer.Amount = num3;
-                if (__instance.m_info.m_class.m_level == ItemClass.Level.Level3 || __instance.m_info.GetAI() is UniversityHospitalAI)
+                if (num3 >= 1)
                 {
+                    TransferManager.TransferOffer offer = default;
+                    offer.Priority = Mathf.Max(1, num3 * 8 / num2);
+                    offer.Building = buildingID;
+                    offer.Position = buildingData.m_position;
+                    offer.Amount = num3;
                     Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Student3, offer);
                 }
-                else if (__instance.m_info.m_class.m_level == ItemClass.Level.Level2)
-                {
-                    Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Student2, offer);
-                }
-                else if(__instance.m_info.m_class.m_level == ItemClass.Level.Level1 && __instance.m_info.GetAI() is not UniversityHospitalAI)
-                {
-                    Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Student1, offer);
-                }
+                return false;
             }
-            return false;
+            return true;
         }
 
 
         [HarmonyPatch(typeof(SchoolAI), "GetEducationLevel1")]
         [HarmonyPrefix]
-        public static bool GetEducationLevel1(SchoolAI __instance, ref bool __result)
+        public static bool GetEducationLevel1(SchoolAI __instance)
         {
-            if(__instance.m_info.m_class.m_level == ItemClass.Level.Level1 && __instance.m_info.m_class.m_service == ItemClass.Service.Education)
+            if (__instance.m_info.GetAI() is UniversityHospitalAI)
             {
-                __result = true;
+                return false;
             }
-            else
-            {
-                __result = false;
-            }
-            return false;
+            return true;
         }
 
         [HarmonyPatch(typeof(SchoolAI), "GetEducationLevel3")]
         [HarmonyPrefix]
         public static bool GetEducationLevel3(SchoolAI __instance, ref bool __result)
         {
-            if (__instance.m_info.m_class.m_level == ItemClass.Level.Level3 || __instance.m_info.GetAI() is UniversityHospitalAI)
+            if (__instance.m_info.GetAI() is UniversityHospitalAI)
             {
                 __result = true;
+                return false;
             }
-            else
-            {
-                __result = false;
-            }
-            return false;
+            return true;
         }
 
         [HarmonyPatch(typeof(SchoolAI), "GetStudentCount")]
