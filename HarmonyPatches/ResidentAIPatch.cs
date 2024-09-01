@@ -42,11 +42,14 @@ namespace CombinedAIS.HarmonyPatches
         private delegate void AttemptAutodidactDelegate(ResidentAI __instance, ref Citizen data, ItemClass.Service currentService);
         private static AttemptAutodidactDelegate AttemptAutodidact = AccessTools.MethodDelegate<AttemptAutodidactDelegate>(typeof(ResidentAI).GetMethod("AttemptAutodidact", BindingFlags.Instance | BindingFlags.NonPublic), null, false);
 
-        [HarmonyAfter("RealTime")]
         [HarmonyPatch(typeof(ResidentAI), "UpdateLocation")]
         [HarmonyPrefix]
         public static bool UpdateLocation(ResidentAI __instance, uint citizenID, ref Citizen data)
         {
+            if(Mod.IsRealTimeEnabled)
+            {
+                return true;
+            }
             if (data.m_homeBuilding == 0 && data.m_workBuilding == 0 && data.m_visitBuilding == 0 && data.m_instance == 0 && data.m_vehicle == 0)
             {
                 Singleton<CitizenManager>.instance.ReleaseCitizen(citizenID);
@@ -123,7 +126,7 @@ namespace CombinedAIS.HarmonyPatches
                             {
                                 uint containingUnit = data.GetContainingUnit(citizenID, Singleton<BuildingManager>.instance.m_buildings.m_buffer[data.m_homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                                 TransferManager.TransferReason reason = GetEntertainmentReason(__instance);
-                                TransferManager.TransferReason reason1 = GoToPostOfficeOrBank(citizenID, ref data);
+                                TransferManager.TransferReason reason1 = BankPostOfficeManager.GoToPostOfficeOrBank(citizenID, data.m_homeBuilding, Citizen.GetAgeGroup(data.m_age));
                                 if(reason1 != TransferManager.TransferReason.None)
                                 {
                                     reason = reason1;
@@ -235,7 +238,7 @@ namespace CombinedAIS.HarmonyPatches
                                     if (data.m_vehicle == 0)
                                     {
                                         TransferManager.TransferReason reason = GetEntertainmentReason(__instance);
-                                        TransferManager.TransferReason reason1 = GoToPostOfficeOrBank(citizenID, ref data);
+                                        TransferManager.TransferReason reason1 = BankPostOfficeManager.GoToPostOfficeOrBank(citizenID, data.m_homeBuilding, Citizen.GetAgeGroup(data.m_age));
                                         if (reason1 != TransferManager.TransferReason.None)
                                         {
                                             reason = reason1;
@@ -482,36 +485,6 @@ namespace CombinedAIS.HarmonyPatches
             }
         }
 
-
-        public static TransferManager.TransferReason GoToPostOfficeOrBank(uint citizenID, ref Citizen data)
-        {
-            if (data.m_homeBuilding == 0 || !Settings.AllowVisitorsInPostOffice)
-            {
-                return TransferManager.TransferReason.None;
-            }
-            int age = data.Age;
-            switch (Citizen.GetAgeGroup(age))
-            {
-                case Citizen.AgeGroup.Child:
-                case Citizen.AgeGroup.Teen:
-                    return TransferManager.TransferReason.None;
-                case Citizen.AgeGroup.Young:
-                case Citizen.AgeGroup.Adult:
-                case Citizen.AgeGroup.Senior:
-                    break;
-            }
-
-            if (Settings.AllowVisitorsInPostOffice && SimulationManager.instance.m_randomizer.Int32(100u) < Settings.VisitPostOfficeProbability)
-            {
-                return TransferManager.TransferReason.Mail;
-            }
-            if (Settings.AllowVisitorsInBank && SimulationManager.instance.m_randomizer.Int32(100u) < Settings.VisitBankProbability)
-            {
-                return TransferManager.TransferReason.Cash;
-            }
-
-            return TransferManager.TransferReason.None;
-        }
 
     }
 }
