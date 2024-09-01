@@ -112,9 +112,19 @@ namespace CombinedAIS
                 Settings.AllowVisitorsInPostOffice.value = b;
             });
 
+            AllowVisitors.AddSlider("Go to the post office", 0, 100, 1, 50, (b) =>
+            {
+                Settings.VisitPostOfficeProbability.value = b;
+            });
+
             AllowVisitors.AddCheckbox("Allow people to visit banks (requires a restart)", Settings.AllowVisitorsInBank.value, (b) =>
             {
                 Settings.AllowVisitorsInBank.value = b;
+            });
+
+            AllowVisitors.AddSlider("Go to the bank", 0, 100, 1, 50, (b) =>
+            {
+                Settings.VisitBankProbability.value = b;
             });
 
             UIHelper UniversityHospital = helper.AddGroup("UniversityHospital") as UIHelper;
