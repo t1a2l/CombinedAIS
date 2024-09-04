@@ -326,14 +326,16 @@ namespace CombinedAIS.HarmonyPatches
                         }
                         BuildingManager instance3 = Singleton<BuildingManager>.instance;
                         ItemClass.Service service2 = ItemClass.Service.None;
+                        ItemClass.SubService subService2 = ItemClass.SubService.None;
                         if (data.m_visitBuilding != 0)
                         {
                             service2 = instance3.m_buildings.m_buffer[data.m_visitBuilding].Info.m_class.m_service;
+                            subService2 = instance3.m_buildings.m_buffer[data.m_visitBuilding].Info.m_class.m_subService;
                         }
                         switch (service2)
                         {
                             case ItemClass.Service.HealthCare:
-                            case ItemClass.Service.PoliceDepartment:
+                            case ItemClass.Service.PoliceDepartment when subService2 != ItemClass.SubService.PoliceDepartmentBank:
                                 if (data.m_homeBuilding != 0 && data.m_vehicle == 0)
                                 {
                                     data.m_flags &= ~Citizen.Flags.Evacuating;
@@ -385,7 +387,7 @@ namespace CombinedAIS.HarmonyPatches
                                     {
                                         int num12 = Singleton<SimulationManager>.instance.m_randomizer.Int32(40u);
                                         BuildingInfo info3 = instance3.m_buildings.m_buffer[data.m_visitBuilding].Info;
-                                        if ((object)info3 != null && IsSenior(__instance, citizenID) && info3.m_class.m_service == ItemClass.Service.HealthCare && info3.m_class.m_level == ItemClass.Level.Level3)
+                                        if (info3 is not null && IsSenior(__instance, citizenID) && info3.m_class.m_service == ItemClass.Service.HealthCare && info3.m_class.m_level == ItemClass.Level.Level3)
                                         {
                                             num12 = Singleton<SimulationManager>.instance.m_randomizer.Int32(400u);
                                         }
