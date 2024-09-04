@@ -2,12 +2,8 @@ namespace CombinedAIS
 {
     public static class BankPostOfficeManager
     {
-        public static TransferManager.TransferReason GoToPostOfficeOrBank(uint citizenID, ushort homeBuilding, Citizen.AgeGroup ageGroup)
+        public static TransferManager.TransferReason GoToPostOfficeOrBank(Citizen.AgeGroup ageGroup)
         {
-            if (homeBuilding == 0 || !Settings.AllowVisitorsInPostOffice)
-            {
-                return TransferManager.TransferReason.None;
-            }
             switch (ageGroup)
             {
                 case Citizen.AgeGroup.Child:
@@ -19,11 +15,19 @@ namespace CombinedAIS
                     break;
             }
 
-            if (Settings.AllowVisitorsInPostOffice && SimulationManager.instance.m_randomizer.Int32(100u) < Settings.VisitPostOfficeProbability)
+            var randomNum = SimulationManager.instance.m_randomizer.Int32(100u);
+
+            if (Settings.AllowVisitorsInPostOffice && randomNum < Settings.VisitPostOfficeProbability.value)
             {
+                if(Settings.AllowVisitorsInBank && randomNum < Settings.VisitBankProbability.value)
+                {
+                    var randomReason = SimulationManager.instance.m_randomizer.Int32(2u);
+                    if(randomReason == 0) return TransferManager.TransferReason.Mail;
+                    if (randomReason == 1) return TransferManager.TransferReason.Cash;
+                }
                 return TransferManager.TransferReason.Mail;
             }
-            if (Settings.AllowVisitorsInBank && SimulationManager.instance.m_randomizer.Int32(100u) < Settings.VisitBankProbability)
+            if (Settings.AllowVisitorsInBank && randomNum < Settings.VisitBankProbability.value)
             {
                 return TransferManager.TransferReason.Cash;
             }

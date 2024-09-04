@@ -1,6 +1,9 @@
 ﻿using CitiesHarmony.API;
 using ICities;
 using CombinedAIS.Utils;
+using ColossalFramework.UI;
+using CombinedAIS.UI;
+using UnityEngine;
 
 namespace CombinedAIS
 {
@@ -34,6 +37,8 @@ namespace CombinedAIS
         {
             if (HarmonyHelper.IsHarmonyInstalled) Patcher.UnpatchAll();
         }
+
+        private const float LeftMargin = 24f;
 
         /// <summary>
         /// mod's settings
@@ -112,20 +117,24 @@ namespace CombinedAIS
                 Settings.AllowVisitorsInPostOffice.value = b;
             });
 
-            AllowVisitors.AddSlider("Go to the post office", 0, 100, 1, 50, (b) =>
+            var VisitPostOfficeProbability = UISliders.AddPlainSliderWithValue((UIComponent)AllowVisitors.self, LeftMargin, 0, "Visit post office probability", 0, 100, 1, Settings.VisitPostOfficeProbability.value);
+
+            VisitPostOfficeProbability.eventValueChanged += (c, value) =>
             {
-                Settings.VisitPostOfficeProbability.value = b;
-            });
+                Settings.VisitPostOfficeProbability.value = value;
+            };
 
             AllowVisitors.AddCheckbox("Allow people to visit banks (requires a restart)", Settings.AllowVisitorsInBank.value, (b) =>
             {
                 Settings.AllowVisitorsInBank.value = b;
             });
 
-            AllowVisitors.AddSlider("Go to the bank", 0, 100, 1, 50, (b) =>
+            var VisitBankProbability = UISliders.AddPlainSliderWithValue((UIComponent)AllowVisitors.self, LeftMargin, 0, "Visit bank probability", 0, 100, 1, Settings.VisitBankProbability.value);
+
+            VisitBankProbability.eventValueChanged += (c, value) =>
             {
-                Settings.VisitBankProbability.value = b;
-            });
+                Settings.VisitBankProbability.value = value;
+            };
 
             UIHelper UniversityHospital = helper.AddGroup("UniversityHospital") as UIHelper;
 

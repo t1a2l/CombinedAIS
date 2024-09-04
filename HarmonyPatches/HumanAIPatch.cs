@@ -9,7 +9,7 @@ namespace CombinedAIS.HarmonyPatches
     {
         [HarmonyPatch(typeof(HumanAI), "ArriveAtDestination")]
         [HarmonyPrefix]
-        public static bool ArriveAtDestination(ResidentAI __instance, ushort instanceID, ref CitizenInstance citizenData, bool success)
+        public static bool ArriveAtDestination(HumanAI __instance, ushort instanceID, ref CitizenInstance citizenData, bool success)
         {
             uint citizen = citizenData.m_citizen;
             if (citizen != 0)
@@ -29,6 +29,24 @@ namespace CombinedAIS.HarmonyPatches
                         }
                     }
                 }
+            }
+            return true;
+        }
+
+        [HarmonyPatch(typeof(HumanAI), "FindVisitPlace")]
+        [HarmonyPrefix]
+        public static bool FindVisitPlace(ResidentAI __instance, uint citizenID, ushort sourceBuilding, TransferManager.TransferReason reason)
+        {
+            if(reason == TransferManager.TransferReason.Cash || reason == TransferManager.TransferReason.Mail)
+            {
+                TransferManager.TransferOffer offer = default;
+                offer.Priority = Singleton<SimulationManager>.instance.m_randomizer.Int32(8u);
+                offer.Citizen = citizenID;
+                offer.Position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[sourceBuilding].m_position;
+                offer.Amount = 1;
+                offer.Active = true;
+                Singleton<TransferManager>.instance.AddOutgoingOffer(reason, offer);
+                return false;
             }
             return true;
         }

@@ -126,7 +126,7 @@ namespace CombinedAIS.HarmonyPatches
                             {
                                 uint containingUnit = data.GetContainingUnit(citizenID, Singleton<BuildingManager>.instance.m_buildings.m_buffer[data.m_homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                                 TransferManager.TransferReason reason = GetEntertainmentReason(__instance);
-                                TransferManager.TransferReason reason1 = BankPostOfficeManager.GoToPostOfficeOrBank(citizenID, data.m_homeBuilding, Citizen.GetAgeGroup(data.m_age));
+                                TransferManager.TransferReason reason1 = BankPostOfficeManager.GoToPostOfficeOrBank(Citizen.GetAgeGroup(data.m_age));
                                 if(reason1 != TransferManager.TransferReason.None)
                                 {
                                     reason = reason1;
@@ -238,7 +238,7 @@ namespace CombinedAIS.HarmonyPatches
                                     if (data.m_vehicle == 0)
                                     {
                                         TransferManager.TransferReason reason = GetEntertainmentReason(__instance);
-                                        TransferManager.TransferReason reason1 = BankPostOfficeManager.GoToPostOfficeOrBank(citizenID, data.m_homeBuilding, Citizen.GetAgeGroup(data.m_age));
+                                        TransferManager.TransferReason reason1 = BankPostOfficeManager.GoToPostOfficeOrBank(Citizen.GetAgeGroup(data.m_age));
                                         if (reason1 != TransferManager.TransferReason.None)
                                         {
                                             reason = reason1;
@@ -484,7 +484,6 @@ namespace CombinedAIS.HarmonyPatches
                 __result = "sending a letter at";
             }
         }
-
 
     }
 }
