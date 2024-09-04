@@ -19,11 +19,11 @@ namespace CombinedAIS
 
             if (Settings.AllowVisitorsInPostOffice && randomNum < Settings.VisitPostOfficeProbability.value)
             {
-                if(Settings.AllowVisitorsInBank && randomNum < Settings.VisitBankProbability.value)
+                if (Settings.AllowVisitorsInBank && randomNum < Settings.VisitBankProbability.value)
                 {
-                    var randomReason = SimulationManager.instance.m_randomizer.Int32(2u);
-                    if(randomReason == 0) return TransferManager.TransferReason.Mail;
-                    if (randomReason == 1) return TransferManager.TransferReason.Cash;
+                    var randomReason = SimulationManager.instance.m_randomizer.Int32(3u);
+                    if (randomReason < 1) return TransferManager.TransferReason.Mail;
+                    if (randomReason >= 1) return TransferManager.TransferReason.Cash;
                 }
                 return TransferManager.TransferReason.Mail;
             }
