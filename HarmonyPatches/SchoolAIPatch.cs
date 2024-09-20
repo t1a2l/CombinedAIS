@@ -69,7 +69,7 @@ namespace CombinedAIS.HarmonyPatches
         [HarmonyPrefix]
         public static bool ProduceGoods(SchoolAI __instance, ushort buildingID, ref Building buildingData, ref Building.Frame frameData, int productionRate, int finalProductionRate, ref Citizen.BehaviourData behaviour, int aliveWorkerCount, int totalWorkerCount, int workPlaceCount, int aliveVisitorCount, int totalVisitorCount, int visitPlaceCount)
         {
-            if(__instance.m_info.GetAI() is UniversityHospitalAI)
+            if(buildingData.Info.GetAI() is UniversityHospitalAI)
             {
                 BaseProduceGoods(__instance, buildingID, ref buildingData, ref frameData, productionRate, finalProductionRate, ref behaviour, aliveWorkerCount, totalWorkerCount, workPlaceCount, aliveVisitorCount, totalVisitorCount, visitPlaceCount);
                 int aliveCount = 0;
@@ -191,7 +191,7 @@ namespace CombinedAIS.HarmonyPatches
                     if (num2 != 0)
                     {
                         BuildingInfo info2 = instance.m_buildings.m_buffer[num2].Info;
-                        if (info2.m_class.m_service == ItemClass.Service.PlayerEducation && info2.m_class.m_level == ItemClass.Level.Level3)
+                        if (info2.m_class.m_service == ItemClass.Service.PlayerEducation && (info2.m_class.m_level == ItemClass.Level.Level3 || info2.GetAI() is UniversityHospitalAI))
                         {
                             global += instance.m_buildings.m_buffer[num2].m_customBuffer1;
                         }
