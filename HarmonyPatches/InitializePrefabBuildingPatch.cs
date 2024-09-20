@@ -45,7 +45,8 @@ namespace CombinedAIS.HarmonyPatches
 
         private static string[] MidCenturyModernHotelNames = [
             "Hotel Oasis A",
-            "Hotel Oasis B"
+            "Hotel Oasis B",
+            "Motel Palm Springs"
         ];
 
         private static string[] ModernJapanHotelNames = [
@@ -752,6 +753,18 @@ namespace CombinedAIS.HarmonyPatches
                                 hotelAI.m_maxNewGuestsPerDay = 12;
                                 hotelAI.m_rooms = 120;
                                 hotelAI.m_stars = HotelAI.HotelStars.Three;
+                                hotelAI.m_shoppingAttractiveness = 40;
+                                hotelAI.m_sightseeingAttractiveness = 20;
+                                hotelAI.m_natureAttractiveness = 15;
+                                hotelAI.m_businessAttractiveness = 25;
+                            }
+                            else if (__instance.name.Contains("Motel Palm Springs"))
+                            {
+                                hotelAI.m_minRoomCost = 25;
+                                hotelAI.m_maxRoomCost = 35;
+                                hotelAI.m_maxNewGuestsPerDay = 8;
+                                hotelAI.m_rooms = 40;
+                                hotelAI.m_stars = HotelAI.HotelStars.Two;
                                 hotelAI.m_shoppingAttractiveness = 40;
                                 hotelAI.m_sightseeingAttractiveness = 20;
                                 hotelAI.m_natureAttractiveness = 15;
