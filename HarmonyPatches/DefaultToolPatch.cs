@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CombinedAIS.HarmonyPatches
 {
     [HarmonyPatch(typeof(DefaultTool), "OpenWorldInfoPanel")]
-    public static class OpenWorldInfoPanelPatch
+    public static class DefaultToolPatch
     {
         public static bool Prefix(InstanceID id, Vector3 position)
         {
@@ -14,7 +14,11 @@ namespace CombinedAIS.HarmonyPatches
             {
                 BuildingInfo info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[id.Building].Info;
                 InternationalTradeOfficeBuildingAI internationalTradeOfficeBuildingAI = info.m_buildingAI as InternationalTradeOfficeBuildingAI;
-                if(internationalTradeOfficeBuildingAI != null )
+                if (!Singleton<InstanceManager>.instance.SelectInstance(id))
+                {
+                    return false;
+                }
+                if (internationalTradeOfficeBuildingAI != null )
                 {
                     WorldInfoPanel.Show<ZonedBuildingWorldInfoPanel>(position, id);
                     return false;
