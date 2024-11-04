@@ -218,6 +218,10 @@ namespace CombinedAIS.HarmonyPatches
                         {
                             hotel.m_maxNewGuestsPerDay = 6;
                             hotel.m_rooms = 64;
+                            hotel.m_shoppingAttractiveness = 10;
+                            hotel.m_sightseeingAttractiveness = 45;
+                            hotel.m_natureAttractiveness = 45;
+                            hotel.m_businessAttractiveness = 0;
                         }
                         else if (__instance.name.Contains("Ocean Resort"))
                         {
