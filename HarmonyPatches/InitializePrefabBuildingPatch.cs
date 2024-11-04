@@ -14,12 +14,12 @@ namespace CombinedAIS.HarmonyPatches
     {
         private static bool _initialized = false;
 
-        private static string[] SnowfallHotelNames = [
+        private static readonly string[] SnowfallHotelNames = [
             "Igloo Hotel",
             "Spa Hotel"
         ];
 
-        private static string[] SeaSideResortsNames = [
+        private static readonly string[] SeaSideResortsNames = [
             "Anchor House Inn",
             "Hotel Lafayette",
             "The Empire House",
@@ -43,24 +43,55 @@ namespace CombinedAIS.HarmonyPatches
             "Old Orchard House"  
         ];
 
-        private static string[] MidCenturyModernHotelNames = [
+        private static readonly string[] MidCenturyModernHotelNames = [
             "Hotel Oasis A",
             "Hotel Oasis B",
             "Motel Palm Springs"
         ];
 
-        private static string[] ModernJapanHotelNames = [
+        private static readonly string[] ModernJapanHotelNames = [
             "PDX12_CityHotel",
             "PDX11_Hotel_kikyo"
         ];
 
-        private static string[] AfricaInMiniatureHotelNames = [
+        private static readonly string[] AfricaInMiniatureHotelNames = [
             "Luxury Hotel 4x4",
             "BNBN_7"
         ];
 
-        private static string[] AfterDarHotelNames = [
+        private static readonly string[] AfterDarHotelNames = [
             "LuxuryHotel"
+        ];
+
+        private static readonly string[] MountainVillageNames = [
+            "MP22_avalanche-lodge",
+            "MP22_hotel-pine",
+            "MP22_hotel-wild",
+            "MP22_hotel-blue-peak",
+            "MP22_spruce-lodge",
+            "MP22_mountain-inn",
+            "MP22_hotel-garden",
+            "MP22_santa-lodge",
+            "MP22_hotel-alda",
+            "MP22_buffalo-resort",
+            "MP22_hotel-el-torino",
+            "MP22_ice-wind-lodge",
+            "MP22_hotel-madonna",
+            "MP22_hotel-monte",
+            "MP22_hotel-mount",
+            "MP22_hotel-le-alps",
+            "MP22_spring-resort",
+            "MP22_two-mount-lodge",
+            "MP22_hotel_place",
+            "MP22_hotel-ice-hill",
+            "MP22_lodge-and-restaurant",
+            "MP22_linda-lodge",
+            "MP22_ria-lodge",
+            "MP22_hotel-la-ela",
+            "MP22_snow-lodge",
+            "MP22_creek-lodge",
+            "MP22_sun-lodge",
+            "MP22_hotel-castle"
         ];
 
         public static void Prefix(BuildingInfo __instance)
@@ -711,6 +742,368 @@ namespace CombinedAIS.HarmonyPatches
                                 hotelAI.m_maintenanceCost = CalculateMaintenanceUnits(hotelAI.m_rooms, hotelAI.m_minRoomCost);
                             }
                         } 
+                    }
+
+                    if (Settings.ConvertMountainVillageHotelsToHotelsDLC == true && MountainVillageNames.Any(s => __instance.name.Equals(s)))
+                    {
+                        Object.DestroyImmediate(oldAI);
+                        var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
+                        PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
+
+                        var uICategory = (string)typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(__instance);
+
+                        var hotelItemClass = ItemClassCollection.FindClass("Hotel");
+                        if (hotelItemClass != null)
+                        {
+                            __instance.m_class = hotelItemClass;
+                        }
+
+                        typeof(PrefabInfo).GetField("m_UICategory", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(__instance, uICategory);
+
+                        if (newAI is HotelAI hotelAI)
+                        {
+                            //----------------------------------- two star hotels --------------------------------------------
+                            if (__instance.name.Contains("MP22_avalanche-lodge"))
+                            {
+                                hotelAI.m_minRoomCost = 20;
+                                hotelAI.m_maxRoomCost = 40;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 24;
+                                hotelAI.m_stars = HotelAI.HotelStars.Two;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_hotel-pine"))
+                            {
+                                hotelAI.m_minRoomCost = 25;
+                                hotelAI.m_maxRoomCost = 45;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 16;
+                                hotelAI.m_stars = HotelAI.HotelStars.Two;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_hotel-wild"))
+                            {
+                                hotelAI.m_minRoomCost = 25;
+                                hotelAI.m_maxRoomCost = 45;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 30;
+                                hotelAI.m_stars = HotelAI.HotelStars.Two;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_hotel-blue-peak"))
+                            {
+                                hotelAI.m_minRoomCost = 25;
+                                hotelAI.m_maxRoomCost = 45;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 20;
+                                hotelAI.m_stars = HotelAI.HotelStars.Two;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_spruce-lodge"))
+                            {
+                                hotelAI.m_minRoomCost = 45;
+                                hotelAI.m_maxRoomCost = 55;
+                                hotelAI.m_maxNewGuestsPerDay = 10;
+                                hotelAI.m_rooms = 48;
+                                hotelAI.m_stars = HotelAI.HotelStars.Two;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_mountain-inn"))
+                            {
+                                hotelAI.m_minRoomCost = 25;
+                                hotelAI.m_maxRoomCost = 45;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 28;
+                                hotelAI.m_stars = HotelAI.HotelStars.Two;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_hotel-garden"))
+                            {
+                                hotelAI.m_minRoomCost = 25;
+                                hotelAI.m_maxRoomCost = 45;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 24;
+                                hotelAI.m_stars = HotelAI.HotelStars.Two;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            //----------------------------------- three star hotels --------------------------------------------
+                            else if (__instance.name.Contains("MP22_santa-lodge"))
+                            {
+                                hotelAI.m_minRoomCost = 25;
+                                hotelAI.m_maxRoomCost = 45;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 18;
+                                hotelAI.m_stars = HotelAI.HotelStars.Three;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_hotel-alda"))
+                            {
+                                hotelAI.m_minRoomCost = 40;
+                                hotelAI.m_maxRoomCost = 60;
+                                hotelAI.m_maxNewGuestsPerDay = 10;
+                                hotelAI.m_rooms = 52;
+                                hotelAI.m_stars = HotelAI.HotelStars.Three;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_buffalo-resort"))
+                            {
+                                hotelAI.m_minRoomCost = 35;
+                                hotelAI.m_maxRoomCost = 55;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 20;
+                                hotelAI.m_stars = HotelAI.HotelStars.Three;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_hotel-el-torino"))
+                            {
+                                hotelAI.m_minRoomCost = 35;
+                                hotelAI.m_maxRoomCost = 55;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 40;
+                                hotelAI.m_stars = HotelAI.HotelStars.Three;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_ice-wind-lodge"))
+                            {
+                                hotelAI.m_minRoomCost = 35;
+                                hotelAI.m_maxRoomCost = 55;
+                                hotelAI.m_maxNewGuestsPerDay = 10;
+                                hotelAI.m_rooms = 42;
+                                hotelAI.m_stars = HotelAI.HotelStars.Three;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_hotel-madonna"))
+                            {
+                                hotelAI.m_minRoomCost = 40;
+                                hotelAI.m_maxRoomCost = 60;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 26;
+                                hotelAI.m_stars = HotelAI.HotelStars.Three;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_hotel-monte"))
+                            {
+                                hotelAI.m_minRoomCost = 40;
+                                hotelAI.m_maxRoomCost = 60;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 34;
+                                hotelAI.m_stars = HotelAI.HotelStars.Three;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_hotel-mount"))
+                            {
+                                hotelAI.m_minRoomCost = 40;
+                                hotelAI.m_maxRoomCost = 60;
+                                hotelAI.m_maxNewGuestsPerDay = 10;
+                                hotelAI.m_rooms = 42;
+                                hotelAI.m_stars = HotelAI.HotelStars.Three;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_hotel-le-alps"))
+                            {
+                                hotelAI.m_minRoomCost = 30;
+                                hotelAI.m_maxRoomCost = 50;
+                                hotelAI.m_maxNewGuestsPerDay = 10;
+                                hotelAI.m_rooms = 57;
+                                hotelAI.m_stars = HotelAI.HotelStars.Three;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_spring-resort"))
+                            {
+                                hotelAI.m_minRoomCost = 40;
+                                hotelAI.m_maxRoomCost = 60;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 34;
+                                hotelAI.m_stars = HotelAI.HotelStars.Three;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_two-mount-lodge"))
+                            {
+                                hotelAI.m_minRoomCost = 30;
+                                hotelAI.m_maxRoomCost = 50;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 32;
+                                hotelAI.m_stars = HotelAI.HotelStars.Three;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_hotel_place"))
+                            {
+                                hotelAI.m_minRoomCost = 35;
+                                hotelAI.m_maxRoomCost = 55;
+                                hotelAI.m_maxNewGuestsPerDay = 10;
+                                hotelAI.m_rooms = 48;
+                                hotelAI.m_stars = HotelAI.HotelStars.Three;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            //----------------------------------- four star hotels --------------------------------------------
+                            else if (__instance.name.Contains("MP22_hotel-ice-hill"))
+                            {
+                                hotelAI.m_minRoomCost = 40;
+                                hotelAI.m_maxRoomCost = 60;
+                                hotelAI.m_maxNewGuestsPerDay = 10;
+                                hotelAI.m_rooms = 58;
+                                hotelAI.m_stars = HotelAI.HotelStars.Four;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_lodge-and-restaurant"))
+                            {
+                                hotelAI.m_minRoomCost = 45;
+                                hotelAI.m_maxRoomCost = 65;
+                                hotelAI.m_maxNewGuestsPerDay = 10;
+                                hotelAI.m_rooms = 56;
+                                hotelAI.m_stars = HotelAI.HotelStars.Four;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_linda-lodge"))
+                            {
+                                hotelAI.m_minRoomCost = 40;
+                                hotelAI.m_maxRoomCost = 60;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 20;
+                                hotelAI.m_stars = HotelAI.HotelStars.Four;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_ria-lodge"))
+                            {
+                                hotelAI.m_minRoomCost = 30;
+                                hotelAI.m_maxRoomCost = 50;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 20;
+                                hotelAI.m_stars = HotelAI.HotelStars.Four;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_hotel-la-ela"))
+                            {
+                                hotelAI.m_minRoomCost = 40;
+                                hotelAI.m_maxRoomCost = 60;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 20;
+                                hotelAI.m_stars = HotelAI.HotelStars.Four;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_snow-lodge"))
+                            {
+                                hotelAI.m_minRoomCost = 35;
+                                hotelAI.m_maxRoomCost = 55;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_rooms = 18;
+                                hotelAI.m_stars = HotelAI.HotelStars.Four;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_creek-lodge"))
+                            {
+                                hotelAI.m_minRoomCost = 40;
+                                hotelAI.m_maxRoomCost = 60;
+                                hotelAI.m_maxNewGuestsPerDay = 10;
+                                hotelAI.m_rooms = 42;
+                                hotelAI.m_stars = HotelAI.HotelStars.Four;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            else if (__instance.name.Contains("MP22_sun-lodge"))
+                            {
+                                hotelAI.m_minRoomCost = 50;
+                                hotelAI.m_maxRoomCost = 70;
+                                hotelAI.m_maxNewGuestsPerDay = 15;
+                                hotelAI.m_rooms = 80;
+                                hotelAI.m_stars = HotelAI.HotelStars.Four;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            //----------------------------------- five star hotels --------------------------------------------
+                            else if (__instance.name.Contains("MP22_hotel-castle"))
+                            {
+                                hotelAI.m_minRoomCost = 60;
+                                hotelAI.m_maxRoomCost = 70;
+                                hotelAI.m_maxNewGuestsPerDay = 15;
+                                hotelAI.m_rooms = 70;
+                                hotelAI.m_stars = HotelAI.HotelStars.Five;
+                                hotelAI.m_shoppingAttractiveness = 10;
+                                hotelAI.m_sightseeingAttractiveness = 45;
+                                hotelAI.m_natureAttractiveness = 45;
+                                hotelAI.m_businessAttractiveness = 0;
+                            }
+                            hotelAI.m_maintenanceCost = CalculateMaintenanceUnits(hotelAI.m_rooms, hotelAI.m_minRoomCost);
+                        }
                     }
                 }
 

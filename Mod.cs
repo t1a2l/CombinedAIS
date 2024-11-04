@@ -3,7 +3,6 @@ using ICities;
 using CombinedAIS.Utils;
 using ColossalFramework.UI;
 using CombinedAIS.UI;
-using UnityEngine;
 
 namespace CombinedAIS
 {
@@ -101,6 +100,11 @@ namespace CombinedAIS
             ContentCreatorPacksHotels.AddCheckbox("Convert Africa In Miniature Hotels To The Hotels DLC", Settings.ConvertAfricaInMiniatureHotelsToHotelsDLC.value, (b) =>
             {
                 Settings.ConvertAfricaInMiniatureHotelsToHotelsDLC.value = b;
+            });
+
+            ContentCreatorPacksHotels.AddCheckbox("Convert Mountain Village Hotels To The Hotels DLC", Settings.ConvertMountainVillageHotelsToHotelsDLC.value, (b) =>
+            {
+                Settings.ConvertMountainVillageHotelsToHotelsDLC.value = b;
             });
 
             UIHelper Finance = helper.AddGroup("Finance") as UIHelper;

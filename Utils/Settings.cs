@@ -21,6 +21,7 @@ namespace CombinedAIS
         public static SavedBool ConvertMidCenturyModernHotelsToHotelsDLC = new("ConvertMidCenturyModernHotelsToHotelsDLC", settingsFileName, false, true);
         public static SavedBool ConvertSeaSideResortsToHotelsDLC = new("ConvertSeaSideResortsToHotelsDLC", settingsFileName, false, true);
         public static SavedBool ConvertAfricaInMiniatureHotelsToHotelsDLC = new("ConvertAfricaInMiniatureHotelsToHotelsDLC", settingsFileName, false, true);
+        public static SavedBool ConvertMountainVillageHotelsToHotelsDLC = new("ConvertMountainVillageHotelsToHotelsDLC", settingsFileName, false, true);
 
         public static SavedBool ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI = new("ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI", settingsFileName, false, true);
 
