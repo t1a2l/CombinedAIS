@@ -1,4 +1,4 @@
-namespace CombinedAIS
+namespace CombinedAIS.Managers
 {
     public static class BankPostOfficeManager
     {

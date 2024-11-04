@@ -3,6 +3,7 @@ using HarmonyLib;
 using UnityEngine;
 using CombinedAIS.AI;
 using System.Reflection;
+using CombinedAIS.Managers;
 
 namespace CombinedAIS.HarmonyPatches
 {
