@@ -216,7 +216,7 @@ namespace CombinedAIS.HarmonyPatches
                         }
                         else if (__instance.name.Contains("Mountain Hotel"))
                         {
-                            hotel.m_maxNewGuestsPerDay = 6;
+                            hotel.m_maxNewGuestsPerDay = 10;
                             hotel.m_rooms = 64;
                             hotel.m_shoppingAttractiveness = 10;
                             hotel.m_sightseeingAttractiveness = 45;
@@ -225,7 +225,7 @@ namespace CombinedAIS.HarmonyPatches
                         }
                         else if (__instance.name.Contains("Ocean Resort"))
                         {
-                            hotel.m_maxNewGuestsPerDay = 5;
+                            hotel.m_maxNewGuestsPerDay = 10;
                             hotel.m_rooms = 40;
                         }
                         else if (__instance.name.Contains("Castle Hotel"))
@@ -331,7 +331,7 @@ namespace CombinedAIS.HarmonyPatches
                             {
                                 hotelAI.m_minRoomCost = 40;
                                 hotelAI.m_maxRoomCost = 60;
-                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_maxNewGuestsPerDay = 10;
                                 hotelAI.m_rooms = 50;
                                 hotelAI.m_stars = HotelAI.HotelStars.Four;
                                 hotelAI.m_shoppingAttractiveness = 45;
@@ -734,7 +734,7 @@ namespace CombinedAIS.HarmonyPatches
                             {
                                 hotelAI.m_minRoomCost = 70;
                                 hotelAI.m_maxRoomCost = 80;
-                                hotelAI.m_maxNewGuestsPerDay = 5;
+                                hotelAI.m_maxNewGuestsPerDay = 20;
                                 hotelAI.m_rooms = 384;
                                 hotelAI.m_stars = HotelAI.HotelStars.Five;
                                 hotelAI.m_shoppingAttractiveness = 20;
@@ -819,7 +819,7 @@ namespace CombinedAIS.HarmonyPatches
                             {
                                 hotelAI.m_minRoomCost = 45;
                                 hotelAI.m_maxRoomCost = 55;
-                                hotelAI.m_maxNewGuestsPerDay = 10;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
                                 hotelAI.m_rooms = 48;
                                 hotelAI.m_stars = HotelAI.HotelStars.Two;
                                 hotelAI.m_shoppingAttractiveness = 10;
@@ -904,7 +904,7 @@ namespace CombinedAIS.HarmonyPatches
                             {
                                 hotelAI.m_minRoomCost = 35;
                                 hotelAI.m_maxRoomCost = 55;
-                                hotelAI.m_maxNewGuestsPerDay = 10;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
                                 hotelAI.m_rooms = 42;
                                 hotelAI.m_stars = HotelAI.HotelStars.Three;
                                 hotelAI.m_shoppingAttractiveness = 10;
@@ -940,7 +940,7 @@ namespace CombinedAIS.HarmonyPatches
                             {
                                 hotelAI.m_minRoomCost = 40;
                                 hotelAI.m_maxRoomCost = 60;
-                                hotelAI.m_maxNewGuestsPerDay = 10;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
                                 hotelAI.m_rooms = 42;
                                 hotelAI.m_stars = HotelAI.HotelStars.Three;
                                 hotelAI.m_shoppingAttractiveness = 10;
@@ -988,7 +988,7 @@ namespace CombinedAIS.HarmonyPatches
                             {
                                 hotelAI.m_minRoomCost = 35;
                                 hotelAI.m_maxRoomCost = 55;
-                                hotelAI.m_maxNewGuestsPerDay = 10;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
                                 hotelAI.m_rooms = 48;
                                 hotelAI.m_stars = HotelAI.HotelStars.Three;
                                 hotelAI.m_shoppingAttractiveness = 10;
@@ -1073,7 +1073,7 @@ namespace CombinedAIS.HarmonyPatches
                             {
                                 hotelAI.m_minRoomCost = 40;
                                 hotelAI.m_maxRoomCost = 60;
-                                hotelAI.m_maxNewGuestsPerDay = 10;
+                                hotelAI.m_maxNewGuestsPerDay = 5;
                                 hotelAI.m_rooms = 42;
                                 hotelAI.m_stars = HotelAI.HotelStars.Four;
                                 hotelAI.m_shoppingAttractiveness = 10;
