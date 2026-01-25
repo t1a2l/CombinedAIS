@@ -71,7 +71,7 @@ namespace CombinedAIS.AI
                 int num3 = (finalProductionRate * CollectingVanCount + 99) / 100;
                 if (num2 < num3)
                 {
-                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                    TransferManager.TransferOffer offer = default;
                     offer.Priority = 2 - num2;
                     offer.Building = buildingID;
                     offer.Position = buildingData.m_position;
