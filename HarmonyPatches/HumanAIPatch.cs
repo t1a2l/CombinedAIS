@@ -40,12 +40,22 @@ namespace CombinedAIS.HarmonyPatches
 
         [HarmonyPatch(typeof(HumanAI), "FindVisitPlace")]
         [HarmonyPrefix]
-        public static bool FindVisitPlace(ResidentAI __instance, uint citizenID, ushort sourceBuilding, TransferManager.TransferReason reason)
+        public static bool FindVisitPlace(HumanAI __instance, uint citizenID, ushort sourceBuilding, TransferManager.TransferReason reason)
         {
+            if(__instance.m_info.GetAI() is TouristAI)
+            {
+                return true;
+            }
             if(reason == TransferManager.TransferReason.Entertainment || reason == TransferManager.TransferReason.EntertainmentB
                || reason == TransferManager.TransferReason.EntertainmentC || reason == TransferManager.TransferReason.EntertainmentD)
             {
                 var citizen = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID];
+
+                if(citizen.GetCitizenInfo(citizenID).GetAI() is TouristAI)
+                {
+                    return true;
+                }
+
                 var ageGroup = Citizen.GetAgeGroup(citizen.Age);
                 var new_reason = BankPostOfficeManager.GoToPostOfficeOrBank(ageGroup);
 
