@@ -1,5 +1,6 @@
 ﻿using ColossalFramework;
 using CombinedAIS.AI;
+using CombinedAIS.Managers;
 using HarmonyLib;
 
 namespace CombinedAIS.HarmonyPatches
@@ -25,6 +26,10 @@ namespace CombinedAIS.HarmonyPatches
                         {
                             instance.m_citizens.m_buffer[citizen].SetVehicle(citizen, 0, 0u);
                             __instance.SetTarget(instanceID, ref citizenData, instance.m_citizens.m_buffer[citizen].m_homeBuilding, false);
+                            if (BankPostOfficeManager.CitizenBankPostOfficeGoReasonExist(citizen))
+                            {
+                                BankPostOfficeManager.RemoveBankPostOfficeGoReason(citizen);
+                            }
                             return false;
                         }
                     }
@@ -37,18 +42,29 @@ namespace CombinedAIS.HarmonyPatches
         [HarmonyPrefix]
         public static bool FindVisitPlace(ResidentAI __instance, uint citizenID, ushort sourceBuilding, TransferManager.TransferReason reason)
         {
-            if(reason == TransferManager.TransferReason.Cash || reason == TransferManager.TransferReason.Mail)
+            if(reason == TransferManager.TransferReason.Entertainment || reason == TransferManager.TransferReason.EntertainmentB
+               || reason == TransferManager.TransferReason.EntertainmentC || reason == TransferManager.TransferReason.EntertainmentD)
             {
+                var citizen = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID];
+                var ageGroup = Citizen.GetAgeGroup(citizen.Age);
+                var new_reason = BankPostOfficeManager.GoToPostOfficeOrBank(ageGroup);
+
+                if(new_reason == TransferManager.TransferReason.None)
+                {
+                    return true;
+                }
+
                 TransferManager.TransferOffer offer = default;
                 offer.Priority = Singleton<SimulationManager>.instance.m_randomizer.Int32(8u);
                 offer.Citizen = citizenID;
                 offer.Position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[sourceBuilding].m_position;
                 offer.Amount = 1;
                 offer.Active = true;
-                Singleton<TransferManager>.instance.AddOutgoingOffer(reason, offer);
+                Singleton<TransferManager>.instance.AddOutgoingOffer(new_reason, offer);
                 return false;
             }
             return true;
         }
+
     }
 }

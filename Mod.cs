@@ -1,15 +1,16 @@
-﻿using CitiesHarmony.API;
-using ICities;
-using CombinedAIS.Utils;
+﻿using System;
+using CitiesHarmony.API;
 using ColossalFramework.UI;
+using CombinedAIS.Managers;
 using CombinedAIS.UI;
+using CombinedAIS.Utils;
+using ICities;
+using UnityEngine;
 
 namespace CombinedAIS
 {
 	public class Mod :  LoadingExtensionBase, IUserMod
     {
-        public static bool IsRealTimeEnabled = false;
-
         /// <summary>
         /// Gets the mod's name.
         /// </summary>
@@ -29,12 +30,25 @@ namespace CombinedAIS
         {
             Settings.Init();
             HarmonyHelper.DoOnHarmonyReady(() => Patcher.PatchAll());
-            IsRealTimeEnabled = AssemblyUtils.IsAssemblyEnabled("RealTime");
         }
 
         public void OnDisabled()
         {
             if (HarmonyHelper.IsHarmonyInstalled) Patcher.UnpatchAll();
+        }
+
+        public override void OnCreated(ILoading loading)
+        {
+            base.OnCreated(loading);
+            try
+            {
+                BankPostOfficeManager.Init();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.ToString());
+                BankPostOfficeManager.Deinit();
+            }
         }
 
         private const float LeftMargin = 24f;
