@@ -44,16 +44,14 @@ namespace CombinedAIS.Managers
         {
             if (!BankPostOfficeGoReason.TryGetValue(citizenID, out _))
             {
-                if (data.Info.GetAI() is ExtendedBankOfficeAI)
+                if (data.Info.GetAI() is ExtendedPostOfficeAI)
                 {
-                    Randomizer randomizer = new(data.m_citizenCount);
-                    int index = randomizer.Int32((uint)postOfficeReasons.Length);
+                    int index = SimulationManager.instance.m_randomizer.Int32((uint)postOfficeReasons.Length);
                     BankPostOfficeGoReason.Add(citizenID, postOfficeReasons[index]);
                 }
                 else if (data.Info.GetAI() is ExtendedBankOfficeAI)
                 {
-                    Randomizer randomizer = new(data.m_citizenCount);
-                    int index = randomizer.Int32((uint)bankReasons.Length);
+                    int index = SimulationManager.instance.m_randomizer.Int32((uint)bankReasons.Length);
                     BankPostOfficeGoReason.Add(citizenID, bankReasons[index]);
                 }
             }
