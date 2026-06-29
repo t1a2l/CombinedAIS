@@ -19,6 +19,12 @@ namespace CombinedAIS.AI
         {
             switch (infoMode)
             {
+                case InfoManager.InfoMode.Tourism:
+                    if (subInfoMode == InfoManager.SubInfoMode.Default)
+                    {
+                        return Color.green;
+                    }
+                    return Singleton<InfoManager>.instance.m_properties.m_neutralColor;
                 default:
                     return base.GetColor(instanceID, ref data, infoMode, subInfoMode);
             }
