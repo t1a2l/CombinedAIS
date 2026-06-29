@@ -124,9 +124,7 @@ namespace CombinedAIS.HarmonyPatches
             {
                 return true;
             }
-            Building[] buffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
             Citizen.Education education = Citizen.Education.Uneducated;
-            bool flag2 = false;
             switch (material)
             {
                 case TransferManager.TransferReason.Student1:
@@ -147,77 +145,90 @@ namespace CombinedAIS.HarmonyPatches
             }
             if (isWorker || isStudent)
             {
-                CitizenManager instance3 = Singleton<CitizenManager>.instance;
-                ushort building3 = offer.Building;
-                if (building3 != 0)
+                CitizenManager instance = Singleton<CitizenManager>.instance;
+                ushort targetBuildingId = offer.Building;
+                if (targetBuildingId != 0)
                 {
-                    int family2 = Singleton<SimulationManager>.instance.m_randomizer.Int32(256u);
-                    uint num4 = 0u;
-                    uint num5 = 0u;
-                    if (!flag2)
+                    ref Building targetBuilding = ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[targetBuildingId];
+                    int family = Singleton<SimulationManager>.instance.m_randomizer.Int32(256u);
+                    uint notFullCitizenUnit = 0u;
+                    if (isWorker)
                     {
-                        if (building3 != 0)
-                        {
-                            if(isWorker)
-                            {
-                                num4 = buffer[building3].GetNotFullCitizenUnit(CitizenUnit.Flags.Work);
-                            }
-                            else if (isStudent)
-                            {
-                                num4 = buffer[building3].GetNotFullCitizenUnit(CitizenUnit.Flags.Student);
-                            }
-                        }
+                        notFullCitizenUnit = targetBuilding.GetNotFullCitizenUnit(CitizenUnit.Flags.Work);
                     }
-                    if (num4 != 0 || num5 != 0 || flag2)
+                    else if (isStudent)
                     {
-                        int age2 = Singleton<SimulationManager>.instance.m_randomizer.Int32(0, 240);
+                        notFullCitizenUnit = targetBuilding.GetNotFullCitizenUnit(CitizenUnit.Flags.Student);
+                    }
+                    if (notFullCitizenUnit != 0)
+                    {
+                        int age = Singleton<SimulationManager>.instance.m_randomizer.Int32(0, 240);
                         Citizen.Wealth wealth = Citizen.Wealth.High;
-                        int num6 = touristFactor0 + touristFactor1 + touristFactor2;
-                        if (num6 != 0)
+                        int touristFactor = touristFactor0 + touristFactor1 + touristFactor2;
+                        if (touristFactor != 0)
                         {
-                            int num7 = Singleton<SimulationManager>.instance.m_randomizer.Int32((uint)num6);
-                            if (num7 < touristFactor0)
+                            int random = Singleton<SimulationManager>.instance.m_randomizer.Int32((uint)touristFactor);
+                            if (random < touristFactor0)
                             {
                                 wealth = Citizen.Wealth.Low;
                             }
-                            else if (num7 < touristFactor0 + touristFactor1)
+                            else if (random < touristFactor0 + touristFactor1)
                             {
                                 wealth = Citizen.Wealth.Medium;
                             }
                         }
-                        if (instance3.CreateCitizen(out var citizen2, age2, family2, ref Singleton<SimulationManager>.instance.m_randomizer))
+                        if (instance.CreateCitizen(out var citizenId, age, family, ref Singleton<SimulationManager>.instance.m_randomizer))
                         {
-                            Citizen[] buffer3 = instance3.m_citizens.m_buffer;
-                            buffer3[citizen2].WealthLevel = wealth;
+                            Citizen[] citizens = instance.m_citizens.m_buffer;
+                            ref Citizen citizen = ref citizens[citizenId];
+                            citizen.m_flags |= Citizen.Flags.MovingIn;
+                            citizen.WealthLevel = wealth;
                             if (isWorker)
                             {
-                                buffer3[citizen2].SetWorkplace(citizen2, building3, num4);
+                                citizen.SetWorkplace(citizenId, targetBuildingId, notFullCitizenUnit);
                             }
                             else if (isStudent)
                             {
-                                buffer3[citizen2].SetStudentplace(citizen2, building3, num4);
+                                citizen.SetStudentplace(citizenId, targetBuildingId, notFullCitizenUnit);
                             }
                             if (education >= Citizen.Education.OneSchool)
                             {
-                                buffer3[citizen2].Education1 = true;
+                                citizen.Education1 = true;
                             }
                             if (education >= Citizen.Education.TwoSchools)
                             {
-                                buffer3[citizen2].Education1 = true;
-                                buffer3[citizen2].Education2 = true;
+                                citizen.Education1 = true;
+                                citizen.Education2 = true;
                             }
                             if (education >= Citizen.Education.ThreeSchools)
                             {
-                                buffer3[citizen2].Education1 = true;
-                                buffer3[citizen2].Education2 = true;
-                                buffer3[citizen2].Education3 = true;
+                                citizen.Education1 = true;
+                                citizen.Education2 = true;
+                                citizen.Education3 = true;
                             }
-                            CitizenInfo citizenInfo2 = CommuterPrefabRegistry.Get(Singleton<SimulationManager>.instance.m_randomizer, Citizen.GetGender(citizen2), Citizen.GetAgePhase(buffer3[citizen2].EducationLevel, buffer3[citizen2].Age));
-                            if (citizenInfo2 is not null && instance3.CreateCitizenInstance(out var instance4, ref Singleton<SimulationManager>.instance.m_randomizer, citizenInfo2, citizen2))
+                            citizen.SetVisitplace(citizenId, 0, 0u);
+
+                            Citizen.Gender gender = Citizen.GetGender(citizenId);
+                            Citizen.AgePhase agePhase = Citizen.GetAgePhase(citizen.EducationLevel, citizen.Age);
+
+                            CitizenInfo citizenInfo = CommuterPrefabRegistry.Get(Singleton<SimulationManager>.instance.m_randomizer, gender, agePhase);
+                            if (citizenInfo is not null && instance.CreateCitizenInstance(out var instance2, ref Singleton<SimulationManager>.instance.m_randomizer, citizenInfo, citizenId))
                             {
-                                citizenInfo2.m_citizenAI.SetSource(instance4, ref instance3.m_instances.m_buffer[instance4], buildingID);
-                                citizenInfo2.m_citizenAI.SetTarget(instance4, ref instance3.m_instances.m_buffer[instance4], building3);
-                                buffer3[citizen2].CurrentLocation = Citizen.Location.Moving;
+                                citizen.CurrentLocation = Citizen.Location.Moving;
+                                ref CitizenInstance instanceData = ref instance.m_instances.m_buffer[instance2];
+                                citizenInfo.m_citizenAI.SetSource(instance2, ref instanceData, buildingID);
+                                citizenInfo.m_citizenAI.SetTarget(instance2, ref instanceData, targetBuildingId);
+
+                                Debug.Log("[CombinedAIS] commuter created"
+                                            + " citizenId=" + citizenId
+                                            + " instance=" + instance2
+                                            + " prefab=" + citizenInfo.name
+                                            + " gender=" + gender
+                                            + " age=" + citizen.Age
+                                            + " agePhase=" + agePhase
+                                            + " education=" + citizen.EducationLevel
+                                            + " work=" + citizen.m_workBuilding
+                                            + " location=" + citizen.CurrentLocation);
                             }
                         }
                     }
