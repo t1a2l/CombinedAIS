@@ -18,7 +18,6 @@ namespace CombinedAIS.HarmonyPatches
             if (oldAi is not ResidentAI)
                 return;
 
-            Debug.Log("__instance name is: " + __instance.name);
             if (CommuterPrefabRegistry.IsSourceRegistered(__instance))
                 return;
 
@@ -47,7 +46,6 @@ namespace CombinedAIS.HarmonyPatches
             if (clone == null)
                 return null;
 
-            Debug.Log("resident name is: " + resident.name);
             clone.name = resident.name + ".CombinedAIS.Commuter";
 
             // Ensure we are editing the clone, not the original
