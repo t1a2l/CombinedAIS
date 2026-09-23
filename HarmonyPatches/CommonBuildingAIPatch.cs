@@ -12,7 +12,7 @@ namespace CombinedAIS.HarmonyPatches
         public static void ReplaceVariation(ushort buildingID, Building.Flags2 variation)
         {
             var data = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
-            if (data.Info.name.Contains("City Hotel") && data.Info.m_buildingAI is HotelAI hotelAI && Settings.HotelsDLCRealisticData.value == true)
+            if (data.Info.name.Contains("City Hotel") && data.Info.m_buildingAI is HotelAI hotelAI && Utils.Settings.HotelsDLCRealisticData.value == true)
             {
                 if (variation == Building.Flags2.SubmeshVariation1 || variation == Building.Flags2.SubmeshVariation3)
                 {
@@ -32,7 +32,7 @@ namespace CombinedAIS.HarmonyPatches
         public static void GetSelectedVariation(ushort buildingID, ref Building.Flags2 __result)
         {
             var data = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
-            if (data.Info.name.Contains("City Hotel") && data.Info.m_buildingAI is HotelAI hotelAI && Settings.HotelsDLCRealisticData.value == true)
+            if (data.Info.name.Contains("City Hotel") && data.Info.m_buildingAI is HotelAI hotelAI && Utils.Settings.HotelsDLCRealisticData.value == true)
             {
                 if (__result == Building.Flags2.SubmeshVariation1 || __result == Building.Flags2.SubmeshVariation3)
                 {

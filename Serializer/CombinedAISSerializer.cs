@@ -42,9 +42,6 @@ namespace CombinedAIS.Serializer
                         {
                             while (Index < Data.Length)
                             {
-                                CheckStartTuple("BankPostOfficeSerializer", SaveGameFileVersion, Data, ref Index);
-                                BankPostOfficeSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
-                                CheckEndTuple("BankPostOfficeSerializer", SaveGameFileVersion, Data, ref Index);
                                 break;
                             }
                         }
@@ -88,11 +85,6 @@ namespace CombinedAIS.Serializer
                     var Data = new FastList<byte>();
                     // Always write out data version first
                     StorageData.WriteUInt16(DataVersion, Data);
-
-                    // buildings fire burn settings
-                    StorageData.WriteUInt32(uiTUPLE_START, Data);
-                    BankPostOfficeSerializer.SaveData(Data);
-                    StorageData.WriteUInt32(uiTUPLE_END, Data);
 
                     m_serializableData.SaveData(DataID, Data.ToArray());
                 }

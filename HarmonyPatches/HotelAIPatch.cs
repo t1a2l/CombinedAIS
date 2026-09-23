@@ -12,7 +12,7 @@ namespace CombinedAIS.HarmonyPatches
         [HarmonyPostfix]
         public static void CreateBuilding(ushort buildingID, ref Building data)
         {
-            if (data.Info.name.Contains("City Hotel") && data.Info.m_buildingAI is HotelAI hotelAI && Settings.HotelsDLCRealisticData.value == true)
+            if (data.Info.name.Contains("City Hotel") && data.Info.m_buildingAI is HotelAI hotelAI && Utils.Settings.HotelsDLCRealisticData.value == true)
             {
                 if ((data.m_flags2 & Building.Flags2.SubmeshVariation1) != 0 || (data.m_flags2 & Building.Flags2.SubmeshVariation3) != 0)
                 {
@@ -31,7 +31,7 @@ namespace CombinedAIS.HarmonyPatches
         [HarmonyPostfix]
         public static void BuildingLoaded(ushort buildingID, ref Building data, uint version)
         {
-            if (data.Info.name.Contains("City Hotel") && data.Info.m_buildingAI is HotelAI hotelAI && Settings.HotelsDLCRealisticData.value == true)
+            if (data.Info.name.Contains("City Hotel") && data.Info.m_buildingAI is HotelAI hotelAI && Utils.Settings.HotelsDLCRealisticData.value == true)
             {
                 if ((data.m_flags2 & Building.Flags2.SubmeshVariation1) != 0 || (data.m_flags2 & Building.Flags2.SubmeshVariation3) != 0)
                 {

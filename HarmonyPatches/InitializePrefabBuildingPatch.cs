@@ -100,7 +100,7 @@ namespace CombinedAIS.HarmonyPatches
             {
                 var oldAI = __instance.GetComponent<PrefabAI>();
                 if (__instance.m_class.m_service == ItemClass.Service.PublicTransport && __instance.m_class.m_subService == ItemClass.SubService.PublicTransportPlane
-                    && (__instance.name.Contains("Airport Hotel") || __instance.name.Contains("Sheraton")) && oldAI is not AirportHotelAI && oldAI is not DummyBuildingAI && Settings.ConvertAirportDLCHotelsToAirportHotel.value == true)
+                    && (__instance.name.Contains("Airport Hotel") || __instance.name.Contains("Sheraton")) && oldAI is not AirportHotelAI && oldAI is not DummyBuildingAI && Utils.Settings.ConvertAirportDLCHotelsToAirportHotel.value == true)
                 {
                     Object.DestroyImmediate(oldAI);
                     var newAI = (PrefabAI)__instance.gameObject.AddComponent<AirportHotelAI>();
@@ -176,7 +176,7 @@ namespace CombinedAIS.HarmonyPatches
 
                 if (__instance.m_class.m_service == ItemClass.Service.Hotel)
                 {
-                    if(oldAI is not ParkHotelAI && Settings.ConvertRentalCabinToParkHotel.value == true && __instance.name.Contains("Cabin"))
+                    if(oldAI is not ParkHotelAI && Utils.Settings.ConvertRentalCabinToParkHotel.value == true && __instance.name.Contains("Cabin"))
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<ParkHotelAI>();
@@ -187,7 +187,7 @@ namespace CombinedAIS.HarmonyPatches
                         parkHotelAI.m_maintenanceCost = CalculateMaintenanceUnits(parkHotelAI.m_rooms, parkHotelAI.m_minRoomCost);
                     }
 
-                    if (oldAI is HotelAI hotel && Settings.HotelsDLCRealisticData.value == true)
+                    if (oldAI is HotelAI hotel && Utils.Settings.HotelsDLCRealisticData.value == true)
                     {
                         if (__instance.name.Contains("Budget Hotel"))
                         {
@@ -247,7 +247,7 @@ namespace CombinedAIS.HarmonyPatches
                 }
 
                 if (__instance.m_class.m_service == ItemClass.Service.Beautification && __instance.name.Contains("Hunting Cabin")
-                    && oldAI is not ParkHotelAI && Settings.ConvertParkLifeCabinsToParkHotels.value == true)
+                    && oldAI is not ParkHotelAI && Utils.Settings.ConvertParkLifeCabinsToParkHotels.value == true)
                 {
                     Object.DestroyImmediate(oldAI);
                     var newAI = (PrefabAI)__instance.gameObject.AddComponent<ParkHotelAI>();
@@ -297,7 +297,7 @@ namespace CombinedAIS.HarmonyPatches
 
                 if(__instance.m_class.m_service == ItemClass.Service.Monument && oldAI is not HotelAI) 
                 {
-                    if (Settings.ConvertSnowfallHotelsToHotelsDLC == true && SnowfallHotelNames.Any(s => __instance.name.Equals(s)))
+                    if (Utils.Settings.ConvertSnowfallHotelsToHotelsDLC == true && SnowfallHotelNames.Any(s => __instance.name.Equals(s)))
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
@@ -343,7 +343,7 @@ namespace CombinedAIS.HarmonyPatches
                         }
                     }
 
-                    if(Settings.ConvertSeaSideResortsToHotelsDLC == true && SeaSideResortsNames.Any(s => __instance.name.Equals(s)))
+                    if(Utils.Settings.ConvertSeaSideResortsToHotelsDLC == true && SeaSideResortsNames.Any(s => __instance.name.Equals(s)))
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
@@ -620,7 +620,7 @@ namespace CombinedAIS.HarmonyPatches
                         }
                     }
 
-                    if (Settings.ConvertModernJapanHotelsToHotelsDLC == true && ModernJapanHotelNames.Any(s => __instance.name.Equals(s)))
+                    if (Utils.Settings.ConvertModernJapanHotelsToHotelsDLC == true && ModernJapanHotelNames.Any(s => __instance.name.Equals(s)))
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
@@ -666,7 +666,7 @@ namespace CombinedAIS.HarmonyPatches
                         }
                     }
 
-                    if (Settings.ConvertAfricaInMiniatureHotelsToHotelsDLC.value == true && AfricaInMiniatureHotelNames.Any(s => __instance.name.Equals(s)))
+                    if (Utils.Settings.ConvertAfricaInMiniatureHotelsToHotelsDLC.value == true && AfricaInMiniatureHotelNames.Any(s => __instance.name.Equals(s)))
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
@@ -712,7 +712,7 @@ namespace CombinedAIS.HarmonyPatches
                         }
                     }
 
-                    if (Settings.ConvertAfterDarkHotelsToHotelsDLC.value == true && AfterDarHotelNames.Any(s => __instance.name.Equals(s)))
+                    if (Utils.Settings.ConvertAfterDarkHotelsToHotelsDLC.value == true && AfterDarHotelNames.Any(s => __instance.name.Equals(s)))
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
@@ -748,7 +748,7 @@ namespace CombinedAIS.HarmonyPatches
                         } 
                     }
 
-                    if (Settings.ConvertMountainVillageHotelsToHotelsDLC == true && MountainVillageNames.Any(s => __instance.name.Equals(s)))
+                    if (Utils.Settings.ConvertMountainVillageHotelsToHotelsDLC == true && MountainVillageNames.Any(s => __instance.name.Equals(s)))
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
@@ -1113,7 +1113,7 @@ namespace CombinedAIS.HarmonyPatches
 
                 if (__instance.m_class.m_service == ItemClass.Service.Beautification && oldAI is not HotelAI)
                 {
-                    if (Settings.ConvertMidCenturyModernHotelsToHotelsDLC == true && MidCenturyModernHotelNames.Any(s => __instance.name.Contains(s)))
+                    if (Utils.Settings.ConvertMidCenturyModernHotelsToHotelsDLC == true && MidCenturyModernHotelNames.Any(s => __instance.name.Contains(s)))
                     {
                         Object.DestroyImmediate(oldAI);
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<HotelAI>();
@@ -1174,7 +1174,7 @@ namespace CombinedAIS.HarmonyPatches
 
                 if(__instance.m_class.m_service == ItemClass.Service.Monument && oldAI is not InternationalTradeOfficeBuildingAI && __instance.name.Contains("International Trade Building"))
                 {
-                    if (Settings.ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI == true)
+                    if (Utils.Settings.ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI == true)
                     {
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<InternationalTradeOfficeBuildingAI>();
                         PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
@@ -1182,60 +1182,9 @@ namespace CombinedAIS.HarmonyPatches
                     }
                 }
 
-                if (__instance.m_class.m_service == ItemClass.Service.PublicTransport && __instance.m_class.m_subService == ItemClass.SubService.PublicTransportPost && oldAI is not ExtendedPostOfficeAI)
-                {
-                    if (Settings.AllowVisitorsInPostOffice == true)
-                    {
-                        var newAI = (PrefabAI)__instance.gameObject.AddComponent<ExtendedPostOfficeAI>();
-                        PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
-                        Object.DestroyImmediate(oldAI);
-                        if (newAI is ExtendedPostOfficeAI extendedPostOfficeAI)
-                        {
-                            if (__instance.name.Contains("Post Office 01"))
-                            {
-                                extendedPostOfficeAI.m_visitPlaceCount0 = 10;
-                                extendedPostOfficeAI.m_visitPlaceCount1 = 10;
-                                extendedPostOfficeAI.m_visitPlaceCount2 = 10;
-                            }
-                        }
-                    }
-                }
-
-                if (__instance.m_class.m_service == ItemClass.Service.PoliceDepartment && __instance.m_class.m_subService == ItemClass.SubService.PoliceDepartmentBank && oldAI is not ExtendedBankOfficeAI)
-                {
-                    if (Settings.AllowVisitorsInBank == true)
-                    {
-                        var newAI = (PrefabAI)__instance.gameObject.AddComponent<ExtendedBankOfficeAI>();
-                        PrefabUtil.TryCopyAttributes(oldAI, newAI, false);
-                        Object.DestroyImmediate(oldAI);
-                        if (newAI is ExtendedBankOfficeAI extendedBankOfficeAI)
-                        {
-                            if (__instance.name.Contains("Bank 01"))
-                            {
-                                extendedBankOfficeAI.m_visitPlaceCount0 = 10;
-                                extendedBankOfficeAI.m_visitPlaceCount1 = 10;
-                                extendedBankOfficeAI.m_visitPlaceCount2 = 10;
-                            }
-                            else if (__instance.name.Contains("Bank 02"))
-                            {
-                                extendedBankOfficeAI.m_visitPlaceCount0 = 20;
-                                extendedBankOfficeAI.m_visitPlaceCount1 = 20;
-                                extendedBankOfficeAI.m_visitPlaceCount2 = 20;
-                            }
-                            else if (__instance.name.Contains("Bank 03"))
-                            {
-                                extendedBankOfficeAI.m_visitPlaceCount0 = 30;
-                                extendedBankOfficeAI.m_visitPlaceCount1 = 30;
-                                extendedBankOfficeAI.m_visitPlaceCount2 = 30;
-                            }
-
-                        }
-                    }
-                }
-
                 if (__instance.m_class.m_service == ItemClass.Service.HealthCare && __instance.name.Contains("University") && __instance.name.Contains("Hospital") && oldAI is not UniversityHospitalAI)
                 {
-                    if (Settings.ConvertWorkshopUniversityHospitalsToUniversityHospitalAI == true)
+                    if (Utils.Settings.ConvertWorkshopUniversityHospitalsToUniversityHospitalAI == true)
                     {
                         var newAI = (PrefabAI)__instance.gameObject.AddComponent<UniversityHospitalAI>();
                         PrefabUtil.TryCopyAttributes(oldAI, newAI, false);

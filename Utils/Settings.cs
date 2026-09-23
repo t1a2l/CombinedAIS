@@ -2,8 +2,7 @@
 using System;
 using UnityEngine;
 
-
-namespace CombinedAIS
+namespace CombinedAIS.Utils
 {
     public class Settings
     {
@@ -24,14 +23,6 @@ namespace CombinedAIS
         public static SavedBool ConvertMountainVillageHotelsToHotelsDLC = new("ConvertMountainVillageHotelsToHotelsDLC", settingsFileName, false, true);
 
         public static SavedBool ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI = new("ConvertInternationalTradeBuildingToInternationalTradeOfficeBuildingAI", settingsFileName, false, true);
-
-        public static SavedBool AllowVisitorsInPostOffice = new("AllowVisitorsInPostOffice", settingsFileName, false, true);
-        public static SavedFloat VisitPostOfficeProbability = new("VisitPostOfficeProbability", settingsFileName, 50);
-
-        public static SavedBool AllowVisitorsInBank = new("AllowVisitorsInBank", settingsFileName, false, true);
-        public static SavedFloat VisitBankProbability = new("VisitBankProbability", settingsFileName, 50);
-
-
         public static SavedBool ConvertWorkshopUniversityHospitalsToUniversityHospitalAI = new("ConvertWorkshopUniversityHospitalsToUniversityHospitalAI", settingsFileName, false, true);
 
         public static void Init()
