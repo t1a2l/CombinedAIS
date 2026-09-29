@@ -2,7 +2,6 @@
 using CombinedAIS.Managers;
 using HarmonyLib;
 using UnityEngine;
-using static RenderManager;
 
 namespace CombinedAIS.HarmonyPatches
 {
