@@ -1,12 +1,13 @@
 ﻿using System;
 using CitiesHarmony.API;
+using CombinedAIS.Managers;
 using CombinedAIS.Utils;
 using ICities;
 using UnityEngine;
 
 namespace CombinedAIS
 {
-	public class Mod :  LoadingExtensionBase, IUserMod
+	public class Mod : LoadingExtensionBase, IUserMod
     {
         /// <summary>
         /// Gets the mod's name.
@@ -47,7 +48,27 @@ namespace CombinedAIS
             }
         }
 
-        private const float LeftMargin = 24f;
+        public override void OnLevelLoaded(LoadMode mode)
+        {
+            switch (mode)
+            {
+                case LoadMode.LoadGame:
+                case LoadMode.NewGame:
+                case LoadMode.LoadScenario:
+                case LoadMode.NewGameFromScenario:
+                    break;
+
+                default:
+                    return;
+            }
+
+            CommuterPrefabRegistry.RegisterPendingCommuters();
+        }
+
+        public override void OnLevelUnloading()
+        {
+            CommuterPrefabRegistry._commutersRegistered = false;
+        }
 
         /// <summary>
         /// mod's Utils.Settings

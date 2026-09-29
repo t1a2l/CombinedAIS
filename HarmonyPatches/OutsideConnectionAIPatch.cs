@@ -2,6 +2,7 @@
 using CombinedAIS.Managers;
 using HarmonyLib;
 using UnityEngine;
+using static RenderManager;
 
 namespace CombinedAIS.HarmonyPatches
 {
@@ -214,21 +215,28 @@ namespace CombinedAIS.HarmonyPatches
                             CitizenInfo citizenInfo = CommuterPrefabRegistry.Get(Singleton<SimulationManager>.instance.m_randomizer, gender, agePhase);
                             if (citizenInfo is not null && instance.CreateCitizenInstance(out var instance2, ref Singleton<SimulationManager>.instance.m_randomizer, citizenInfo, citizenId))
                             {
-                                citizen.CurrentLocation = Citizen.Location.Moving;
                                 ref CitizenInstance instanceData = ref instance.m_instances.m_buffer[instance2];
-                                citizenInfo.m_citizenAI.SetSource(instance2, ref instanceData, buildingID);
-                                citizenInfo.m_citizenAI.SetTarget(instance2, ref instanceData, targetBuildingId);
 
-                                Debug.Log("[CombinedAIS] commuter created"
-                                            + " citizenId=" + citizenId
-                                            + " instance=" + instance2
-                                            + " prefab=" + citizenInfo.name
-                                            + " gender=" + gender
-                                            + " age=" + citizen.Age
-                                            + " agePhase=" + agePhase
-                                            + " education=" + citizen.EducationLevel
-                                            + " work=" + citizen.m_workBuilding
-                                            + " location=" + citizen.CurrentLocation);
+                                CitizenInfo resolved = instanceData.Info;
+
+                                if (!ReferenceEquals(resolved, citizenInfo))
+                                {
+                                    Debug.LogError("[CombinedAIS] Commuter prefab mismatch"
+                                        + " instance=" + instance2
+                                        + " citizen=" + citizenId
+                                        + " requested=" + citizenInfo.name
+                                        + " resolved=" + (resolved == null ? "null" : resolved.name));
+
+                                    // Do not call commuter SetSource/SetTarget on this instance.
+                                    // Clean up the newly created instance and citizen through
+                                    // the normal release path before returning.
+                                }
+                                else
+                                {
+                                    citizen.CurrentLocation = Citizen.Location.Moving;
+                                    citizenInfo.m_citizenAI.SetSource(instance2, ref instanceData, buildingID);
+                                    citizenInfo.m_citizenAI.SetTarget(instance2, ref instanceData, targetBuildingId);
+                                }   
                             }
                         }
                     }

@@ -486,7 +486,7 @@ namespace CombinedAIS.AI
 
         private void UpdateLocation(uint citizenID, ref Citizen data)
         {
-            if (data.m_workBuilding == 0 && data.m_instance == 0)
+            if (data.m_workBuilding == 0 && data.m_instance == 0 && data.m_visitBuilding == 0 && data.m_vehicle == 0)
             {
                 Singleton<CitizenManager>.instance.ReleaseCitizen(citizenID);
                 return;

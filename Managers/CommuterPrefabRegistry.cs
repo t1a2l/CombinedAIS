@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using ColossalFramework.Math;
+using UnityEngine;
 
 namespace CombinedAIS.Managers
 {
     public static class CommuterPrefabRegistry
     {
+        public static readonly List<CitizenInfo> PendingCommuters = [];
+        public static bool _commutersRegistered;
+
         private static readonly Dictionary<Key, List<CitizenInfo>> _infos = [];
         private static readonly HashSet<string> _processedSources = [];
 
@@ -31,6 +35,66 @@ namespace CombinedAIS.Managers
                     return ((int)Gender * 397) ^ (int)AgePhase;
                 }
             }
+        }
+
+        public static void RegisterPendingCommuters()
+        {
+            if (_commutersRegistered)
+            {
+                return;
+            }
+
+            if (PendingCommuters.Count == 0)
+            { 
+                return; 
+            }
+
+            _commutersRegistered = true;
+
+            CitizenInfo[] prefabs = [.. PendingCommuters];
+            string[] replaces = new string[prefabs.Length];
+
+            for (int i = 0; i < replaces.Length; i++)
+            { 
+                replaces[i] = null; 
+            }
+
+            PrefabCollection<CitizenInfo>.InitializePrefabs("CombinedAIS", prefabs, replaces);
+
+            PrefabCollection<CitizenInfo>.BindPrefabs();
+
+            for (int i = 0; i < prefabs.Length; i++)
+            {
+                CitizenInfo commuter = prefabs[i];
+
+                if (commuter == null)
+                { 
+                    continue; 
+                }
+
+                CitizenInfo resolved = PrefabCollection<CitizenInfo>.GetPrefab((uint)commuter.m_prefabDataIndex);
+
+                if (!ReferenceEquals(resolved, commuter))
+                {
+                    Debug.LogError(
+                        "[CombinedAIS] Commuter registration failed"
+                        + " clone=" + commuter.name
+                        + " index=" + commuter.m_prefabDataIndex
+                        + " resolved=" +
+                        (resolved == null ? "null" : resolved.name));
+
+                    continue;
+                }
+
+                Register(commuter, commuter.m_gender, commuter.m_agePhase);
+
+                Debug.Log(
+                    "[CombinedAIS] Commuter registered"
+                    + " prefab=" + commuter.name
+                    + " index=" + commuter.m_prefabDataIndex);
+            }
+
+            PendingCommuters.Clear();
         }
 
         public static void Register(CitizenInfo info, Citizen.Gender gender, Citizen.AgePhase agePhase)

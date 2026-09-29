@@ -25,11 +25,8 @@ namespace CombinedAIS.HarmonyPatches
             if (commuter == null)
                 return;
 
-            var gender = __instance.m_gender;
-            var agePhase = __instance.m_agePhase;
-
             CommuterPrefabRegistry.RegisterSource(__instance);
-            CommuterPrefabRegistry.Register(commuter, gender, agePhase);
+            CommuterPrefabRegistry.PendingCommuters.Add(commuter);
         }
 
         private static CitizenInfo CreateCommuterVariantFromResident(CitizenInfo resident)

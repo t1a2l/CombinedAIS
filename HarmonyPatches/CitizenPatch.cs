@@ -5,7 +5,7 @@ using HarmonyLib;
 namespace CombinedAIS.HarmonyPatches
 {
     [HarmonyPatch(typeof(Citizen))]
-    internal class CitizenPatch
+    public static class CitizenPatch
     {
         [HarmonyPatch(typeof(Citizen), "GetCurrentSchoolLevel")]
         [HarmonyPrefix]
