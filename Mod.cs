@@ -48,9 +48,9 @@ namespace CombinedAIS
         }
 
         /// <summary>
-        /// mod's Utils.Settings
+        /// mod's settings
         /// </summary>
-        public void SettingsUI(UIHelperBase helper)
+        public void OnSettingsUI(UIHelperBase helper)
         {
             UIHelper OriginalDLCHotels = helper.AddGroup("Original DLC Hotels") as UIHelper;
 
